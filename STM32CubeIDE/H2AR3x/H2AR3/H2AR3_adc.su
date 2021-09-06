@@ -1,0 +1,4 @@
+H2AR3_adc.c:11:6:ADC_Select_CH7	24	static
+H2AR3_adc.c:25:6:ADC_Deselect_CH7	24	static
+H2AR3_adc.c:38:6:ADC_Select_CH9	24	static
+H2AR3_adc.c:52:6:ADC_Deselect_CH9	24	static

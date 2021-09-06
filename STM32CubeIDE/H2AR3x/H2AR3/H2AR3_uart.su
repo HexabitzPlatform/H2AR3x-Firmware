@@ -1,0 +1,14 @@
+H2AR3_uart.c:19:6:MX_USART1_UART_Init	8	static
+H2AR3_uart.c:42:6:MX_USART2_UART_Init	8	static
+H2AR3_uart.c:65:6:MX_USART3_UART_Init	8	static
+H2AR3_uart.c:88:6:MX_USART4_UART_Init	8	static
+H2AR3_uart.c:134:6:MX_USART6_UART_Init	8	static
+H2AR3_uart.c:155:6:HAL_UART_MspInit	64	static
+H2AR3_uart.c:424:21:GetUart	0	static
+H2AR3_uart.c:319:19:readPxMutex	32	static
+H2AR3_uart.c:339:19:writePxMutex	32	static
+H2AR3_uart.c:359:19:readPxITMutex	32	static
+H2AR3_uart.c:375:19:writePxITMutex	32	static
+H2AR3_uart.c:391:19:writePxDMAMutex	32	static
+H2AR3_uart.c:411:12:UpdateBaudrate	8	static
+H2AR3_uart.c:477:6:SwapUartPins	16	static

@@ -1,0 +1,4 @@
+H2AR3_timers.c:29:6:TIM_USEC_Init	32	static
+H2AR3_timers.c:56:6:TIM_MSEC_Init	32	static
+H2AR3_timers.c:81:6:StartMicroDelay	8	static
+H2AR3_timers.c:101:6:StartMilliDelay	8	static
