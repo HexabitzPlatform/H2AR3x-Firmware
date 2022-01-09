@@ -365,7 +365,7 @@ Discarded input sections
  .text.GetTimeString
                 0x0000000000000000       0x34 BOS/BOS.o
  .text.printfp  0x0000000000000000       0x28 BOS/BOS.o
- .rodata.formatTimeStr.9644
+ .rodata.formatTimeStr.9645
                 0x0000000000000000        0xf BOS/BOS.o
  .group         0x0000000000000000        0xc BOS/BOS_CLI.o
  .group         0x0000000000000000        0xc BOS/BOS_CLI.o
@@ -467,7 +467,7 @@ Discarded input sections
  .data          0x0000000000000000        0x0 BOS/BOS_CLI.o
  .bss           0x0000000000000000        0x0 BOS/BOS_CLI.o
  .debug_macro   0x0000000000000000      0xa6c BOS/BOS_CLI.o
- .debug_macro   0x0000000000000000      0x41a BOS/BOS_CLI.o
+ .debug_macro   0x0000000000000000      0x42f BOS/BOS_CLI.o
  .debug_macro   0x0000000000000000       0x22 BOS/BOS_CLI.o
  .debug_macro   0x0000000000000000       0xb8 BOS/BOS_CLI.o
  .debug_macro   0x0000000000000000       0x28 BOS/BOS_CLI.o
@@ -662,7 +662,7 @@ Discarded input sections
  .data          0x0000000000000000        0x0 BOS/BOS_CLIcommands.o
  .bss           0x0000000000000000        0x0 BOS/BOS_CLIcommands.o
  .debug_macro   0x0000000000000000      0xa6c BOS/BOS_CLIcommands.o
- .debug_macro   0x0000000000000000      0x41a BOS/BOS_CLIcommands.o
+ .debug_macro   0x0000000000000000      0x42f BOS/BOS_CLIcommands.o
  .debug_macro   0x0000000000000000       0x22 BOS/BOS_CLIcommands.o
  .debug_macro   0x0000000000000000       0xb8 BOS/BOS_CLIcommands.o
  .debug_macro   0x0000000000000000       0x28 BOS/BOS_CLIcommands.o
@@ -857,7 +857,7 @@ Discarded input sections
  .data          0x0000000000000000        0x0 BOS/BOS_dma.o
  .bss           0x0000000000000000        0x0 BOS/BOS_dma.o
  .debug_macro   0x0000000000000000      0xa6c BOS/BOS_dma.o
- .debug_macro   0x0000000000000000      0x41a BOS/BOS_dma.o
+ .debug_macro   0x0000000000000000      0x42f BOS/BOS_dma.o
  .debug_macro   0x0000000000000000       0x22 BOS/BOS_dma.o
  .debug_macro   0x0000000000000000       0xb8 BOS/BOS_dma.o
  .debug_macro   0x0000000000000000       0x28 BOS/BOS_dma.o
@@ -1054,7 +1054,7 @@ Discarded input sections
  .text.Flash_WriteVariable
                 0x0000000000000000       0x48 BOS/BOS_eeprom.o
  .debug_macro   0x0000000000000000      0xa6c BOS/BOS_eeprom.o
- .debug_macro   0x0000000000000000      0x41a BOS/BOS_eeprom.o
+ .debug_macro   0x0000000000000000      0x42f BOS/BOS_eeprom.o
  .debug_macro   0x0000000000000000       0x22 BOS/BOS_eeprom.o
  .debug_macro   0x0000000000000000       0xb8 BOS/BOS_eeprom.o
  .debug_macro   0x0000000000000000       0x28 BOS/BOS_eeprom.o
@@ -1249,7 +1249,7 @@ Discarded input sections
  .data          0x0000000000000000        0x0 BOS/BOS_freertos.o
  .bss           0x0000000000000000        0x0 BOS/BOS_freertos.o
  .debug_macro   0x0000000000000000      0xa6c BOS/BOS_freertos.o
- .debug_macro   0x0000000000000000      0x41a BOS/BOS_freertos.o
+ .debug_macro   0x0000000000000000      0x42f BOS/BOS_freertos.o
  .debug_macro   0x0000000000000000       0x22 BOS/BOS_freertos.o
  .debug_macro   0x0000000000000000       0xb8 BOS/BOS_freertos.o
  .debug_macro   0x0000000000000000       0x28 BOS/BOS_freertos.o
@@ -1451,7 +1451,7 @@ Discarded input sections
  .text.Deinit_ADC_Channel
                 0x0000000000000000       0x30 BOS/BOS_inputs.o
  .debug_macro   0x0000000000000000      0xa6c BOS/BOS_inputs.o
- .debug_macro   0x0000000000000000      0x41a BOS/BOS_inputs.o
+ .debug_macro   0x0000000000000000      0x42f BOS/BOS_inputs.o
  .debug_macro   0x0000000000000000       0x22 BOS/BOS_inputs.o
  .debug_macro   0x0000000000000000       0xb8 BOS/BOS_inputs.o
  .debug_macro   0x0000000000000000       0x28 BOS/BOS_inputs.o
@@ -1650,7 +1650,7 @@ Discarded input sections
  .bss.totalnumberoftransmiitedmesg
                 0x0000000000000000        0x4 BOS/BOS_messaging.o
  .debug_macro   0x0000000000000000      0xa6c BOS/BOS_messaging.o
- .debug_macro   0x0000000000000000      0x41a BOS/BOS_messaging.o
+ .debug_macro   0x0000000000000000      0x42f BOS/BOS_messaging.o
  .debug_macro   0x0000000000000000       0x22 BOS/BOS_messaging.o
  .debug_macro   0x0000000000000000       0xb8 BOS/BOS_messaging.o
  .debug_macro   0x0000000000000000       0x28 BOS/BOS_messaging.o
@@ -1845,7 +1845,7 @@ Discarded input sections
  .data          0x0000000000000000        0x0 BOS/BOS_msgparser.o
  .bss           0x0000000000000000        0x0 BOS/BOS_msgparser.o
  .debug_macro   0x0000000000000000      0xa6c BOS/BOS_msgparser.o
- .debug_macro   0x0000000000000000      0x41a BOS/BOS_msgparser.o
+ .debug_macro   0x0000000000000000      0x42f BOS/BOS_msgparser.o
  .debug_macro   0x0000000000000000       0x22 BOS/BOS_msgparser.o
  .debug_macro   0x0000000000000000       0xb8 BOS/BOS_msgparser.o
  .debug_macro   0x0000000000000000       0x28 BOS/BOS_msgparser.o
@@ -2049,13 +2049,13 @@ Discarded input sections
  .text.Average  0x0000000000000000       0x78 H2AR3/H2AR3.o
  .bss.Amp_buffer
                 0x0000000000000000        0x4 H2AR3/H2AR3.o
- .bss.DATA_To_AVR.9203
+ .bss.DATA_To_AVR.9204
                 0x0000000000000000        0x4 H2AR3/H2AR3.o
  .bss.Volt_buffer
                 0x0000000000000000        0x4 H2AR3/H2AR3.o
- .bss.sum.9202  0x0000000000000000        0x4 H2AR3/H2AR3.o
+ .bss.sum.9203  0x0000000000000000        0x4 H2AR3/H2AR3.o
  .debug_macro   0x0000000000000000      0xa6c H2AR3/H2AR3.o
- .debug_macro   0x0000000000000000      0x41a H2AR3/H2AR3.o
+ .debug_macro   0x0000000000000000      0x42f H2AR3/H2AR3.o
  .debug_macro   0x0000000000000000       0x22 H2AR3/H2AR3.o
  .debug_macro   0x0000000000000000       0xb8 H2AR3/H2AR3.o
  .debug_macro   0x0000000000000000       0x28 H2AR3/H2AR3.o
@@ -2383,7 +2383,7 @@ Discarded input sections
  .bss.frontendDMA
                 0x0000000000000000       0xa8 H2AR3/H2AR3_dma.o
  .debug_macro   0x0000000000000000      0xa6c H2AR3/H2AR3_dma.o
- .debug_macro   0x0000000000000000      0x41a H2AR3/H2AR3_dma.o
+ .debug_macro   0x0000000000000000      0x42f H2AR3/H2AR3_dma.o
  .debug_macro   0x0000000000000000       0x22 H2AR3/H2AR3_dma.o
  .debug_macro   0x0000000000000000       0xb8 H2AR3/H2AR3_dma.o
  .debug_macro   0x0000000000000000       0x28 H2AR3/H2AR3_dma.o
@@ -2578,7 +2578,7 @@ Discarded input sections
  .data          0x0000000000000000        0x0 H2AR3/H2AR3_gpio.o
  .bss           0x0000000000000000        0x0 H2AR3/H2AR3_gpio.o
  .debug_macro   0x0000000000000000      0xa6c H2AR3/H2AR3_gpio.o
- .debug_macro   0x0000000000000000      0x41a H2AR3/H2AR3_gpio.o
+ .debug_macro   0x0000000000000000      0x42f H2AR3/H2AR3_gpio.o
  .debug_macro   0x0000000000000000       0x22 H2AR3/H2AR3_gpio.o
  .debug_macro   0x0000000000000000       0xb8 H2AR3/H2AR3_gpio.o
  .debug_macro   0x0000000000000000       0x28 H2AR3/H2AR3_gpio.o
@@ -2773,7 +2773,7 @@ Discarded input sections
  .data          0x0000000000000000        0x0 H2AR3/H2AR3_it.o
  .bss           0x0000000000000000        0x0 H2AR3/H2AR3_it.o
  .debug_macro   0x0000000000000000      0xa6c H2AR3/H2AR3_it.o
- .debug_macro   0x0000000000000000      0x41a H2AR3/H2AR3_it.o
+ .debug_macro   0x0000000000000000      0x42f H2AR3/H2AR3_it.o
  .debug_macro   0x0000000000000000       0x22 H2AR3/H2AR3_it.o
  .debug_macro   0x0000000000000000       0xb8 H2AR3/H2AR3_it.o
  .debug_macro   0x0000000000000000       0x28 H2AR3/H2AR3_it.o
@@ -2968,7 +2968,7 @@ Discarded input sections
  .data          0x0000000000000000        0x0 H2AR3/H2AR3_rtc.o
  .bss           0x0000000000000000        0x0 H2AR3/H2AR3_rtc.o
  .debug_macro   0x0000000000000000      0xa6c H2AR3/H2AR3_rtc.o
- .debug_macro   0x0000000000000000      0x41a H2AR3/H2AR3_rtc.o
+ .debug_macro   0x0000000000000000      0x42f H2AR3/H2AR3_rtc.o
  .debug_macro   0x0000000000000000       0x22 H2AR3/H2AR3_rtc.o
  .debug_macro   0x0000000000000000       0xb8 H2AR3/H2AR3_rtc.o
  .debug_macro   0x0000000000000000       0x28 H2AR3/H2AR3_rtc.o
@@ -3163,7 +3163,7 @@ Discarded input sections
  .data          0x0000000000000000        0x0 H2AR3/H2AR3_timers.o
  .bss           0x0000000000000000        0x0 H2AR3/H2AR3_timers.o
  .debug_macro   0x0000000000000000      0xa6c H2AR3/H2AR3_timers.o
- .debug_macro   0x0000000000000000      0x41a H2AR3/H2AR3_timers.o
+ .debug_macro   0x0000000000000000      0x42f H2AR3/H2AR3_timers.o
  .debug_macro   0x0000000000000000       0x22 H2AR3/H2AR3_timers.o
  .debug_macro   0x0000000000000000       0xb8 H2AR3/H2AR3_timers.o
  .debug_macro   0x0000000000000000       0x28 H2AR3/H2AR3_timers.o
@@ -3362,7 +3362,7 @@ Discarded input sections
  .text.readPxITMutex
                 0x0000000000000000       0x44 H2AR3/H2AR3_uart.o
  .debug_macro   0x0000000000000000      0xa6c H2AR3/H2AR3_uart.o
- .debug_macro   0x0000000000000000      0x41a H2AR3/H2AR3_uart.o
+ .debug_macro   0x0000000000000000      0x42f H2AR3/H2AR3_uart.o
  .debug_macro   0x0000000000000000       0x22 H2AR3/H2AR3_uart.o
  .debug_macro   0x0000000000000000       0xb8 H2AR3/H2AR3_uart.o
  .debug_macro   0x0000000000000000       0x28 H2AR3/H2AR3_uart.o
@@ -3868,7 +3868,7 @@ Discarded input sections
  .debug_macro   0x0000000000000000       0xc0 Thirdparty/Middleware/FreeRTOS/Source/FreeRTOS_CLI.o
  .debug_macro   0x0000000000000000       0x8c Thirdparty/Middleware/FreeRTOS/Source/FreeRTOS_CLI.o
  .debug_macro   0x0000000000000000       0x10 Thirdparty/Middleware/FreeRTOS/Source/FreeRTOS_CLI.o
- .debug_macro   0x0000000000000000      0x41a Thirdparty/Middleware/FreeRTOS/Source/FreeRTOS_CLI.o
+ .debug_macro   0x0000000000000000      0x42f Thirdparty/Middleware/FreeRTOS/Source/FreeRTOS_CLI.o
  .debug_macro   0x0000000000000000       0x22 Thirdparty/Middleware/FreeRTOS/Source/FreeRTOS_CLI.o
  .debug_macro   0x0000000000000000       0xb8 Thirdparty/Middleware/FreeRTOS/Source/FreeRTOS_CLI.o
  .debug_macro   0x0000000000000000       0x28 Thirdparty/Middleware/FreeRTOS/Source/FreeRTOS_CLI.o
@@ -10671,7 +10671,7 @@ Discarded input sections
  .data          0x0000000000000000        0x0 User/main.o
  .bss           0x0000000000000000        0x0 User/main.o
  .debug_macro   0x0000000000000000      0xa6c User/main.o
- .debug_macro   0x0000000000000000      0x41a User/main.o
+ .debug_macro   0x0000000000000000      0x42f User/main.o
  .debug_macro   0x0000000000000000       0x22 User/main.o
  .debug_macro   0x0000000000000000       0xb8 User/main.o
  .debug_macro   0x0000000000000000       0x28 User/main.o
@@ -12653,7 +12653,7 @@ LOAD c:/st/stm32cubeide_1.5.1/stm32cubeide/plugins/com.st.stm32cube.ide.mcu.exte
 .iplt           0x0000000008017520        0x0
  .iplt          0x0000000008017520        0x0 c:/st/stm32cubeide_1.5.1/stm32cubeide/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.7-2018-q2-update.win32_1.5.0.202011040924/tools/bin/../lib/gcc/arm-none-eabi/7.3.1/thumb/v6-m/crtbegin.o
 
-.rodata         0x0000000008017520     0x33b0
+.rodata         0x0000000008017520     0x33c0
                 0x0000000008017520                . = ALIGN (0x4)
  *(.rodata)
  .rodata        0x0000000008017520       0x12 BOS/BOS_CLIcommands.o
@@ -12681,359 +12681,360 @@ LOAD c:/st/stm32cubeide_1.5.1/stm32cubeide/plugins/com.st.stm32cube.ide.mcu.exte
  .rodata.IsMathOperator.str1.4
                 0x0000000008017880       0x17 BOS/BOS.o
  *fill*         0x0000000008017897        0x1 
- .rodata.formatDateStr.9639
+ .rodata.formatDateStr.9640
                 0x0000000008017898       0x12 BOS/BOS.o
  *fill*         0x00000000080178aa        0x2 
  .rodata.modulePNstring
-                0x00000000080178ac       0x9c BOS/BOS.o
+                0x00000000080178ac       0xa8 BOS/BOS.o
                 0x00000000080178ac                modulePNstring
  .rodata.str1.4
-                0x0000000008017948      0x248 BOS/BOS.o
+                0x0000000008017954      0x248 BOS/BOS.o
  .rodata.weekdayString
-                0x0000000008017b90       0x1c BOS/BOS.o
+                0x0000000008017b9c       0x1c BOS/BOS.o
  .rodata.CheckSnippetCondition
-                0x0000000008017bac       0x1c BOS/BOS_CLI.o
+                0x0000000008017bb8       0x1c BOS/BOS_CLI.o
  .rodata.CLI_CommandParser.str1.4
-                0x0000000008017bc8      0x1c9 BOS/BOS_CLI.o
+                0x0000000008017bd4      0x1c9 BOS/BOS_CLI.o
                                         0x1cd (size before relaxing)
- *fill*         0x0000000008017d91        0x3 
+ *fill*         0x0000000008017d9d        0x3 
  .rodata.ParseSnippetCondition.str1.4
-                0x0000000008017d94       0x2e BOS/BOS_CLI.o
+                0x0000000008017da0       0x2e BOS/BOS_CLI.o
                                          0x3a (size before relaxing)
- *fill*         0x0000000008017dc2        0x2 
+ *fill*         0x0000000008017dce        0x2 
  .rodata.prvCLITask.str1.4
-                0x0000000008017dc4      0x2bd BOS/BOS_CLI.o
+                0x0000000008017dd0      0x2bd BOS/BOS_CLI.o
                                         0x2c3 (size before relaxing)
- *fill*         0x0000000008018081        0x3 
+ *fill*         0x000000000801808d        0x3 
  .rodata.snipCommand
-                0x0000000008018084       0x28 BOS/BOS_CLIcommands.o
+                0x0000000008018090       0x28 BOS/BOS_CLIcommands.o
  .rodata.idcodeCommand
-                0x00000000080180ac       0x24 BOS/BOS_CLIcommands.o
+                0x00000000080180b8       0x24 BOS/BOS_CLIcommands.o
  .rodata.ADCReadCommand.str1.4
-                0x00000000080180d0       0x2e BOS/BOS_CLIcommands.o
- *fill*         0x00000000080180fe        0x2 
+                0x00000000080180dc       0x2e BOS/BOS_CLIcommands.o
+ *fill*         0x000000000801810a        0x2 
  .rodata.ADCReadCommandDefinition
-                0x0000000008018100       0x10 BOS/BOS_CLIcommands.o
+                0x000000000801810c       0x10 BOS/BOS_CLIcommands.o
  .rodata.GetReadPercentageDefinition
-                0x0000000008018110       0x10 BOS/BOS_CLIcommands.o
+                0x000000000801811c       0x10 BOS/BOS_CLIcommands.o
  .rodata.GetReadPrecentageCommand.str1.4
-                0x0000000008018120       0x39 BOS/BOS_CLIcommands.o
- *fill*         0x0000000008018159        0x3 
+                0x000000000801812c       0x39 BOS/BOS_CLIcommands.o
+ *fill*         0x0000000008018165        0x3 
  .rodata.ReadTempCommand.str1.4
-                0x000000000801815c       0x21 BOS/BOS_CLIcommands.o
- *fill*         0x000000000801817d        0x3 
+                0x0000000008018168       0x21 BOS/BOS_CLIcommands.o
+ *fill*         0x0000000008018189        0x3 
  .rodata.ReadTempDefinition
-                0x0000000008018180       0x10 BOS/BOS_CLIcommands.o
+                0x000000000801818c       0x10 BOS/BOS_CLIcommands.o
  .rodata.ReadVrefCommand.str1.4
-                0x0000000008018190       0x27 BOS/BOS_CLIcommands.o
- *fill*         0x00000000080181b7        0x1 
+                0x000000000801819c       0x27 BOS/BOS_CLIcommands.o
+ *fill*         0x00000000080181c3        0x1 
  .rodata.ReadVrefDefinition
-                0x00000000080181b8       0x10 BOS/BOS_CLIcommands.o
+                0x00000000080181c4       0x10 BOS/BOS_CLIcommands.o
  .rodata.actSnipCommand.str1.4
-                0x00000000080181c8       0x38 BOS/BOS_CLIcommands.o
+                0x00000000080181d4       0x38 BOS/BOS_CLIcommands.o
  .rodata.actSnipCommandDefinition
-                0x0000000008018200       0x10 BOS/BOS_CLIcommands.o
+                0x000000000801820c       0x10 BOS/BOS_CLIcommands.o
  .rodata.addbuttonCommand.str1.4
-                0x0000000008018210       0x6c BOS/BOS_CLIcommands.o
+                0x000000000801821c       0x6c BOS/BOS_CLIcommands.o
  .rodata.addbuttonCommandDefinition
-                0x000000000801827c       0x10 BOS/BOS_CLIcommands.o
+                0x0000000008018288       0x10 BOS/BOS_CLIcommands.o
  .rodata.bootloaderUpdateCommand.str1.4
-                0x000000000801828c       0x24 BOS/BOS_CLIcommands.o
+                0x0000000008018298       0x24 BOS/BOS_CLIcommands.o
  .rodata.bootloaderUpdateCommandDefinition
-                0x00000000080182b0       0x10 BOS/BOS_CLIcommands.o
+                0x00000000080182bc       0x10 BOS/BOS_CLIcommands.o
  .rodata.bridgeCommand.str1.4
-                0x00000000080182c0       0x3b BOS/BOS_CLIcommands.o
- *fill*         0x00000000080182fb        0x1 
+                0x00000000080182cc       0x3b BOS/BOS_CLIcommands.o
+ *fill*         0x0000000008018307        0x1 
  .rodata.bridgeCommandDefinition
-                0x00000000080182fc       0x10 BOS/BOS_CLIcommands.o
+                0x0000000008018308       0x10 BOS/BOS_CLIcommands.o
  .rodata.dateCommand.str1.4
-                0x000000000801830c       0x15 BOS/BOS_CLIcommands.o
- *fill*         0x0000000008018321        0x3 
+                0x0000000008018318       0x15 BOS/BOS_CLIcommands.o
+ *fill*         0x000000000801832d        0x3 
  .rodata.dateCommandDefinition
-                0x0000000008018324       0x10 BOS/BOS_CLIcommands.o
+                0x0000000008018330       0x10 BOS/BOS_CLIcommands.o
  .rodata.defaultCommand.str1.4
-                0x0000000008018334       0x88 BOS/BOS_CLIcommands.o
+                0x0000000008018340       0x88 BOS/BOS_CLIcommands.o
  .rodata.defaultCommandDefinition
-                0x00000000080183bc       0x10 BOS/BOS_CLIcommands.o
+                0x00000000080183c8       0x10 BOS/BOS_CLIcommands.o
  .rodata.delSnipCommand.str1.4
-                0x00000000080183cc       0x5b BOS/BOS_CLIcommands.o
- *fill*         0x0000000008018427        0x1 
+                0x00000000080183d8       0x5b BOS/BOS_CLIcommands.o
+ *fill*         0x0000000008018433        0x1 
  .rodata.delSnipCommandDefinition
-                0x0000000008018428       0x10 BOS/BOS_CLIcommands.o
+                0x0000000008018434       0x10 BOS/BOS_CLIcommands.o
  .rodata.exploreCommandDefinition
-                0x0000000008018438       0x10 BOS/BOS_CLIcommands.o
+                0x0000000008018444       0x10 BOS/BOS_CLIcommands.o
  .rodata.flashsizeCommand.str1.4
-                0x0000000008018448       0x1e BOS/BOS_CLIcommands.o
- *fill*         0x0000000008018466        0x2 
+                0x0000000008018454       0x1e BOS/BOS_CLIcommands.o
+ *fill*         0x0000000008018472        0x2 
  .rodata.flashsizeCommandDefinition
-                0x0000000008018468       0x10 BOS/BOS_CLIcommands.o
+                0x0000000008018474       0x10 BOS/BOS_CLIcommands.o
  .rodata.getCommand.str1.4
-                0x0000000008018478       0xea BOS/BOS_CLIcommands.o
+                0x0000000008018484       0xea BOS/BOS_CLIcommands.o
                                          0xfa (size before relaxing)
- *fill*         0x0000000008018562        0x2 
+ *fill*         0x000000000801856e        0x2 
  .rodata.getCommandDefinition
-                0x0000000008018564       0x10 BOS/BOS_CLIcommands.o
+                0x0000000008018570       0x10 BOS/BOS_CLIcommands.o
  .rodata.groupCommand.str1.4
-                0x0000000008018574      0x14f BOS/BOS_CLIcommands.o
- *fill*         0x00000000080186c3        0x1 
+                0x0000000008018580      0x14f BOS/BOS_CLIcommands.o
+ *fill*         0x00000000080186cf        0x1 
  .rodata.groupCommandDefinition
-                0x00000000080186c4       0x10 BOS/BOS_CLIcommands.o
+                0x00000000080186d0       0x10 BOS/BOS_CLIcommands.o
  .rodata.idcodeCommand.str1.4
-                0x00000000080186d4       0x6f BOS/BOS_CLIcommands.o
- *fill*         0x0000000008018743        0x1 
+                0x00000000080186e0       0x6f BOS/BOS_CLIcommands.o
+ *fill*         0x000000000801874f        0x1 
  .rodata.idcodeCommandDefinition
-                0x0000000008018744       0x10 BOS/BOS_CLIcommands.o
+                0x0000000008018750       0x10 BOS/BOS_CLIcommands.o
  .rodata.infoCommand.str1.4
-                0x0000000008018754       0x74 BOS/BOS_CLIcommands.o
+                0x0000000008018760       0x74 BOS/BOS_CLIcommands.o
                                          0x76 (size before relaxing)
  .rodata.infoCommandDefinition
-                0x00000000080187c8       0x10 BOS/BOS_CLIcommands.o
+                0x00000000080187d4       0x10 BOS/BOS_CLIcommands.o
  .rodata.mathStr
-                0x00000000080187d8       0x12 BOS/BOS_CLIcommands.o
-                0x00000000080187d8                mathStr
- *fill*         0x00000000080187ea        0x2 
+                0x00000000080187e4       0x12 BOS/BOS_CLIcommands.o
+                0x00000000080187e4                mathStr
+ *fill*         0x00000000080187f6        0x2 
  .rodata.nameCommand.str1.4
-                0x00000000080187ec       0x18 BOS/BOS_CLIcommands.o
+                0x00000000080187f8       0x18 BOS/BOS_CLIcommands.o
  .rodata.nameCommandDefinition
-                0x0000000008018804       0x10 BOS/BOS_CLIcommands.o
+                0x0000000008018810       0x10 BOS/BOS_CLIcommands.o
  .rodata.pauseSnipCommand.str1.4
-                0x0000000008018814       0x35 BOS/BOS_CLIcommands.o
- *fill*         0x0000000008018849        0x3 
+                0x0000000008018820       0x35 BOS/BOS_CLIcommands.o
+ *fill*         0x0000000008018855        0x3 
  .rodata.pauseSnipCommandDefinition
-                0x000000000801884c       0x10 BOS/BOS_CLIcommands.o
+                0x0000000008018858       0x10 BOS/BOS_CLIcommands.o
  .rodata.pingCommand.str1.4
-                0x000000000801885c       0x2d BOS/BOS_CLIcommands.o
- *fill*         0x0000000008018889        0x3 
+                0x0000000008018868       0x2d BOS/BOS_CLIcommands.o
+ *fill*         0x0000000008018895        0x3 
  .rodata.pingCommandDefinition
-                0x000000000801888c       0x10 BOS/BOS_CLIcommands.o
+                0x0000000008018898       0x10 BOS/BOS_CLIcommands.o
  .rodata.prvRunTimeStatsCommand.str1.4
-                0x000000000801889c       0x41 BOS/BOS_CLIcommands.o
- *fill*         0x00000000080188dd        0x3 
+                0x00000000080188a8       0x41 BOS/BOS_CLIcommands.o
+ *fill*         0x00000000080188e9        0x3 
  .rodata.prvRunTimeStatsCommandDefinition
-                0x00000000080188e0       0x10 BOS/BOS_CLIcommands.o
+                0x00000000080188ec       0x10 BOS/BOS_CLIcommands.o
  .rodata.prvTaskStatsCommand.str1.4
-                0x00000000080188f0       0x50 BOS/BOS_CLIcommands.o
+                0x00000000080188fc       0x50 BOS/BOS_CLIcommands.o
  .rodata.prvTaskStatsCommandDefinition
-                0x0000000008018940       0x10 BOS/BOS_CLIcommands.o
+                0x000000000801894c       0x10 BOS/BOS_CLIcommands.o
  .rodata.removebuttonCommand.str1.4
-                0x0000000008018950       0x27 BOS/BOS_CLIcommands.o
- *fill*         0x0000000008018977        0x1 
+                0x000000000801895c       0x27 BOS/BOS_CLIcommands.o
+ *fill*         0x0000000008018983        0x1 
  .rodata.removebuttonCommandDefinition
-                0x0000000008018978       0x10 BOS/BOS_CLIcommands.o
+                0x0000000008018984       0x10 BOS/BOS_CLIcommands.o
  .rodata.resetCommandDefinition
-                0x0000000008018988       0x10 BOS/BOS_CLIcommands.o
+                0x0000000008018994       0x10 BOS/BOS_CLIcommands.o
  .rodata.scastCommand.str1.4
-                0x0000000008018998       0xab BOS/BOS_CLIcommands.o
- *fill*         0x0000000008018a43        0x1 
+                0x00000000080189a4       0xab BOS/BOS_CLIcommands.o
+ *fill*         0x0000000008018a4f        0x1 
  .rodata.scastCommandDefinition
-                0x0000000008018a44       0x10 BOS/BOS_CLIcommands.o
+                0x0000000008018a50       0x10 BOS/BOS_CLIcommands.o
  .rodata.setBaudrateCommand.str1.4
-                0x0000000008018a54       0x3b BOS/BOS_CLIcommands.o
- *fill*         0x0000000008018a8f        0x1 
+                0x0000000008018a60       0x3b BOS/BOS_CLIcommands.o
+ *fill*         0x0000000008018a9b        0x1 
  .rodata.setBaudrateCommandDefinition
-                0x0000000008018a90       0x10 BOS/BOS_CLIcommands.o
-                0x0000000008018a90                setBaudrateCommandDefinition
+                0x0000000008018a9c       0x10 BOS/BOS_CLIcommands.o
+                0x0000000008018a9c                setBaudrateCommandDefinition
  .rodata.setCommand.str1.4
-                0x0000000008018aa0      0x1f8 BOS/BOS_CLIcommands.o
+                0x0000000008018aac      0x1f8 BOS/BOS_CLIcommands.o
                                         0x1fc (size before relaxing)
  .rodata.setCommandDefinition
-                0x0000000008018c98       0x10 BOS/BOS_CLIcommands.o
+                0x0000000008018ca4       0x10 BOS/BOS_CLIcommands.o
  .rodata.snipCommand.str1.4
-                0x0000000008018ca8      0x17d BOS/BOS_CLIcommands.o
- *fill*         0x0000000008018e25        0x3 
+                0x0000000008018cb4      0x17d BOS/BOS_CLIcommands.o
+ *fill*         0x0000000008018e31        0x3 
  .rodata.snipCommandDefinition
-                0x0000000008018e28       0x10 BOS/BOS_CLIcommands.o
+                0x0000000008018e34       0x10 BOS/BOS_CLIcommands.o
  .rodata.statusCommandDefinition
-                0x0000000008018e38       0x10 BOS/BOS_CLIcommands.o
+                0x0000000008018e44       0x10 BOS/BOS_CLIcommands.o
  .rodata.str1.4
-                0x0000000008018e48      0xef2 BOS/BOS_CLIcommands.o
+                0x0000000008018e54      0xef2 BOS/BOS_CLIcommands.o
                                         0xf02 (size before relaxing)
- *fill*         0x0000000008019d3a        0x2 
+ *fill*         0x0000000008019d46        0x2 
  .rodata.testportCommand.str1.4
-                0x0000000008019d3c       0xaf BOS/BOS_CLIcommands.o
+                0x0000000008019d48       0xaf BOS/BOS_CLIcommands.o
                                          0xb3 (size before relaxing)
- *fill*         0x0000000008019deb        0x1 
+ *fill*         0x0000000008019df7        0x1 
  .rodata.testportCommandDefinition
-                0x0000000008019dec       0x10 BOS/BOS_CLIcommands.o
+                0x0000000008019df8       0x10 BOS/BOS_CLIcommands.o
  .rodata.timeCommand.str1.4
-                0x0000000008019dfc       0x5b BOS/BOS_CLIcommands.o
- *fill*         0x0000000008019e57        0x1 
+                0x0000000008019e08       0x5b BOS/BOS_CLIcommands.o
+ *fill*         0x0000000008019e63        0x1 
  .rodata.timeCommandDefinition
-                0x0000000008019e58       0x10 BOS/BOS_CLIcommands.o
+                0x0000000008019e64       0x10 BOS/BOS_CLIcommands.o
  .rodata.unbridgeCommand.str1.4
-                0x0000000008019e68       0x39 BOS/BOS_CLIcommands.o
- *fill*         0x0000000008019ea1        0x3 
+                0x0000000008019e74       0x39 BOS/BOS_CLIcommands.o
+ *fill*         0x0000000008019ead        0x3 
  .rodata.unbridgeCommandDefinition
-                0x0000000008019ea4       0x10 BOS/BOS_CLIcommands.o
+                0x0000000008019eb0       0x10 BOS/BOS_CLIcommands.o
  .rodata.uuidCommand.str1.4
-                0x0000000008019eb4       0x17 BOS/BOS_CLIcommands.o
+                0x0000000008019ec0       0x17 BOS/BOS_CLIcommands.o
                                          0x1b (size before relaxing)
- *fill*         0x0000000008019ecb        0x1 
+ *fill*         0x0000000008019ed7        0x1 
  .rodata.uuidCommandDefinition
-                0x0000000008019ecc       0x10 BOS/BOS_CLIcommands.o
+                0x0000000008019ed8       0x10 BOS/BOS_CLIcommands.o
  .rodata.MX_FREERTOS_Init.str1.4
-                0x0000000008019edc       0x4e BOS/BOS_freertos.o
- *fill*         0x0000000008019f2a        0x2 
+                0x0000000008019ee8       0x4e BOS/BOS_freertos.o
+ *fill*         0x0000000008019f36        0x2 
  .rodata.CheckAttachedButtons
-                0x0000000008019f2c       0x28 BOS/BOS_inputs.o
+                0x0000000008019f38       0x28 BOS/BOS_inputs.o
  .rodata.Get_channel.str1.4
-                0x0000000008019f54        0xb BOS/BOS_inputs.o
+                0x0000000008019f60        0xb BOS/BOS_inputs.o
  .rodata.SetupDMAStreams.str1.4
-                0x0000000008019f54        0xc BOS/BOS_messaging.o
+                0x0000000008019f60        0xc BOS/BOS_messaging.o
  .rodata.PxMessagingTask
-                0x0000000008019f60      0x24c BOS/BOS_msgparser.o
+                0x0000000008019f6c      0x24c BOS/BOS_msgparser.o
  .rodata.PxMessagingTask.str1.4
-                0x000000000801a1ac       0x3b BOS/BOS_msgparser.o
+                0x000000000801a1b8       0x3b BOS/BOS_msgparser.o
  .rodata.SendResults
-                0x000000000801a1ac       0x24 H2AR3/H2AR3.o
+                0x000000000801a1b8       0x24 H2AR3/H2AR3.o
  .rodata.Module_MessagingTask
-                0x000000000801a1d0       0x14 H2AR3/H2AR3.o
+                0x000000000801a1dc       0x14 H2AR3/H2AR3.o
  .rodata.Module_Peripheral_Init.str1.4
-                0x000000000801a1e4        0xc H2AR3/H2AR3.o
+                0x000000000801a1f0        0xc H2AR3/H2AR3.o
  .rodata.SendResults.str1.4
-                0x000000000801a1f0       0x28 H2AR3/H2AR3.o
+                0x000000000801a1fc       0x28 H2AR3/H2AR3.o
  .rodata.StreamVToBuffer.str1.4
-                0x000000000801a218       0x14 H2AR3/H2AR3.o
+                0x000000000801a224       0x14 H2AR3/H2AR3.o
  .rodata.StreamVToPort.str1.4
-                0x000000000801a22c       0x14 H2AR3/H2AR3.o
+                0x000000000801a238       0x14 H2AR3/H2AR3.o
  .rodata.demoCommand.str1.4
-                0x000000000801a240       0x2d H2AR3/H2AR3.o
- *fill*         0x000000000801a26d        0x3 
+                0x000000000801a24c       0x2d H2AR3/H2AR3.o
+ *fill*         0x000000000801a279        0x3 
  .rodata.demoCommandDefinition
-                0x000000000801a270       0x10 H2AR3/H2AR3.o
-                0x000000000801a270                demoCommandDefinition
+                0x000000000801a27c       0x10 H2AR3/H2AR3.o
+                0x000000000801a27c                demoCommandDefinition
  .rodata.sampleCommandDefinition
-                0x000000000801a280       0x10 H2AR3/H2AR3.o
-                0x000000000801a280                sampleCommandDefinition
+                0x000000000801a28c       0x10 H2AR3/H2AR3.o
+                0x000000000801a28c                sampleCommandDefinition
  .rodata.stopCommandDefinition
-                0x000000000801a290       0x10 H2AR3/H2AR3.o
-                0x000000000801a290                stopCommandDefinition
+                0x000000000801a29c       0x10 H2AR3/H2AR3.o
+                0x000000000801a29c                stopCommandDefinition
  .rodata.str1.4
-                0x000000000801a2a0      0x144 H2AR3/H2AR3.o
+                0x000000000801a2ac      0x144 H2AR3/H2AR3.o
                                         0x145 (size before relaxing)
  .rodata.streamCommand.str1.4
-                0x000000000801a3e4       0x14 H2AR3/H2AR3.o
+                0x000000000801a3f0       0x14 H2AR3/H2AR3.o
                                          0x17 (size before relaxing)
  .rodata.streamCommandDefinition
-                0x000000000801a3f8       0x10 H2AR3/H2AR3.o
-                0x000000000801a3f8                streamCommandDefinition
+                0x000000000801a404       0x10 H2AR3/H2AR3.o
+                0x000000000801a404                streamCommandDefinition
  .rodata.unitCommand.str1.4
-                0x000000000801a408       0x40 H2AR3/H2AR3.o
+                0x000000000801a414       0x40 H2AR3/H2AR3.o
                                          0x54 (size before relaxing)
  .rodata.unitCommandDefinition
-                0x000000000801a448       0x10 H2AR3/H2AR3.o
-                0x000000000801a448                unitCommandDefinition
+                0x000000000801a454       0x10 H2AR3/H2AR3.o
+                0x000000000801a454                unitCommandDefinition
  .rodata.RTC_CalendarConfig.str1.4
-                0x000000000801a458       0x15 H2AR3/H2AR3_rtc.o
+                0x000000000801a464       0x15 H2AR3/H2AR3_rtc.o
  .rodata.FreeRTOS_CLIProcessCommand.str1.4
-                0x000000000801a458       0xa8 Thirdparty/Middleware/FreeRTOS/Source/FreeRTOS_CLI.o
+                0x000000000801a464       0xa8 Thirdparty/Middleware/FreeRTOS/Source/FreeRTOS_CLI.o
  .rodata.prvHelpCommand.str1.4
-                0x000000000801a500        0x7 Thirdparty/Middleware/FreeRTOS/Source/FreeRTOS_CLI.o
+                0x000000000801a50c        0x7 Thirdparty/Middleware/FreeRTOS/Source/FreeRTOS_CLI.o
  .rodata.str1.4
-                0x000000000801a500       0x83 Thirdparty/Middleware/FreeRTOS/Source/FreeRTOS_CLI.o
- *fill*         0x000000000801a583        0x1 
+                0x000000000801a50c       0x83 Thirdparty/Middleware/FreeRTOS/Source/FreeRTOS_CLI.o
+ *fill*         0x000000000801a58f        0x1 
  .rodata.xHelpCommand
-                0x000000000801a584       0x10 Thirdparty/Middleware/FreeRTOS/Source/FreeRTOS_CLI.o
+                0x000000000801a590       0x10 Thirdparty/Middleware/FreeRTOS/Source/FreeRTOS_CLI.o
  .rodata.ucExpectedStackBytes.5614
-                0x000000000801a594       0x14 Thirdparty/Middleware/FreeRTOS/Source/tasks.o
+                0x000000000801a5a0       0x14 Thirdparty/Middleware/FreeRTOS/Source/tasks.o
  .rodata.vTaskGetRunTimeStats.str1.4
-                0x000000000801a5a8       0x18 Thirdparty/Middleware/FreeRTOS/Source/tasks.o
+                0x000000000801a5b4       0x18 Thirdparty/Middleware/FreeRTOS/Source/tasks.o
  .rodata.vTaskList.str1.4
-                0x000000000801a5c0        0xf Thirdparty/Middleware/FreeRTOS/Source/tasks.o
- *fill*         0x000000000801a5cf        0x1 
+                0x000000000801a5cc        0xf Thirdparty/Middleware/FreeRTOS/Source/tasks.o
+ *fill*         0x000000000801a5db        0x1 
  .rodata.vTaskStartScheduler.str1.4
-                0x000000000801a5d0        0x5 Thirdparty/Middleware/FreeRTOS/Source/tasks.o
- *fill*         0x000000000801a5d5        0x3 
+                0x000000000801a5dc        0x5 Thirdparty/Middleware/FreeRTOS/Source/tasks.o
+ *fill*         0x000000000801a5e1        0x3 
  .rodata.prvTimerTask
-                0x000000000801a5d8       0x28 Thirdparty/Middleware/FreeRTOS/Source/timers.o
+                0x000000000801a5e4       0x28 Thirdparty/Middleware/FreeRTOS/Source/timers.o
  .rodata.prvCheckForValidListAndQueue.str1.4
-                0x000000000801a600        0x5 Thirdparty/Middleware/FreeRTOS/Source/timers.o
- *fill*         0x000000000801a605        0x3 
+                0x000000000801a60c        0x5 Thirdparty/Middleware/FreeRTOS/Source/timers.o
+ *fill*         0x000000000801a611        0x3 
  .rodata.xTimerCreateTimerTask.str1.4
-                0x000000000801a608        0x8 Thirdparty/Middleware/FreeRTOS/Source/timers.o
+                0x000000000801a614        0x8 Thirdparty/Middleware/FreeRTOS/Source/timers.o
  .rodata.aAPBAHBPrescTable
-                0x000000000801a610       0x10 Thirdparty/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_rcc.o
-                0x000000000801a610                aAPBAHBPrescTable
+                0x000000000801a61c       0x10 Thirdparty/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_rcc.o
+                0x000000000801a61c                aAPBAHBPrescTable
  .rodata._setlocale_r.str1.1
-                0x000000000801a620        0x8 c:/st/stm32cubeide_1.5.1/stm32cubeide/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.7-2018-q2-update.win32_1.5.0.202011040924/tools/bin/../lib/gcc/arm-none-eabi/7.3.1/../../../../arm-none-eabi/lib/thumb/v6-m\libc_nano.a(lib_a-locale.o)
+                0x000000000801a62c        0x8 c:/st/stm32cubeide_1.5.1/stm32cubeide/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.7-2018-q2-update.win32_1.5.0.202011040924/tools/bin/../lib/gcc/arm-none-eabi/7.3.1/../../../../arm-none-eabi/lib/thumb/v6-m\libc_nano.a(lib_a-locale.o)
                                           0x9 (size before relaxing)
  .rodata.str1.1
-                0x000000000801a628        0x2 c:/st/stm32cubeide_1.5.1/stm32cubeide/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.7-2018-q2-update.win32_1.5.0.202011040924/tools/bin/../lib/gcc/arm-none-eabi/7.3.1/../../../../arm-none-eabi/lib/thumb/v6-m\libc_nano.a(lib_a-locale.o)
+                0x000000000801a634        0x2 c:/st/stm32cubeide_1.5.1/stm32cubeide/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.7-2018-q2-update.win32_1.5.0.202011040924/tools/bin/../lib/gcc/arm-none-eabi/7.3.1/../../../../arm-none-eabi/lib/thumb/v6-m\libc_nano.a(lib_a-locale.o)
  .rodata._printf_float.str1.1
-                0x000000000801a62a       0x12 c:/st/stm32cubeide_1.5.1/stm32cubeide/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.7-2018-q2-update.win32_1.5.0.202011040924/tools/bin/../lib/gcc/arm-none-eabi/7.3.1/../../../../arm-none-eabi/lib/thumb/v6-m\libc_nano.a(lib_a-nano-vfprintf_float.o)
+                0x000000000801a636       0x12 c:/st/stm32cubeide_1.5.1/stm32cubeide/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.7-2018-q2-update.win32_1.5.0.202011040924/tools/bin/../lib/gcc/arm-none-eabi/7.3.1/../../../../arm-none-eabi/lib/thumb/v6-m\libc_nano.a(lib_a-nano-vfprintf_float.o)
  .rodata._printf_i.str1.1
-                0x000000000801a63c       0x22 c:/st/stm32cubeide_1.5.1/stm32cubeide/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.7-2018-q2-update.win32_1.5.0.202011040924/tools/bin/../lib/gcc/arm-none-eabi/7.3.1/../../../../arm-none-eabi/lib/thumb/v6-m\libc_nano.a(lib_a-nano-vfprintf_i.o)
+                0x000000000801a648       0x22 c:/st/stm32cubeide_1.5.1/stm32cubeide/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.7-2018-q2-update.win32_1.5.0.202011040924/tools/bin/../lib/gcc/arm-none-eabi/7.3.1/../../../../arm-none-eabi/lib/thumb/v6-m\libc_nano.a(lib_a-nano-vfprintf_i.o)
  .rodata._strtod_l.str1.1
-                0x000000000801a65e       0x22 c:/st/stm32cubeide_1.5.1/stm32cubeide/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.7-2018-q2-update.win32_1.5.0.202011040924/tools/bin/../lib/gcc/arm-none-eabi/7.3.1/../../../../arm-none-eabi/lib/thumb/v6-m\libc_nano.a(lib_a-strtod.o)
+                0x000000000801a66a       0x22 c:/st/stm32cubeide_1.5.1/stm32cubeide/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.7-2018-q2-update.win32_1.5.0.202011040924/tools/bin/../lib/gcc/arm-none-eabi/7.3.1/../../../../arm-none-eabi/lib/thumb/v6-m\libc_nano.a(lib_a-strtod.o)
                                           0xc (size before relaxing)
- *fill*         0x000000000801a65e        0x2 
+ *fill*         0x000000000801a66a        0x2 
  .rodata.fpi.6160
-                0x000000000801a660       0x14 c:/st/stm32cubeide_1.5.1/stm32cubeide/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.7-2018-q2-update.win32_1.5.0.202011040924/tools/bin/../lib/gcc/arm-none-eabi/7.3.1/../../../../arm-none-eabi/lib/thumb/v6-m\libc_nano.a(lib_a-strtod.o)
+                0x000000000801a66c       0x14 c:/st/stm32cubeide_1.5.1/stm32cubeide/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.7-2018-q2-update.win32_1.5.0.202011040924/tools/bin/../lib/gcc/arm-none-eabi/7.3.1/../../../../arm-none-eabi/lib/thumb/v6-m\libc_nano.a(lib_a-strtod.o)
  .rodata.fpinan.6196
-                0x000000000801a674       0x14 c:/st/stm32cubeide_1.5.1/stm32cubeide/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.7-2018-q2-update.win32_1.5.0.202011040924/tools/bin/../lib/gcc/arm-none-eabi/7.3.1/../../../../arm-none-eabi/lib/thumb/v6-m\libc_nano.a(lib_a-strtod.o)
+                0x000000000801a680       0x14 c:/st/stm32cubeide_1.5.1/stm32cubeide/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.7-2018-q2-update.win32_1.5.0.202011040924/tools/bin/../lib/gcc/arm-none-eabi/7.3.1/../../../../arm-none-eabi/lib/thumb/v6-m\libc_nano.a(lib_a-strtod.o)
+ *fill*         0x000000000801a694        0x4 
  .rodata.tinytens
-                0x000000000801a688       0x28 c:/st/stm32cubeide_1.5.1/stm32cubeide/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.7-2018-q2-update.win32_1.5.0.202011040924/tools/bin/../lib/gcc/arm-none-eabi/7.3.1/../../../../arm-none-eabi/lib/thumb/v6-m\libc_nano.a(lib_a-strtod.o)
+                0x000000000801a698       0x28 c:/st/stm32cubeide_1.5.1/stm32cubeide/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.7-2018-q2-update.win32_1.5.0.202011040924/tools/bin/../lib/gcc/arm-none-eabi/7.3.1/../../../../arm-none-eabi/lib/thumb/v6-m\libc_nano.a(lib_a-strtod.o)
  .rodata._ctype_
-                0x000000000801a6b0      0x101 c:/st/stm32cubeide_1.5.1/stm32cubeide/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.7-2018-q2-update.win32_1.5.0.202011040924/tools/bin/../lib/gcc/arm-none-eabi/7.3.1/../../../../arm-none-eabi/lib/thumb/v6-m\libc_nano.a(lib_a-ctype_.o)
-                0x000000000801a6b0                _ctype_
+                0x000000000801a6c0      0x101 c:/st/stm32cubeide_1.5.1/stm32cubeide/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.7-2018-q2-update.win32_1.5.0.202011040924/tools/bin/../lib/gcc/arm-none-eabi/7.3.1/../../../../arm-none-eabi/lib/thumb/v6-m\libc_nano.a(lib_a-ctype_.o)
+                0x000000000801a6c0                _ctype_
  .rodata._dtoa_r.str1.1
-                0x000000000801a7b1        0xd c:/st/stm32cubeide_1.5.1/stm32cubeide/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.7-2018-q2-update.win32_1.5.0.202011040924/tools/bin/../lib/gcc/arm-none-eabi/7.3.1/../../../../arm-none-eabi/lib/thumb/v6-m\libc_nano.a(lib_a-dtoa.o)
+                0x000000000801a7c1        0xd c:/st/stm32cubeide_1.5.1/stm32cubeide/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.7-2018-q2-update.win32_1.5.0.202011040924/tools/bin/../lib/gcc/arm-none-eabi/7.3.1/../../../../arm-none-eabi/lib/thumb/v6-m\libc_nano.a(lib_a-dtoa.o)
                                           0xf (size before relaxing)
- *fill*         0x000000000801a7be        0x2 
+ *fill*         0x000000000801a7ce        0x2 
  .rodata.__mprec_bigtens
-                0x000000000801a7c0       0x28 c:/st/stm32cubeide_1.5.1/stm32cubeide/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.7-2018-q2-update.win32_1.5.0.202011040924/tools/bin/../lib/gcc/arm-none-eabi/7.3.1/../../../../arm-none-eabi/lib/thumb/v6-m\libc_nano.a(lib_a-mprec.o)
-                0x000000000801a7c0                __mprec_bigtens
+                0x000000000801a7d0       0x28 c:/st/stm32cubeide_1.5.1/stm32cubeide/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.7-2018-q2-update.win32_1.5.0.202011040924/tools/bin/../lib/gcc/arm-none-eabi/7.3.1/../../../../arm-none-eabi/lib/thumb/v6-m\libc_nano.a(lib_a-mprec.o)
+                0x000000000801a7d0                __mprec_bigtens
  .rodata.__mprec_tens
-                0x000000000801a7e8       0xc8 c:/st/stm32cubeide_1.5.1/stm32cubeide/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.7-2018-q2-update.win32_1.5.0.202011040924/tools/bin/../lib/gcc/arm-none-eabi/7.3.1/../../../../arm-none-eabi/lib/thumb/v6-m\libc_nano.a(lib_a-mprec.o)
-                0x000000000801a7e8                __mprec_tens
+                0x000000000801a7f8       0xc8 c:/st/stm32cubeide_1.5.1/stm32cubeide/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.7-2018-q2-update.win32_1.5.0.202011040924/tools/bin/../lib/gcc/arm-none-eabi/7.3.1/../../../../arm-none-eabi/lib/thumb/v6-m\libc_nano.a(lib_a-mprec.o)
+                0x000000000801a7f8                __mprec_tens
  .rodata.p05.6084
-                0x000000000801a8b0        0xc c:/st/stm32cubeide_1.5.1/stm32cubeide/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.7-2018-q2-update.win32_1.5.0.202011040924/tools/bin/../lib/gcc/arm-none-eabi/7.3.1/../../../../arm-none-eabi/lib/thumb/v6-m\libc_nano.a(lib_a-mprec.o)
+                0x000000000801a8c0        0xc c:/st/stm32cubeide_1.5.1/stm32cubeide/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.7-2018-q2-update.win32_1.5.0.202011040924/tools/bin/../lib/gcc/arm-none-eabi/7.3.1/../../../../arm-none-eabi/lib/thumb/v6-m\libc_nano.a(lib_a-mprec.o)
  .rodata._svfprintf_r.str1.1
-                0x000000000801a8bc       0x11 c:/st/stm32cubeide_1.5.1/stm32cubeide/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.7-2018-q2-update.win32_1.5.0.202011040924/tools/bin/../lib/gcc/arm-none-eabi/7.3.1/../../../../arm-none-eabi/lib/thumb/v6-m\libc_nano.a(lib_a-nano-svfprintf.o)
-                0x000000000801a8d0                . = ALIGN (0x4)
- *fill*         0x000000000801a8cd        0x3 
+                0x000000000801a8cc       0x11 c:/st/stm32cubeide_1.5.1/stm32cubeide/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.7-2018-q2-update.win32_1.5.0.202011040924/tools/bin/../lib/gcc/arm-none-eabi/7.3.1/../../../../arm-none-eabi/lib/thumb/v6-m\libc_nano.a(lib_a-nano-svfprintf.o)
+                0x000000000801a8e0                . = ALIGN (0x4)
+ *fill*         0x000000000801a8dd        0x3 
 
-.rel.dyn        0x000000000801a8d0        0x0
- .rel.iplt      0x000000000801a8d0        0x0 c:/st/stm32cubeide_1.5.1/stm32cubeide/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.7-2018-q2-update.win32_1.5.0.202011040924/tools/bin/../lib/gcc/arm-none-eabi/7.3.1/thumb/v6-m/crtbegin.o
+.rel.dyn        0x000000000801a8e0        0x0
+ .rel.iplt      0x000000000801a8e0        0x0 c:/st/stm32cubeide_1.5.1/stm32cubeide/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.7-2018-q2-update.win32_1.5.0.202011040924/tools/bin/../lib/gcc/arm-none-eabi/7.3.1/thumb/v6-m/crtbegin.o
 
-.ARM.extab      0x000000000801a8d0        0x0
-                0x000000000801a8d0                . = ALIGN (0x4)
+.ARM.extab      0x000000000801a8e0        0x0
+                0x000000000801a8e0                . = ALIGN (0x4)
  *(.ARM.extab* .gnu.linkonce.armextab.*)
-                0x000000000801a8d0                . = ALIGN (0x4)
+                0x000000000801a8e0                . = ALIGN (0x4)
 
-.ARM            0x000000000801a8d0        0x0
-                0x000000000801a8d0                . = ALIGN (0x4)
-                0x000000000801a8d0                __exidx_start = .
+.ARM            0x000000000801a8e0        0x0
+                0x000000000801a8e0                . = ALIGN (0x4)
+                0x000000000801a8e0                __exidx_start = .
  *(.ARM.exidx*)
-                0x000000000801a8d0                __exidx_end = .
-                0x000000000801a8d0                . = ALIGN (0x4)
+                0x000000000801a8e0                __exidx_end = .
+                0x000000000801a8e0                . = ALIGN (0x4)
 
-.preinit_array  0x000000000801a8d0        0x0
-                0x000000000801a8d0                . = ALIGN (0x4)
-                0x000000000801a8d0                PROVIDE (__preinit_array_start = .)
+.preinit_array  0x000000000801a8e0        0x0
+                0x000000000801a8e0                . = ALIGN (0x4)
+                0x000000000801a8e0                PROVIDE (__preinit_array_start = .)
  *(.preinit_array*)
-                0x000000000801a8d0                PROVIDE (__preinit_array_end = .)
-                0x000000000801a8d0                . = ALIGN (0x4)
+                0x000000000801a8e0                PROVIDE (__preinit_array_end = .)
+                0x000000000801a8e0                . = ALIGN (0x4)
 
-.init_array     0x000000000801a8d0        0x4
-                0x000000000801a8d0                . = ALIGN (0x4)
-                0x000000000801a8d0                PROVIDE (__init_array_start = .)
+.init_array     0x000000000801a8e0        0x4
+                0x000000000801a8e0                . = ALIGN (0x4)
+                0x000000000801a8e0                PROVIDE (__init_array_start = .)
  *(SORT_BY_NAME(.init_array.*))
  *(.init_array*)
- .init_array    0x000000000801a8d0        0x4 c:/st/stm32cubeide_1.5.1/stm32cubeide/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.7-2018-q2-update.win32_1.5.0.202011040924/tools/bin/../lib/gcc/arm-none-eabi/7.3.1/thumb/v6-m/crtbegin.o
-                0x000000000801a8d4                PROVIDE (__init_array_end = .)
-                0x000000000801a8d4                . = ALIGN (0x4)
+ .init_array    0x000000000801a8e0        0x4 c:/st/stm32cubeide_1.5.1/stm32cubeide/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.7-2018-q2-update.win32_1.5.0.202011040924/tools/bin/../lib/gcc/arm-none-eabi/7.3.1/thumb/v6-m/crtbegin.o
+                0x000000000801a8e4                PROVIDE (__init_array_end = .)
+                0x000000000801a8e4                . = ALIGN (0x4)
 
-.fini_array     0x000000000801a8d4        0x4
-                0x000000000801a8d4                . = ALIGN (0x4)
+.fini_array     0x000000000801a8e4        0x4
+                0x000000000801a8e4                . = ALIGN (0x4)
                 [!provide]                        PROVIDE (__fini_array_start = .)
  *(SORT_BY_NAME(.fini_array.*))
  *(.fini_array*)
- .fini_array    0x000000000801a8d4        0x4 c:/st/stm32cubeide_1.5.1/stm32cubeide/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.7-2018-q2-update.win32_1.5.0.202011040924/tools/bin/../lib/gcc/arm-none-eabi/7.3.1/thumb/v6-m/crtbegin.o
+ .fini_array    0x000000000801a8e4        0x4 c:/st/stm32cubeide_1.5.1/stm32cubeide/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.7-2018-q2-update.win32_1.5.0.202011040924/tools/bin/../lib/gcc/arm-none-eabi/7.3.1/thumb/v6-m/crtbegin.o
                 [!provide]                        PROVIDE (__fini_array_end = .)
-                0x000000000801a8d8                . = ALIGN (0x4)
+                0x000000000801a8e8                . = ALIGN (0x4)
 
-.mySection      0x0000000020000000        0xc load address 0x000000000801a8d8
+.mySection      0x0000000020000000        0xc load address 0x000000000801a8e8
                 0x0000000020000000                . = ALIGN (0x4)
                 0x0000000020000000                _ssection = .
  *(.mySection)
@@ -13043,9 +13044,9 @@ LOAD c:/st/stm32cubeide_1.5.1/stm32cubeide/plugins/com.st.stm32cube.ide.mcu.exte
                 0x0000000020000008                DATA_To_SEND1
                 0x000000002000000c                . = ALIGN (0x4)
                 0x000000002000000c                _esection = .
-                0x000000000801a8e4                _sidata = LOADADDR (.data)
+                0x000000000801a8f4                _sidata = LOADADDR (.data)
 
-.data           0x000000002000000c      0x288 load address 0x000000000801a8e4
+.data           0x000000002000000c      0x288 load address 0x000000000801a8f4
                 0x000000002000000c                . = ALIGN (0x4)
                 0x000000002000000c                _sdata = .
  *(.data)
@@ -13100,7 +13101,7 @@ LOAD c:/st/stm32cubeide_1.5.1/stm32cubeide/plugins/com.st.stm32cube.ide.mcu.exte
  .data.SystemCoreClock
                 0x00000000200000ac        0x4 Thirdparty/CMSIS/Device/ST/STM32F0xx/Source/Templates/system_stm32f0xx.o
                 0x00000000200000ac                SystemCoreClock
- .data.pxLastCommandInList.8955
+ .data.pxLastCommandInList.8956
                 0x00000000200000b0        0x4 Thirdparty/Middleware/FreeRTOS/Source/FreeRTOS_CLI.o
  .data.xRegisteredCommands
                 0x00000000200000b4        0x8 Thirdparty/Middleware/FreeRTOS/Source/FreeRTOS_CLI.o
@@ -13120,11 +13121,11 @@ LOAD c:/st/stm32cubeide_1.5.1/stm32cubeide/plugins/com.st.stm32cube.ide.mcu.exte
                 0x0000000020000294                . = ALIGN (0x4)
                 0x0000000020000294                _edata = .
 
-.igot.plt       0x0000000020000294        0x0 load address 0x000000000801ab6c
+.igot.plt       0x0000000020000294        0x0 load address 0x000000000801ab7c
  .igot.plt      0x0000000020000294        0x0 c:/st/stm32cubeide_1.5.1/stm32cubeide/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.7-2018-q2-update.win32_1.5.0.202011040924/tools/bin/../lib/gcc/arm-none-eabi/7.3.1/thumb/v6-m/crtbegin.o
                 0x0000000020000294                . = ALIGN (0x4)
 
-.bss            0x0000000020000298     0x650c load address 0x000000000801ab6c
+.bss            0x0000000020000298     0x650c load address 0x000000000801ab7c
                 0x0000000020000298                _sbss = .
                 0x0000000020000298                __bss_start__ = _sbss
  *(.bss)
@@ -13161,11 +13162,11 @@ LOAD c:/st/stm32cubeide_1.5.1/stm32cubeide/plugins/com.st.stm32cube.ide.mcu.exte
  .bss.cRxedChar
                 0x00000000200005f4        0x1 BOS/BOS.o
                 0x00000000200005f4                cRxedChar
- .bss.dst1.9170
+ .bss.dst1.9171
                 0x00000000200005f5        0x1 BOS/BOS.o
- .bss.dst2.9172
+ .bss.dst2.9173
                 0x00000000200005f6        0x1 BOS/BOS.o
- .bss.dst3.9174
+ .bss.dst3.9175
                 0x00000000200005f7        0x1 BOS/BOS.o
  .bss.groupAlias
                 0x00000000200005f8       0x64 BOS/BOS.o
@@ -13208,9 +13209,9 @@ LOAD c:/st/stm32cubeide_1.5.1/stm32cubeide/plugins/com.st.stm32cube.ide.mcu.exte
  .bss.portStatus
                 0x0000000020000878        0x4 BOS/BOS.o
                 0x0000000020000878                portStatus
- .bss.pxCommand.9473
+ .bss.pxCommand.9474
                 0x000000002000087c        0x4 BOS/BOS.o
- .bss.pxCommand.9495
+ .bss.pxCommand.9496
                 0x0000000020000880        0x4 BOS/BOS.o
  .bss.rejected_FLAG
                 0x0000000020000884        0x1 BOS/BOS.o
@@ -13230,25 +13231,25 @@ LOAD c:/st/stm32cubeide_1.5.1/stm32cubeide/plugins/com.st.stm32cube.ide.mcu.exte
  .bss.routePrev
                 0x00000000200008b0       0x1a BOS/BOS.o
                 0x00000000200008b0                routePrev
- .bss.src1.9169
+ .bss.src1.9170
                 0x00000000200008ca        0x1 BOS/BOS.o
- .bss.src2.9171
+ .bss.src2.9172
                 0x00000000200008cb        0x1 BOS/BOS.o
- .bss.src3.9173
+ .bss.src3.9174
                 0x00000000200008cc        0x1 BOS/BOS.o
  *fill*         0x00000000200008cd        0x3 
- .bss.cInputString.8980
+ .bss.cInputString.8981
                 0x00000000200008d0       0x32 BOS/BOS_CLI.o
  *fill*         0x0000000020000902        0x2 
- .bss.cInputString.9027
+ .bss.cInputString.9028
                 0x0000000020000904       0x32 BOS/BOS_CLI.o
  *fill*         0x0000000020000936        0x2 
- .bss.cInputString.9068
+ .bss.cInputString.9069
                 0x0000000020000938       0x32 BOS/BOS_CLI.o
  *fill*         0x000000002000096a        0x2 
- .bss.cLastInputString.8981
+ .bss.cLastInputString.8982
                 0x000000002000096c       0x32 BOS/BOS_CLI.o
- .bss.group.8998
+ .bss.group.8999
                 0x000000002000099e        0x1 BOS/BOS_CLI.o
  .bss.numOfRecordedSnippets
                 0x000000002000099f        0x1 BOS/BOS_CLI.o
@@ -13256,49 +13257,49 @@ LOAD c:/st/stm32cubeide_1.5.1/stm32cubeide/plugins/com.st.stm32cube.ide.mcu.exte
  .bss.pcWelcomePortMessage
                 0x00000000200009a0       0x28 BOS/BOS_CLI.o
                 0x00000000200009a0                pcWelcomePortMessage
- .bss.ptrStart.9040
+ .bss.ptrStart.9041
                 0x00000000200009c8        0x4 BOS/BOS_CLI.o
- .bss.recordSnippet.8997
+ .bss.recordSnippet.8998
                 0x00000000200009cc        0x1 BOS/BOS_CLI.o
  *fill*         0x00000000200009cd        0x3 
- .bss.commands.9445
+ .bss.commands.9446
                 0x00000000200009d0       0x32 BOS/BOS_CLIcommands.o
- .bss.count.9207
+ .bss.count.9208
                 0x0000000020000a02        0x1 BOS/BOS_CLIcommands.o
  *fill*         0x0000000020000a03        0x1 
- .bss.pcParameterString.9206
+ .bss.pcParameterString.9207
                 0x0000000020000a04        0x4 BOS/BOS_CLIcommands.o
- .bss.pcParameterString1.9192
+ .bss.pcParameterString1.9193
                 0x0000000020000a08        0x4 BOS/BOS_CLIcommands.o
- .bss.pcParameterString1.9280
+ .bss.pcParameterString1.9281
                 0x0000000020000a0c        0x4 BOS/BOS_CLIcommands.o
- .bss.pcParameterString1.9305
+ .bss.pcParameterString1.9306
                 0x0000000020000a10        0x4 BOS/BOS_CLIcommands.o
- .bss.pcParameterString1.9334
+ .bss.pcParameterString1.9335
                 0x0000000020000a14        0x4 BOS/BOS_CLIcommands.o
- .bss.pcParameterString2.9166
+ .bss.pcParameterString2.9167
                 0x0000000020000a18        0x4 BOS/BOS_CLIcommands.o
- .bss.pcParameterString2.9306
+ .bss.pcParameterString2.9307
                 0x0000000020000a1c        0x4 BOS/BOS_CLIcommands.o
- .bss.pcParameterString3.9167
+ .bss.pcParameterString3.9168
                 0x0000000020000a20        0x4 BOS/BOS_CLIcommands.o
- .bss.pcParameterString3.9307
+ .bss.pcParameterString3.9308
                 0x0000000020000a24        0x4 BOS/BOS_CLIcommands.o
- .bss.pcParameterString4.9308
+ .bss.pcParameterString4.9309
                 0x0000000020000a28        0x4 BOS/BOS_CLIcommands.o
- .bss.pcParameterString5.9309
+ .bss.pcParameterString5.9310
                 0x0000000020000a2c        0x4 BOS/BOS_CLIcommands.o
- .bss.xParameterStringLength.9209
+ .bss.xParameterStringLength.9210
                 0x0000000020000a30        0x4 BOS/BOS_CLIcommands.o
- .bss.xParameterStringLength1.9168
+ .bss.xParameterStringLength1.9169
                 0x0000000020000a34        0x4 BOS/BOS_CLIcommands.o
- .bss.xParameterStringLength1.9193
+ .bss.xParameterStringLength1.9194
                 0x0000000020000a38        0x4 BOS/BOS_CLIcommands.o
- .bss.xParameterStringLength1.9208
+ .bss.xParameterStringLength1.9209
                 0x0000000020000a3c        0x4 BOS/BOS_CLIcommands.o
- .bss.xParameterStringLength2.9169
+ .bss.xParameterStringLength2.9170
                 0x0000000020000a40        0x4 BOS/BOS_CLIcommands.o
- .bss.xParameterStringLength3.9170
+ .bss.xParameterStringLength3.9171
                 0x0000000020000a44        0x4 BOS/BOS_CLIcommands.o
  .bss.MsgDMAStopped
                 0x0000000020000a48        0x3 BOS/BOS_dma.o
@@ -13381,7 +13382,7 @@ LOAD c:/st/stm32cubeide_1.5.1/stm32cubeide/plugins/com.st.stm32cube.ide.mcu.exte
  *fill*         0x0000000020000e02        0x2 
  .bss.button    0x0000000020000e04       0x24 BOS/BOS_inputs.o
                 0x0000000020000e04                button
- .bss.clicked.9037
+ .bss.clicked.9038
                 0x0000000020000e28        0x1 BOS/BOS_inputs.o
  *fill*         0x0000000020000e29        0x3 
  .bss.current   0x0000000020000e2c        0x4 BOS/BOS_inputs.o
@@ -13407,9 +13408,9 @@ LOAD c:/st/stm32cubeide_1.5.1/stm32cubeide/plugins/com.st.stm32cube.ide.mcu.exte
                 0x0000000020000e4c                releaseCounter
  .bss.sConfig   0x0000000020000e5c        0xc BOS/BOS_inputs.o
                 0x0000000020000e5c                sConfig
- .bss.ptrShift.9035
+ .bss.ptrShift.9036
                 0x0000000020000e68        0x2 BOS/BOS_messaging.o
- .bss.totalNumberOfParams.9034
+ .bss.totalNumberOfParams.9035
                 0x0000000020000e6a        0x2 BOS/BOS_messaging.o
  .bss.ADCPercentage
                 0x0000000020000e6c        0x4 BOS/BOS_msgparser.o
@@ -13432,10 +13433,10 @@ LOAD c:/st/stm32cubeide_1.5.1/stm32cubeide/plugins/com.st.stm32cube.ide.mcu.exte
  .bss.acceptedMsg
                 0x0000000020000ea4        0x2 BOS/BOS_msgparser.o
                 0x0000000020000ea4                acceptedMsg
- .bss.bcastLastID.9070
+ .bss.bcastLastID.9071
                 0x0000000020000ea6        0x1 BOS/BOS_msgparser.o
  *fill*         0x0000000020000ea7        0x1 
- .bss.cCLIString.9067
+ .bss.cCLIString.9068
                 0x0000000020000ea8       0x32 BOS/BOS_msgparser.o
  *fill*         0x0000000020000eda        0x2 
  .bss.longMessageScratchpad
@@ -13474,7 +13475,7 @@ LOAD c:/st/stm32cubeide_1.5.1/stm32cubeide/plugins/com.st.stm32cube.ide.mcu.exte
                 0x000000002000106c        0x1 H2AR3/H2AR3.o
                 0x000000002000106c                startMeasurementRanging
  *fill*         0x000000002000106d        0x3 
- .bss.temp.9115
+ .bss.temp.9116
                 0x0000000020001070        0x4 H2AR3/H2AR3.o
  .bss.xTimer    0x0000000020001074        0x4 H2AR3/H2AR3.o
                 0x0000000020001074                xTimer
@@ -13491,14 +13492,14 @@ LOAD c:/st/stm32cubeide_1.5.1/stm32cubeide/plugins/com.st.stm32cube.ide.mcu.exte
  *fill*         0x00000000200013c1        0x3 
  .bss.cOutputBuffer
                 0x00000000200013c4      0x264 Thirdparty/Middleware/FreeRTOS/Source/FreeRTOS_CLI.o
- .bss.counter.9002
+ .bss.counter.9003
                 0x0000000020001628        0x1 Thirdparty/Middleware/FreeRTOS/Source/FreeRTOS_CLI.o
  *fill*         0x0000000020001629        0x3 
- .bss.pxCommand.8965
+ .bss.pxCommand.8966
                 0x000000002000162c        0x4 Thirdparty/Middleware/FreeRTOS/Source/FreeRTOS_CLI.o
- .bss.pxCommand.8999
+ .bss.pxCommand.9000
                 0x0000000020001630        0x4 Thirdparty/Middleware/FreeRTOS/Source/FreeRTOS_CLI.o
- .bss.str.9001  0x0000000020001634        0x1 Thirdparty/Middleware/FreeRTOS/Source/FreeRTOS_CLI.o
+ .bss.str.9002  0x0000000020001634        0x1 Thirdparty/Middleware/FreeRTOS/Source/FreeRTOS_CLI.o
  *fill*         0x0000000020001635        0x3 
  .bss.pxCurrentTCB
                 0x0000000020001638        0x4 Thirdparty/Middleware/FreeRTOS/Source/tasks.o
@@ -13640,7 +13641,7 @@ LOAD c:/st/stm32cubeide_1.5.1/stm32cubeide/plugins/com.st.stm32cube.ide.mcu.exte
                 0x00000000200067a4                __bss_end__ = _ebss
 
 ._user_heap_stack
-                0x00000000200067a4      0x604 load address 0x000000000801ab6c
+                0x00000000200067a4      0x604 load address 0x000000000801ab7c
                 0x00000000200067a8                . = ALIGN (0x8)
  *fill*         0x00000000200067a4        0x4 
                 0x00000000200067a8                PROVIDE (end = .)
@@ -13919,55 +13920,55 @@ LOAD c:/st/stm32cubeide_1.5.1/stm32cubeide/plugins/com.st.stm32cube.ide.mcu.exte
                 0x0000000000001650       0x1e c:/st/stm32cubeide_1.5.1/stm32cubeide/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.7-2018-q2-update.win32_1.5.0.202011040924/tools/bin/../lib/gcc/arm-none-eabi/7.3.1/thumb/v6-m/crtn.o
 OUTPUT(H2AR3x.elf elf32-littlearm)
 
-.debug_info     0x0000000000000000    0x55592
- .debug_info    0x0000000000000000     0x5368 BOS/BOS.o
- .debug_info    0x0000000000005368     0x2edc BOS/BOS_CLI.o
- .debug_info    0x0000000000008244     0x69e6 BOS/BOS_CLIcommands.o
- .debug_info    0x000000000000ec2a     0x1d7e BOS/BOS_dma.o
- .debug_info    0x00000000000109a8     0x26d1 BOS/BOS_eeprom.o
- .debug_info    0x0000000000013079     0x24f6 BOS/BOS_freertos.o
- .debug_info    0x000000000001556f     0x3087 BOS/BOS_inputs.o
- .debug_info    0x00000000000185f6     0x295a BOS/BOS_messaging.o
- .debug_info    0x000000000001af50     0x3389 BOS/BOS_msgparser.o
- .debug_info    0x000000000001e2d9     0x3fdd H2AR3/H2AR3.o
- .debug_info    0x00000000000222b6      0xdc3 H2AR3/H2AR3_adc.o
- .debug_info    0x0000000000023079     0x244f H2AR3/H2AR3_dma.o
- .debug_info    0x00000000000254c8     0x200e H2AR3/H2AR3_gpio.o
- .debug_info    0x00000000000274d6     0x1ee4 H2AR3/H2AR3_it.o
- .debug_info    0x00000000000293ba     0x22a9 H2AR3/H2AR3_rtc.o
- .debug_info    0x000000000002b663     0x1f8f H2AR3/H2AR3_timers.o
- .debug_info    0x000000000002d5f2     0x25c1 H2AR3/H2AR3_uart.o
- .debug_info    0x000000000002fbb3       0x22 H2AR3/startup_stm32f091xc.o
- .debug_info    0x000000000002fbd5      0xa33 Thirdparty/CMSIS/Device/ST/STM32F0xx/Source/Templates/system_stm32f0xx.o
- .debug_info    0x0000000000030608     0x27b6 Thirdparty/Middleware/FreeRTOS/Source/CMSIS_RTOS/cmsis_os.o
- .debug_info    0x0000000000032dbe     0x205a Thirdparty/Middleware/FreeRTOS/Source/FreeRTOS_CLI.o
- .debug_info    0x0000000000034e18      0xaa9 Thirdparty/Middleware/FreeRTOS/Source/list.o
- .debug_info    0x00000000000358c1     0x1bdf Thirdparty/Middleware/FreeRTOS/Source/queue.o
- .debug_info    0x00000000000374a0     0x2ba6 Thirdparty/Middleware/FreeRTOS/Source/tasks.o
- .debug_info    0x000000000003a046     0x17a8 Thirdparty/Middleware/FreeRTOS/Source/timers.o
- .debug_info    0x000000000003b7ee      0x29c Thirdparty/Middleware/FreeRTOS/Source/portable/GCC/ARM_CM0/port.o
- .debug_info    0x000000000003ba8a      0xbe6 Thirdparty/Middleware/FreeRTOS/Source/portable/MemMang/heap_4.o
- .debug_info    0x000000000003c670      0xdcd Thirdparty/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal.o
- .debug_info    0x000000000003d43d     0x15c5 Thirdparty/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_adc.o
- .debug_info    0x000000000003ea02      0xcf9 Thirdparty/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_adc_ex.o
- .debug_info    0x000000000003f6fb      0xf85 Thirdparty/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_cortex.o
- .debug_info    0x0000000000040680      0xd85 Thirdparty/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_crc.o
- .debug_info    0x0000000000041405      0xba6 Thirdparty/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_crc_ex.o
- .debug_info    0x0000000000041fab      0xe65 Thirdparty/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_dma.o
- .debug_info    0x0000000000042e10      0xdf9 Thirdparty/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_flash.o
- .debug_info    0x0000000000043c09     0x124a Thirdparty/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_flash_ex.o
- .debug_info    0x0000000000044e53      0xe3d Thirdparty/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_gpio.o
- .debug_info    0x0000000000045c90      0x8e7 Thirdparty/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_msp_template.o
- .debug_info    0x0000000000046577      0xc62 Thirdparty/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_pwr.o
- .debug_info    0x00000000000471d9     0x1183 Thirdparty/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_rcc.o
- .debug_info    0x000000000004835c      0xd90 Thirdparty/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_rcc_ex.o
- .debug_info    0x00000000000490ec     0x14bc Thirdparty/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_rtc.o
- .debug_info    0x000000000004a5a8     0x16cc Thirdparty/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_rtc_ex.o
- .debug_info    0x000000000004bc74     0x38d0 Thirdparty/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_tim.o
- .debug_info    0x000000000004f544     0x19bd Thirdparty/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_tim_ex.o
- .debug_info    0x0000000000050f01     0x1a32 Thirdparty/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_uart.o
- .debug_info    0x0000000000052933     0x11da Thirdparty/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_uart_ex.o
- .debug_info    0x0000000000053b0d     0x1a85 User/main.o
+.debug_info     0x0000000000000000    0x5559e
+ .debug_info    0x0000000000000000     0x536e BOS/BOS.o
+ .debug_info    0x000000000000536e     0x2edc BOS/BOS_CLI.o
+ .debug_info    0x000000000000824a     0x69e6 BOS/BOS_CLIcommands.o
+ .debug_info    0x000000000000ec30     0x1d7e BOS/BOS_dma.o
+ .debug_info    0x00000000000109ae     0x26d1 BOS/BOS_eeprom.o
+ .debug_info    0x000000000001307f     0x24f6 BOS/BOS_freertos.o
+ .debug_info    0x0000000000015575     0x3087 BOS/BOS_inputs.o
+ .debug_info    0x00000000000185fc     0x295a BOS/BOS_messaging.o
+ .debug_info    0x000000000001af56     0x3389 BOS/BOS_msgparser.o
+ .debug_info    0x000000000001e2df     0x3fdd H2AR3/H2AR3.o
+ .debug_info    0x00000000000222bc      0xdc3 H2AR3/H2AR3_adc.o
+ .debug_info    0x000000000002307f     0x244f H2AR3/H2AR3_dma.o
+ .debug_info    0x00000000000254ce     0x200e H2AR3/H2AR3_gpio.o
+ .debug_info    0x00000000000274dc     0x1ee4 H2AR3/H2AR3_it.o
+ .debug_info    0x00000000000293c0     0x22a9 H2AR3/H2AR3_rtc.o
+ .debug_info    0x000000000002b669     0x1f8f H2AR3/H2AR3_timers.o
+ .debug_info    0x000000000002d5f8     0x25c1 H2AR3/H2AR3_uart.o
+ .debug_info    0x000000000002fbb9       0x22 H2AR3/startup_stm32f091xc.o
+ .debug_info    0x000000000002fbdb      0xa33 Thirdparty/CMSIS/Device/ST/STM32F0xx/Source/Templates/system_stm32f0xx.o
+ .debug_info    0x000000000003060e     0x27b6 Thirdparty/Middleware/FreeRTOS/Source/CMSIS_RTOS/cmsis_os.o
+ .debug_info    0x0000000000032dc4     0x2060 Thirdparty/Middleware/FreeRTOS/Source/FreeRTOS_CLI.o
+ .debug_info    0x0000000000034e24      0xaa9 Thirdparty/Middleware/FreeRTOS/Source/list.o
+ .debug_info    0x00000000000358cd     0x1bdf Thirdparty/Middleware/FreeRTOS/Source/queue.o
+ .debug_info    0x00000000000374ac     0x2ba6 Thirdparty/Middleware/FreeRTOS/Source/tasks.o
+ .debug_info    0x000000000003a052     0x17a8 Thirdparty/Middleware/FreeRTOS/Source/timers.o
+ .debug_info    0x000000000003b7fa      0x29c Thirdparty/Middleware/FreeRTOS/Source/portable/GCC/ARM_CM0/port.o
+ .debug_info    0x000000000003ba96      0xbe6 Thirdparty/Middleware/FreeRTOS/Source/portable/MemMang/heap_4.o
+ .debug_info    0x000000000003c67c      0xdcd Thirdparty/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal.o
+ .debug_info    0x000000000003d449     0x15c5 Thirdparty/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_adc.o
+ .debug_info    0x000000000003ea0e      0xcf9 Thirdparty/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_adc_ex.o
+ .debug_info    0x000000000003f707      0xf85 Thirdparty/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_cortex.o
+ .debug_info    0x000000000004068c      0xd85 Thirdparty/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_crc.o
+ .debug_info    0x0000000000041411      0xba6 Thirdparty/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_crc_ex.o
+ .debug_info    0x0000000000041fb7      0xe65 Thirdparty/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_dma.o
+ .debug_info    0x0000000000042e1c      0xdf9 Thirdparty/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_flash.o
+ .debug_info    0x0000000000043c15     0x124a Thirdparty/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_flash_ex.o
+ .debug_info    0x0000000000044e5f      0xe3d Thirdparty/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_gpio.o
+ .debug_info    0x0000000000045c9c      0x8e7 Thirdparty/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_msp_template.o
+ .debug_info    0x0000000000046583      0xc62 Thirdparty/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_pwr.o
+ .debug_info    0x00000000000471e5     0x1183 Thirdparty/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_rcc.o
+ .debug_info    0x0000000000048368      0xd90 Thirdparty/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_rcc_ex.o
+ .debug_info    0x00000000000490f8     0x14bc Thirdparty/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_rtc.o
+ .debug_info    0x000000000004a5b4     0x16cc Thirdparty/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_rtc_ex.o
+ .debug_info    0x000000000004bc80     0x38d0 Thirdparty/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_tim.o
+ .debug_info    0x000000000004f550     0x19bd Thirdparty/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_tim_ex.o
+ .debug_info    0x0000000000050f0d     0x1a32 Thirdparty/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_uart.o
+ .debug_info    0x000000000005293f     0x11da Thirdparty/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_uart_ex.o
+ .debug_info    0x0000000000053b19     0x1a85 User/main.o
 
 .debug_abbrev   0x0000000000000000     0x852c
  .debug_abbrev  0x0000000000000000      0x41c BOS/BOS.o
@@ -14213,159 +14214,159 @@ OUTPUT(H2AR3x.elf elf32-littlearm)
  .debug_ranges  0x0000000000002020       0x50 Thirdparty/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_uart_ex.o
  .debug_ranges  0x0000000000002070       0x18 User/main.o
 
-.debug_macro    0x0000000000000000    0x1b31f
+.debug_macro    0x0000000000000000    0x1b334
  .debug_macro   0x0000000000000000      0x4e8 BOS/BOS.o
  .debug_macro   0x00000000000004e8      0xa6c BOS/BOS.o
- .debug_macro   0x0000000000000f54      0x41a BOS/BOS.o
- .debug_macro   0x000000000000136e       0x22 BOS/BOS.o
- .debug_macro   0x0000000000001390       0xb8 BOS/BOS.o
- .debug_macro   0x0000000000001448       0x28 BOS/BOS.o
- .debug_macro   0x0000000000001470       0x22 BOS/BOS.o
- .debug_macro   0x0000000000001492       0x3a BOS/BOS.o
- .debug_macro   0x00000000000014cc       0x22 BOS/BOS.o
- .debug_macro   0x00000000000014ee       0x56 BOS/BOS.o
- .debug_macro   0x0000000000001544       0x51 BOS/BOS.o
- .debug_macro   0x0000000000001595       0xef BOS/BOS.o
- .debug_macro   0x0000000000001684       0x6a BOS/BOS.o
- .debug_macro   0x00000000000016ee      0x1df BOS/BOS.o
- .debug_macro   0x00000000000018cd       0x26 BOS/BOS.o
- .debug_macro   0x00000000000018f3      0x2ea BOS/BOS.o
- .debug_macro   0x0000000000001bdd     0x6af5 BOS/BOS.o
- .debug_macro   0x00000000000086d2       0x3c BOS/BOS.o
- .debug_macro   0x000000000000870e     0x2ac7 BOS/BOS.o
- .debug_macro   0x000000000000b1d5       0x46 BOS/BOS.o
- .debug_macro   0x000000000000b21b       0x18 BOS/BOS.o
- .debug_macro   0x000000000000b233       0x3c BOS/BOS.o
- .debug_macro   0x000000000000b26f       0x34 BOS/BOS.o
- .debug_macro   0x000000000000b2a3       0x16 BOS/BOS.o
- .debug_macro   0x000000000000b2b9       0x97 BOS/BOS.o
- .debug_macro   0x000000000000b350      0x353 BOS/BOS.o
- .debug_macro   0x000000000000b6a3       0xf6 BOS/BOS.o
- .debug_macro   0x000000000000b799       0x10 BOS/BOS.o
- .debug_macro   0x000000000000b7a9       0x52 BOS/BOS.o
- .debug_macro   0x000000000000b7fb       0x1f BOS/BOS.o
- .debug_macro   0x000000000000b81a       0x43 BOS/BOS.o
- .debug_macro   0x000000000000b85d       0x20 BOS/BOS.o
- .debug_macro   0x000000000000b87d      0x1a3 BOS/BOS.o
- .debug_macro   0x000000000000ba20       0x10 BOS/BOS.o
- .debug_macro   0x000000000000ba30       0xb6 BOS/BOS.o
- .debug_macro   0x000000000000bae6       0x16 BOS/BOS.o
- .debug_macro   0x000000000000bafc      0x114 BOS/BOS.o
- .debug_macro   0x000000000000bc10       0x50 BOS/BOS.o
- .debug_macro   0x000000000000bc60      0x936 BOS/BOS.o
- .debug_macro   0x000000000000c596      0x68e BOS/BOS.o
- .debug_macro   0x000000000000cc24      0x13a BOS/BOS.o
- .debug_macro   0x000000000000cd5e      0x202 BOS/BOS.o
- .debug_macro   0x000000000000cf60      0x1a7 BOS/BOS.o
- .debug_macro   0x000000000000d107      0x4d5 BOS/BOS.o
- .debug_macro   0x000000000000d5dc       0x3c BOS/BOS.o
- .debug_macro   0x000000000000d618       0x31 BOS/BOS.o
- .debug_macro   0x000000000000d649      0x344 BOS/BOS.o
- .debug_macro   0x000000000000d98d       0xd6 BOS/BOS.o
- .debug_macro   0x000000000000da63       0x88 BOS/BOS.o
- .debug_macro   0x000000000000daeb       0x85 BOS/BOS.o
- .debug_macro   0x000000000000db70       0x12 BOS/BOS.o
- .debug_macro   0x000000000000db82       0xb6 BOS/BOS.o
- .debug_macro   0x000000000000dc38      0x23f BOS/BOS.o
- .debug_macro   0x000000000000de77       0x4d BOS/BOS.o
- .debug_macro   0x000000000000dec4      0x16d BOS/BOS.o
- .debug_macro   0x000000000000e031      0x2e2 BOS/BOS.o
- .debug_macro   0x000000000000e313      0x3a5 BOS/BOS.o
- .debug_macro   0x000000000000e6b8       0xdd BOS/BOS.o
- .debug_macro   0x000000000000e795      0x2e2 BOS/BOS.o
- .debug_macro   0x000000000000ea77      0x829 BOS/BOS.o
- .debug_macro   0x000000000000f2a0       0x32 BOS/BOS.o
- .debug_macro   0x000000000000f2d2      0x37c BOS/BOS.o
- .debug_macro   0x000000000000f64e      0x209 BOS/BOS.o
- .debug_macro   0x000000000000f857      0x42e BOS/BOS.o
- .debug_macro   0x000000000000fc85      0x1f7 BOS/BOS.o
- .debug_macro   0x000000000000fe7c       0x16 BOS/BOS.o
- .debug_macro   0x000000000000fe92      0x13e BOS/BOS.o
- .debug_macro   0x000000000000ffd0       0x5e BOS/BOS.o
- .debug_macro   0x000000000001002e       0xaf BOS/BOS.o
- .debug_macro   0x00000000000100dd       0x10 BOS/BOS.o
- .debug_macro   0x00000000000100ed       0x1f BOS/BOS.o
- .debug_macro   0x000000000001010c      0x38b BOS/BOS.o
- .debug_macro   0x0000000000010497       0xc0 BOS/BOS.o
- .debug_macro   0x0000000000010557       0x8c BOS/BOS.o
- .debug_macro   0x00000000000105e3       0x91 BOS/BOS.o
- .debug_macro   0x0000000000010674       0xb0 BOS/BOS.o
- .debug_macro   0x0000000000010724       0x7f BOS/BOS.o
- .debug_macro   0x00000000000107a3       0xcf BOS/BOS.o
- .debug_macro   0x0000000000010872       0x10 BOS/BOS.o
- .debug_macro   0x0000000000010882       0xd6 BOS/BOS.o
- .debug_macro   0x0000000000010958       0x9c BOS/BOS.o
- .debug_macro   0x00000000000109f4       0xb8 BOS/BOS.o
- .debug_macro   0x0000000000010aac       0x16 BOS/BOS.o
- .debug_macro   0x0000000000010ac2       0x35 BOS/BOS.o
- .debug_macro   0x0000000000010af7       0x20 BOS/BOS.o
- .debug_macro   0x0000000000010b17       0x16 BOS/BOS.o
- .debug_macro   0x0000000000010b2d       0x22 BOS/BOS.o
- .debug_macro   0x0000000000010b4f       0x52 BOS/BOS.o
- .debug_macro   0x0000000000010ba1       0xde BOS/BOS.o
- .debug_macro   0x0000000000010c7f       0x2b BOS/BOS.o
- .debug_macro   0x0000000000010caa       0xee BOS/BOS.o
- .debug_macro   0x0000000000010d98       0x3a BOS/BOS.o
- .debug_macro   0x0000000000010dd2       0x1c BOS/BOS.o
- .debug_macro   0x0000000000010dee       0x10 BOS/BOS.o
- .debug_macro   0x0000000000010dfe       0xd6 BOS/BOS.o
- .debug_macro   0x0000000000010ed4       0x1c BOS/BOS.o
- .debug_macro   0x0000000000010ef0       0x2e BOS/BOS.o
- .debug_macro   0x0000000000010f1e      0x4e8 BOS/BOS_CLI.o
- .debug_macro   0x0000000000011406      0x4e8 BOS/BOS_CLIcommands.o
- .debug_macro   0x00000000000118ee      0x4e8 BOS/BOS_dma.o
- .debug_macro   0x0000000000011dd6      0x4e8 BOS/BOS_eeprom.o
- .debug_macro   0x00000000000122be      0x530 BOS/BOS_freertos.o
- .debug_macro   0x00000000000127ee      0x4fe BOS/BOS_inputs.o
- .debug_macro   0x0000000000012cec      0x4ec BOS/BOS_messaging.o
- .debug_macro   0x00000000000131d8      0x4e8 BOS/BOS_msgparser.o
- .debug_macro   0x00000000000136c0      0x542 H2AR3/H2AR3.o
- .debug_macro   0x0000000000013c02      0x2eb H2AR3/H2AR3_adc.o
- .debug_macro   0x0000000000013eed       0x1c H2AR3/H2AR3_adc.o
- .debug_macro   0x0000000000013f09      0x4e8 H2AR3/H2AR3_dma.o
- .debug_macro   0x00000000000143f1      0x4e8 H2AR3/H2AR3_gpio.o
- .debug_macro   0x00000000000148d9      0x4e8 H2AR3/H2AR3_it.o
- .debug_macro   0x0000000000014dc1      0x4e8 H2AR3/H2AR3_rtc.o
- .debug_macro   0x00000000000152a9      0x4e8 H2AR3/H2AR3_timers.o
- .debug_macro   0x0000000000015791      0x4e8 H2AR3/H2AR3_uart.o
- .debug_macro   0x0000000000015c79      0x2dc Thirdparty/CMSIS/Device/ST/STM32F0xx/Source/Templates/system_stm32f0xx.o
- .debug_macro   0x0000000000015f55      0x1d7 Thirdparty/Middleware/FreeRTOS/Source/CMSIS_RTOS/cmsis_os.o
- .debug_macro   0x000000000001612c       0x40 Thirdparty/Middleware/FreeRTOS/Source/CMSIS_RTOS/cmsis_os.o
- .debug_macro   0x000000000001616c       0x5c Thirdparty/Middleware/FreeRTOS/Source/CMSIS_RTOS/cmsis_os.o
- .debug_macro   0x00000000000161c8      0x16d Thirdparty/Middleware/FreeRTOS/Source/CMSIS_RTOS/cmsis_os.o
- .debug_macro   0x0000000000016335       0x57 Thirdparty/Middleware/FreeRTOS/Source/CMSIS_RTOS/cmsis_os.o
- .debug_macro   0x000000000001638c       0x10 Thirdparty/Middleware/FreeRTOS/Source/CMSIS_RTOS/cmsis_os.o
- .debug_macro   0x000000000001639c      0x13e Thirdparty/Middleware/FreeRTOS/Source/CMSIS_RTOS/cmsis_os.o
- .debug_macro   0x00000000000164da      0x4e0 Thirdparty/Middleware/FreeRTOS/Source/FreeRTOS_CLI.o
- .debug_macro   0x00000000000169ba       0x1c Thirdparty/Middleware/FreeRTOS/Source/FreeRTOS_CLI.o
- .debug_macro   0x00000000000169d6      0x171 Thirdparty/Middleware/FreeRTOS/Source/list.o
- .debug_macro   0x0000000000016b47      0x1e8 Thirdparty/Middleware/FreeRTOS/Source/queue.o
- .debug_macro   0x0000000000016d2f      0x289 Thirdparty/Middleware/FreeRTOS/Source/tasks.o
- .debug_macro   0x0000000000016fb8       0x17 Thirdparty/Middleware/FreeRTOS/Source/tasks.o
- .debug_macro   0x0000000000016fcf      0x1ae Thirdparty/Middleware/FreeRTOS/Source/timers.o
- .debug_macro   0x000000000001717d      0x11e Thirdparty/Middleware/FreeRTOS/Source/portable/GCC/ARM_CM0/port.o
- .debug_macro   0x000000000001729b      0x198 Thirdparty/Middleware/FreeRTOS/Source/portable/MemMang/heap_4.o
- .debug_macro   0x0000000000017433      0x300 Thirdparty/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal.o
- .debug_macro   0x0000000000017733      0x300 Thirdparty/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_adc.o
- .debug_macro   0x0000000000017a33      0x2e8 Thirdparty/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_adc_ex.o
- .debug_macro   0x0000000000017d1b      0x2dc Thirdparty/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_cortex.o
- .debug_macro   0x0000000000017ff7      0x2dc Thirdparty/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_crc.o
- .debug_macro   0x00000000000182d3      0x2dc Thirdparty/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_crc_ex.o
- .debug_macro   0x00000000000185af      0x2e2 Thirdparty/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_dma.o
- .debug_macro   0x0000000000018891      0x2dc Thirdparty/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_flash.o
- .debug_macro   0x0000000000018b6d      0x2e2 Thirdparty/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_flash_ex.o
- .debug_macro   0x0000000000018e4f      0x315 Thirdparty/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_gpio.o
- .debug_macro   0x0000000000019164      0x2dc Thirdparty/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_msp_template.o
- .debug_macro   0x0000000000019440      0x2dc Thirdparty/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_pwr.o
- .debug_macro   0x000000000001971c      0x2ee Thirdparty/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_rcc.o
- .debug_macro   0x0000000000019a0a      0x2ee Thirdparty/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_rcc_ex.o
- .debug_macro   0x0000000000019cf8      0x2dc Thirdparty/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_rtc.o
- .debug_macro   0x0000000000019fd4      0x2dc Thirdparty/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_rtc_ex.o
- .debug_macro   0x000000000001a2b0      0x2dd Thirdparty/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_tim.o
- .debug_macro   0x000000000001a58d      0x2dc Thirdparty/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_tim_ex.o
- .debug_macro   0x000000000001a869      0x2f2 Thirdparty/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_uart.o
- .debug_macro   0x000000000001ab5b      0x2dc Thirdparty/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_uart_ex.o
- .debug_macro   0x000000000001ae37      0x4e8 User/main.o
+ .debug_macro   0x0000000000000f54      0x42f BOS/BOS.o
+ .debug_macro   0x0000000000001383       0x22 BOS/BOS.o
+ .debug_macro   0x00000000000013a5       0xb8 BOS/BOS.o
+ .debug_macro   0x000000000000145d       0x28 BOS/BOS.o
+ .debug_macro   0x0000000000001485       0x22 BOS/BOS.o
+ .debug_macro   0x00000000000014a7       0x3a BOS/BOS.o
+ .debug_macro   0x00000000000014e1       0x22 BOS/BOS.o
+ .debug_macro   0x0000000000001503       0x56 BOS/BOS.o
+ .debug_macro   0x0000000000001559       0x51 BOS/BOS.o
+ .debug_macro   0x00000000000015aa       0xef BOS/BOS.o
+ .debug_macro   0x0000000000001699       0x6a BOS/BOS.o
+ .debug_macro   0x0000000000001703      0x1df BOS/BOS.o
+ .debug_macro   0x00000000000018e2       0x26 BOS/BOS.o
+ .debug_macro   0x0000000000001908      0x2ea BOS/BOS.o
+ .debug_macro   0x0000000000001bf2     0x6af5 BOS/BOS.o
+ .debug_macro   0x00000000000086e7       0x3c BOS/BOS.o
+ .debug_macro   0x0000000000008723     0x2ac7 BOS/BOS.o
+ .debug_macro   0x000000000000b1ea       0x46 BOS/BOS.o
+ .debug_macro   0x000000000000b230       0x18 BOS/BOS.o
+ .debug_macro   0x000000000000b248       0x3c BOS/BOS.o
+ .debug_macro   0x000000000000b284       0x34 BOS/BOS.o
+ .debug_macro   0x000000000000b2b8       0x16 BOS/BOS.o
+ .debug_macro   0x000000000000b2ce       0x97 BOS/BOS.o
+ .debug_macro   0x000000000000b365      0x353 BOS/BOS.o
+ .debug_macro   0x000000000000b6b8       0xf6 BOS/BOS.o
+ .debug_macro   0x000000000000b7ae       0x10 BOS/BOS.o
+ .debug_macro   0x000000000000b7be       0x52 BOS/BOS.o
+ .debug_macro   0x000000000000b810       0x1f BOS/BOS.o
+ .debug_macro   0x000000000000b82f       0x43 BOS/BOS.o
+ .debug_macro   0x000000000000b872       0x20 BOS/BOS.o
+ .debug_macro   0x000000000000b892      0x1a3 BOS/BOS.o
+ .debug_macro   0x000000000000ba35       0x10 BOS/BOS.o
+ .debug_macro   0x000000000000ba45       0xb6 BOS/BOS.o
+ .debug_macro   0x000000000000bafb       0x16 BOS/BOS.o
+ .debug_macro   0x000000000000bb11      0x114 BOS/BOS.o
+ .debug_macro   0x000000000000bc25       0x50 BOS/BOS.o
+ .debug_macro   0x000000000000bc75      0x936 BOS/BOS.o
+ .debug_macro   0x000000000000c5ab      0x68e BOS/BOS.o
+ .debug_macro   0x000000000000cc39      0x13a BOS/BOS.o
+ .debug_macro   0x000000000000cd73      0x202 BOS/BOS.o
+ .debug_macro   0x000000000000cf75      0x1a7 BOS/BOS.o
+ .debug_macro   0x000000000000d11c      0x4d5 BOS/BOS.o
+ .debug_macro   0x000000000000d5f1       0x3c BOS/BOS.o
+ .debug_macro   0x000000000000d62d       0x31 BOS/BOS.o
+ .debug_macro   0x000000000000d65e      0x344 BOS/BOS.o
+ .debug_macro   0x000000000000d9a2       0xd6 BOS/BOS.o
+ .debug_macro   0x000000000000da78       0x88 BOS/BOS.o
+ .debug_macro   0x000000000000db00       0x85 BOS/BOS.o
+ .debug_macro   0x000000000000db85       0x12 BOS/BOS.o
+ .debug_macro   0x000000000000db97       0xb6 BOS/BOS.o
+ .debug_macro   0x000000000000dc4d      0x23f BOS/BOS.o
+ .debug_macro   0x000000000000de8c       0x4d BOS/BOS.o
+ .debug_macro   0x000000000000ded9      0x16d BOS/BOS.o
+ .debug_macro   0x000000000000e046      0x2e2 BOS/BOS.o
+ .debug_macro   0x000000000000e328      0x3a5 BOS/BOS.o
+ .debug_macro   0x000000000000e6cd       0xdd BOS/BOS.o
+ .debug_macro   0x000000000000e7aa      0x2e2 BOS/BOS.o
+ .debug_macro   0x000000000000ea8c      0x829 BOS/BOS.o
+ .debug_macro   0x000000000000f2b5       0x32 BOS/BOS.o
+ .debug_macro   0x000000000000f2e7      0x37c BOS/BOS.o
+ .debug_macro   0x000000000000f663      0x209 BOS/BOS.o
+ .debug_macro   0x000000000000f86c      0x42e BOS/BOS.o
+ .debug_macro   0x000000000000fc9a      0x1f7 BOS/BOS.o
+ .debug_macro   0x000000000000fe91       0x16 BOS/BOS.o
+ .debug_macro   0x000000000000fea7      0x13e BOS/BOS.o
+ .debug_macro   0x000000000000ffe5       0x5e BOS/BOS.o
+ .debug_macro   0x0000000000010043       0xaf BOS/BOS.o
+ .debug_macro   0x00000000000100f2       0x10 BOS/BOS.o
+ .debug_macro   0x0000000000010102       0x1f BOS/BOS.o
+ .debug_macro   0x0000000000010121      0x38b BOS/BOS.o
+ .debug_macro   0x00000000000104ac       0xc0 BOS/BOS.o
+ .debug_macro   0x000000000001056c       0x8c BOS/BOS.o
+ .debug_macro   0x00000000000105f8       0x91 BOS/BOS.o
+ .debug_macro   0x0000000000010689       0xb0 BOS/BOS.o
+ .debug_macro   0x0000000000010739       0x7f BOS/BOS.o
+ .debug_macro   0x00000000000107b8       0xcf BOS/BOS.o
+ .debug_macro   0x0000000000010887       0x10 BOS/BOS.o
+ .debug_macro   0x0000000000010897       0xd6 BOS/BOS.o
+ .debug_macro   0x000000000001096d       0x9c BOS/BOS.o
+ .debug_macro   0x0000000000010a09       0xb8 BOS/BOS.o
+ .debug_macro   0x0000000000010ac1       0x16 BOS/BOS.o
+ .debug_macro   0x0000000000010ad7       0x35 BOS/BOS.o
+ .debug_macro   0x0000000000010b0c       0x20 BOS/BOS.o
+ .debug_macro   0x0000000000010b2c       0x16 BOS/BOS.o
+ .debug_macro   0x0000000000010b42       0x22 BOS/BOS.o
+ .debug_macro   0x0000000000010b64       0x52 BOS/BOS.o
+ .debug_macro   0x0000000000010bb6       0xde BOS/BOS.o
+ .debug_macro   0x0000000000010c94       0x2b BOS/BOS.o
+ .debug_macro   0x0000000000010cbf       0xee BOS/BOS.o
+ .debug_macro   0x0000000000010dad       0x3a BOS/BOS.o
+ .debug_macro   0x0000000000010de7       0x1c BOS/BOS.o
+ .debug_macro   0x0000000000010e03       0x10 BOS/BOS.o
+ .debug_macro   0x0000000000010e13       0xd6 BOS/BOS.o
+ .debug_macro   0x0000000000010ee9       0x1c BOS/BOS.o
+ .debug_macro   0x0000000000010f05       0x2e BOS/BOS.o
+ .debug_macro   0x0000000000010f33      0x4e8 BOS/BOS_CLI.o
+ .debug_macro   0x000000000001141b      0x4e8 BOS/BOS_CLIcommands.o
+ .debug_macro   0x0000000000011903      0x4e8 BOS/BOS_dma.o
+ .debug_macro   0x0000000000011deb      0x4e8 BOS/BOS_eeprom.o
+ .debug_macro   0x00000000000122d3      0x530 BOS/BOS_freertos.o
+ .debug_macro   0x0000000000012803      0x4fe BOS/BOS_inputs.o
+ .debug_macro   0x0000000000012d01      0x4ec BOS/BOS_messaging.o
+ .debug_macro   0x00000000000131ed      0x4e8 BOS/BOS_msgparser.o
+ .debug_macro   0x00000000000136d5      0x542 H2AR3/H2AR3.o
+ .debug_macro   0x0000000000013c17      0x2eb H2AR3/H2AR3_adc.o
+ .debug_macro   0x0000000000013f02       0x1c H2AR3/H2AR3_adc.o
+ .debug_macro   0x0000000000013f1e      0x4e8 H2AR3/H2AR3_dma.o
+ .debug_macro   0x0000000000014406      0x4e8 H2AR3/H2AR3_gpio.o
+ .debug_macro   0x00000000000148ee      0x4e8 H2AR3/H2AR3_it.o
+ .debug_macro   0x0000000000014dd6      0x4e8 H2AR3/H2AR3_rtc.o
+ .debug_macro   0x00000000000152be      0x4e8 H2AR3/H2AR3_timers.o
+ .debug_macro   0x00000000000157a6      0x4e8 H2AR3/H2AR3_uart.o
+ .debug_macro   0x0000000000015c8e      0x2dc Thirdparty/CMSIS/Device/ST/STM32F0xx/Source/Templates/system_stm32f0xx.o
+ .debug_macro   0x0000000000015f6a      0x1d7 Thirdparty/Middleware/FreeRTOS/Source/CMSIS_RTOS/cmsis_os.o
+ .debug_macro   0x0000000000016141       0x40 Thirdparty/Middleware/FreeRTOS/Source/CMSIS_RTOS/cmsis_os.o
+ .debug_macro   0x0000000000016181       0x5c Thirdparty/Middleware/FreeRTOS/Source/CMSIS_RTOS/cmsis_os.o
+ .debug_macro   0x00000000000161dd      0x16d Thirdparty/Middleware/FreeRTOS/Source/CMSIS_RTOS/cmsis_os.o
+ .debug_macro   0x000000000001634a       0x57 Thirdparty/Middleware/FreeRTOS/Source/CMSIS_RTOS/cmsis_os.o
+ .debug_macro   0x00000000000163a1       0x10 Thirdparty/Middleware/FreeRTOS/Source/CMSIS_RTOS/cmsis_os.o
+ .debug_macro   0x00000000000163b1      0x13e Thirdparty/Middleware/FreeRTOS/Source/CMSIS_RTOS/cmsis_os.o
+ .debug_macro   0x00000000000164ef      0x4e0 Thirdparty/Middleware/FreeRTOS/Source/FreeRTOS_CLI.o
+ .debug_macro   0x00000000000169cf       0x1c Thirdparty/Middleware/FreeRTOS/Source/FreeRTOS_CLI.o
+ .debug_macro   0x00000000000169eb      0x171 Thirdparty/Middleware/FreeRTOS/Source/list.o
+ .debug_macro   0x0000000000016b5c      0x1e8 Thirdparty/Middleware/FreeRTOS/Source/queue.o
+ .debug_macro   0x0000000000016d44      0x289 Thirdparty/Middleware/FreeRTOS/Source/tasks.o
+ .debug_macro   0x0000000000016fcd       0x17 Thirdparty/Middleware/FreeRTOS/Source/tasks.o
+ .debug_macro   0x0000000000016fe4      0x1ae Thirdparty/Middleware/FreeRTOS/Source/timers.o
+ .debug_macro   0x0000000000017192      0x11e Thirdparty/Middleware/FreeRTOS/Source/portable/GCC/ARM_CM0/port.o
+ .debug_macro   0x00000000000172b0      0x198 Thirdparty/Middleware/FreeRTOS/Source/portable/MemMang/heap_4.o
+ .debug_macro   0x0000000000017448      0x300 Thirdparty/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal.o
+ .debug_macro   0x0000000000017748      0x300 Thirdparty/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_adc.o
+ .debug_macro   0x0000000000017a48      0x2e8 Thirdparty/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_adc_ex.o
+ .debug_macro   0x0000000000017d30      0x2dc Thirdparty/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_cortex.o
+ .debug_macro   0x000000000001800c      0x2dc Thirdparty/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_crc.o
+ .debug_macro   0x00000000000182e8      0x2dc Thirdparty/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_crc_ex.o
+ .debug_macro   0x00000000000185c4      0x2e2 Thirdparty/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_dma.o
+ .debug_macro   0x00000000000188a6      0x2dc Thirdparty/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_flash.o
+ .debug_macro   0x0000000000018b82      0x2e2 Thirdparty/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_flash_ex.o
+ .debug_macro   0x0000000000018e64      0x315 Thirdparty/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_gpio.o
+ .debug_macro   0x0000000000019179      0x2dc Thirdparty/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_msp_template.o
+ .debug_macro   0x0000000000019455      0x2dc Thirdparty/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_pwr.o
+ .debug_macro   0x0000000000019731      0x2ee Thirdparty/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_rcc.o
+ .debug_macro   0x0000000000019a1f      0x2ee Thirdparty/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_rcc_ex.o
+ .debug_macro   0x0000000000019d0d      0x2dc Thirdparty/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_rtc.o
+ .debug_macro   0x0000000000019fe9      0x2dc Thirdparty/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_rtc_ex.o
+ .debug_macro   0x000000000001a2c5      0x2dd Thirdparty/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_tim.o
+ .debug_macro   0x000000000001a5a2      0x2dc Thirdparty/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_tim_ex.o
+ .debug_macro   0x000000000001a87e      0x2f2 Thirdparty/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_uart.o
+ .debug_macro   0x000000000001ab70      0x2dc Thirdparty/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_uart_ex.o
+ .debug_macro   0x000000000001ae4c      0x4e8 User/main.o
 
 .debug_line     0x0000000000000000    0x262a8
  .debug_line    0x0000000000000000     0x15f9 BOS/BOS.o
@@ -14417,103 +14418,103 @@ OUTPUT(H2AR3x.elf elf32-littlearm)
  .debug_line    0x0000000000024b74      0xaba Thirdparty/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_uart_ex.o
  .debug_line    0x000000000002562e      0xc7a User/main.o
 
-.debug_str      0x0000000000000000    0x83805
- .debug_str     0x0000000000000000    0x79ffe BOS/BOS.o
-                                      0x7a575 (size before relaxing)
- .debug_str     0x0000000000079ffe      0x325 BOS/BOS_CLI.o
-                                      0x79bf4 (size before relaxing)
- .debug_str     0x000000000007a323      0xc30 BOS/BOS_CLIcommands.o
-                                      0x7a98c (size before relaxing)
- .debug_str     0x000000000007af53       0xee BOS/BOS_dma.o
-                                      0x79893 (size before relaxing)
- .debug_str     0x000000000007b041      0x287 BOS/BOS_eeprom.o
-                                      0x79a4f (size before relaxing)
- .debug_str     0x000000000007b2c8      0x50d BOS/BOS_freertos.o
-                                      0x79ddd (size before relaxing)
- .debug_str     0x000000000007b7d5      0x49b BOS/BOS_inputs.o
-                                      0x79f36 (size before relaxing)
- .debug_str     0x000000000007bc70      0x254 BOS/BOS_messaging.o
-                                      0x79c9e (size before relaxing)
- .debug_str     0x000000000007bec4      0x1fc BOS/BOS_msgparser.o
-                                      0x79ed9 (size before relaxing)
- .debug_str     0x000000000007c0c0      0xb09 H2AR3/H2AR3.o
-                                      0x7aa33 (size before relaxing)
- .debug_str     0x000000000007cbc9       0xc3 H2AR3/H2AR3_adc.o
+.debug_str      0x0000000000000000    0x8385d
+ .debug_str     0x0000000000000000    0x7a056 BOS/BOS.o
+                                      0x7a5cd (size before relaxing)
+ .debug_str     0x000000000007a056      0x325 BOS/BOS_CLI.o
+                                      0x79c45 (size before relaxing)
+ .debug_str     0x000000000007a37b      0xc30 BOS/BOS_CLIcommands.o
+                                      0x7a9dd (size before relaxing)
+ .debug_str     0x000000000007afab       0xee BOS/BOS_dma.o
+                                      0x798e4 (size before relaxing)
+ .debug_str     0x000000000007b099      0x287 BOS/BOS_eeprom.o
+                                      0x79aa0 (size before relaxing)
+ .debug_str     0x000000000007b320      0x50d BOS/BOS_freertos.o
+                                      0x79e2e (size before relaxing)
+ .debug_str     0x000000000007b82d      0x49b BOS/BOS_inputs.o
+                                      0x79f87 (size before relaxing)
+ .debug_str     0x000000000007bcc8      0x254 BOS/BOS_messaging.o
+                                      0x79cef (size before relaxing)
+ .debug_str     0x000000000007bf1c      0x1fc BOS/BOS_msgparser.o
+                                      0x79f2a (size before relaxing)
+ .debug_str     0x000000000007c118      0xb09 H2AR3/H2AR3.o
+                                      0x7aa84 (size before relaxing)
+ .debug_str     0x000000000007cc21       0xc3 H2AR3/H2AR3_adc.o
                                       0x706f4 (size before relaxing)
- .debug_str     0x000000000007cc8c      0x163 H2AR3/H2AR3_dma.o
-                                      0x79bed (size before relaxing)
- .debug_str     0x000000000007cdef       0x75 H2AR3/H2AR3_gpio.o
-                                      0x79942 (size before relaxing)
- .debug_str     0x000000000007ce64      0x149 H2AR3/H2AR3_it.o
-                                      0x799c6 (size before relaxing)
- .debug_str     0x000000000007cfad      0x2e7 H2AR3/H2AR3_rtc.o
-                                      0x79b0d (size before relaxing)
- .debug_str     0x000000000007d294      0x10d H2AR3/H2AR3_timers.o
-                                      0x79a7f (size before relaxing)
- .debug_str     0x000000000007d3a1      0x1b4 H2AR3/H2AR3_uart.o
-                                      0x79d35 (size before relaxing)
- .debug_str     0x000000000007d555       0x45 H2AR3/startup_stm32f091xc.o
+ .debug_str     0x000000000007cce4      0x163 H2AR3/H2AR3_dma.o
+                                      0x79c3e (size before relaxing)
+ .debug_str     0x000000000007ce47       0x75 H2AR3/H2AR3_gpio.o
+                                      0x79993 (size before relaxing)
+ .debug_str     0x000000000007cebc      0x149 H2AR3/H2AR3_it.o
+                                      0x79a17 (size before relaxing)
+ .debug_str     0x000000000007d005      0x2e7 H2AR3/H2AR3_rtc.o
+                                      0x79b5e (size before relaxing)
+ .debug_str     0x000000000007d2ec      0x10d H2AR3/H2AR3_timers.o
+                                      0x79ad0 (size before relaxing)
+ .debug_str     0x000000000007d3f9      0x1b4 H2AR3/H2AR3_uart.o
+                                      0x79d86 (size before relaxing)
+ .debug_str     0x000000000007d5ad       0x45 H2AR3/startup_stm32f091xc.o
                                          0x74 (size before relaxing)
- .debug_str     0x000000000007d59a       0xa4 Thirdparty/CMSIS/Device/ST/STM32F0xx/Source/Templates/system_stm32f0xx.o
+ .debug_str     0x000000000007d5f2       0xa4 Thirdparty/CMSIS/Device/ST/STM32F0xx/Source/Templates/system_stm32f0xx.o
                                       0x70363 (size before relaxing)
- .debug_str     0x000000000007d63e      0x7ac Thirdparty/Middleware/FreeRTOS/Source/CMSIS_RTOS/cmsis_os.o
+ .debug_str     0x000000000007d696      0x7ac Thirdparty/Middleware/FreeRTOS/Source/CMSIS_RTOS/cmsis_os.o
                                        0xc8c5 (size before relaxing)
- .debug_str     0x000000000007ddea      0x140 Thirdparty/Middleware/FreeRTOS/Source/FreeRTOS_CLI.o
-                                      0x79b76 (size before relaxing)
- .debug_str     0x000000000007df2a      0x149 Thirdparty/Middleware/FreeRTOS/Source/list.o
+ .debug_str     0x000000000007de42      0x140 Thirdparty/Middleware/FreeRTOS/Source/FreeRTOS_CLI.o
+                                      0x79bce (size before relaxing)
+ .debug_str     0x000000000007df82      0x149 Thirdparty/Middleware/FreeRTOS/Source/list.o
                                        0x994a (size before relaxing)
- .debug_str     0x000000000007e073      0x74b Thirdparty/Middleware/FreeRTOS/Source/queue.o
+ .debug_str     0x000000000007e0cb      0x74b Thirdparty/Middleware/FreeRTOS/Source/queue.o
                                        0xb23b (size before relaxing)
- .debug_str     0x000000000007e7be     0x11e1 Thirdparty/Middleware/FreeRTOS/Source/tasks.o
+ .debug_str     0x000000000007e816     0x11e1 Thirdparty/Middleware/FreeRTOS/Source/tasks.o
                                        0xc437 (size before relaxing)
- .debug_str     0x000000000007f99f      0x450 Thirdparty/Middleware/FreeRTOS/Source/timers.o
+ .debug_str     0x000000000007f9f7      0x450 Thirdparty/Middleware/FreeRTOS/Source/timers.o
                                        0xb6d8 (size before relaxing)
- .debug_str     0x000000000007fdef      0x304 Thirdparty/Middleware/FreeRTOS/Source/portable/GCC/ARM_CM0/port.o
+ .debug_str     0x000000000007fe47      0x304 Thirdparty/Middleware/FreeRTOS/Source/portable/GCC/ARM_CM0/port.o
                                        0x7127 (size before relaxing)
- .debug_str     0x00000000000800f3      0x24f Thirdparty/Middleware/FreeRTOS/Source/portable/MemMang/heap_4.o
+ .debug_str     0x000000000008014b      0x24f Thirdparty/Middleware/FreeRTOS/Source/portable/MemMang/heap_4.o
                                        0xa04f (size before relaxing)
- .debug_str     0x0000000000080342      0x26c Thirdparty/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal.o
+ .debug_str     0x000000000008039a      0x26c Thirdparty/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal.o
                                       0x70851 (size before relaxing)
- .debug_str     0x00000000000805ae      0x34f Thirdparty/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_adc.o
+ .debug_str     0x0000000000080606      0x34f Thirdparty/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_adc.o
                                       0x70a3b (size before relaxing)
- .debug_str     0x00000000000808fd       0x86 Thirdparty/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_adc_ex.o
+ .debug_str     0x0000000000080955       0x86 Thirdparty/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_adc_ex.o
                                       0x70678 (size before relaxing)
- .debug_str     0x0000000000080983      0x159 Thirdparty/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_cortex.o
+ .debug_str     0x00000000000809db      0x159 Thirdparty/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_cortex.o
                                       0x70725 (size before relaxing)
- .debug_str     0x0000000000080adc       0xaa Thirdparty/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_crc.o
+ .debug_str     0x0000000000080b34       0xaa Thirdparty/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_crc.o
                                       0x7055d (size before relaxing)
- .debug_str     0x0000000000080b86       0x9d Thirdparty/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_crc_ex.o
+ .debug_str     0x0000000000080bde       0x9d Thirdparty/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_crc_ex.o
                                       0x70533 (size before relaxing)
- .debug_str     0x0000000000080c23      0x13a Thirdparty/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_dma.o
+ .debug_str     0x0000000000080c7b      0x13a Thirdparty/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_dma.o
                                       0x70611 (size before relaxing)
- .debug_str     0x0000000000080d5d      0x168 Thirdparty/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_flash.o
+ .debug_str     0x0000000000080db5      0x168 Thirdparty/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_flash.o
                                       0x705fc (size before relaxing)
- .debug_str     0x0000000000080ec5      0x288 Thirdparty/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_flash_ex.o
+ .debug_str     0x0000000000080f1d      0x288 Thirdparty/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_flash_ex.o
                                       0x70720 (size before relaxing)
- .debug_str     0x000000000008114d      0x222 Thirdparty/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_gpio.o
+ .debug_str     0x00000000000811a5      0x222 Thirdparty/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_gpio.o
                                       0x70618 (size before relaxing)
- .debug_str     0x000000000008136f       0x7e Thirdparty/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_msp_template.o
+ .debug_str     0x00000000000813c7       0x7e Thirdparty/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_msp_template.o
                                       0x702e4 (size before relaxing)
- .debug_str     0x00000000000813ed      0x1a1 Thirdparty/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_pwr.o
+ .debug_str     0x0000000000081445      0x1a1 Thirdparty/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_pwr.o
                                       0x704a6 (size before relaxing)
- .debug_str     0x000000000008158e      0x1d7 Thirdparty/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_rcc.o
+ .debug_str     0x00000000000815e6      0x1d7 Thirdparty/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_rcc.o
                                       0x70735 (size before relaxing)
- .debug_str     0x0000000000081765      0x221 Thirdparty/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_rcc_ex.o
+ .debug_str     0x00000000000817bd      0x221 Thirdparty/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_rcc_ex.o
                                       0x70666 (size before relaxing)
- .debug_str     0x0000000000081986      0x211 Thirdparty/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_rtc.o
+ .debug_str     0x00000000000819de      0x211 Thirdparty/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_rtc.o
                                       0x70780 (size before relaxing)
- .debug_str     0x0000000000081b97      0x515 Thirdparty/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_rtc_ex.o
+ .debug_str     0x0000000000081bef      0x515 Thirdparty/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_rtc_ex.o
                                       0x70aaa (size before relaxing)
- .debug_str     0x00000000000820ac      0xcec Thirdparty/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_tim.o
+ .debug_str     0x0000000000082104      0xcec Thirdparty/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_tim.o
                                       0x713f9 (size before relaxing)
- .debug_str     0x0000000000082d98      0x497 Thirdparty/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_tim_ex.o
+ .debug_str     0x0000000000082df0      0x497 Thirdparty/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_tim_ex.o
                                       0x70caf (size before relaxing)
- .debug_str     0x000000000008322f      0x40f Thirdparty/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_uart.o
+ .debug_str     0x0000000000083287      0x40f Thirdparty/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_uart.o
                                       0x70cfd (size before relaxing)
- .debug_str     0x000000000008363e      0x192 Thirdparty/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_uart_ex.o
+ .debug_str     0x0000000000083696      0x192 Thirdparty/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_uart_ex.o
                                       0x7097c (size before relaxing)
- .debug_str     0x00000000000837d0       0x35 User/main.o
-                                      0x7975d (size before relaxing)
+ .debug_str     0x0000000000083828       0x35 User/main.o
+                                      0x797ae (size before relaxing)
 
 .comment        0x0000000000000000       0x7b
  .comment       0x0000000000000000       0x7b BOS/BOS.o
