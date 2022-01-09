@@ -1,7 +1,6 @@
-BOS/BOS_eeprom.o: \
- C:/Users/User/Desktop/hexa_projects/Modules_firmware/H2AR3-Firmware-master/BOS/BOS_eeprom.c \
- C:/Users/User/Desktop/hexa_projects/Modules_firmware/H2AR3-Firmware-master/BOS/BOS.h \
- C:/Users/User/Desktop/hexa_projects/Modules_firmware/H2AR3-Firmware-master/BOS/BOS_MsgCodes.h \
+BOS/BOS_eeprom.o: D:/Hexabitz\ release/H2AR3x/BOS/BOS_eeprom.c \
+ D:/Hexabitz\ release/H2AR3x/BOS/BOS.h \
+ D:/Hexabitz\ release/H2AR3x/BOS/BOS_MsgCodes.h \
  ../../Thirdparty/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal.h \
  ../../H2AR3/stm32f0xx_hal_conf.h \
  ../../Thirdparty/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_rcc.h \
@@ -54,19 +53,18 @@ BOS/BOS_eeprom.o: \
  ../../Thirdparty/Middleware/FreeRTOS/Source/include/event_groups.h \
  ../../Thirdparty/Middleware/FreeRTOS/Source/include/timers.h \
  ../../Thirdparty/Middleware/FreeRTOS/Source/include/FreeRTOS_CLI.h \
- C:/Users/User/Desktop/hexa_projects/Modules_firmware/H2AR3-Firmware-master/BOS/BOS_eeprom.h \
- C:/Users/User/Desktop/hexa_projects/Modules_firmware/H2AR3-Firmware-master/BOS/BOS_utils.h \
- C:/Users/User/Desktop/hexa_projects/Modules_firmware/H2AR3-Firmware-master/BOS/BOS_messaging.h \
- C:/Users/User/Desktop/hexa_projects/Modules_firmware/H2AR3-Firmware-master/BOS/BOS_inputs.h \
+ D:/Hexabitz\ release/H2AR3x/BOS/BOS_eeprom.h \
+ D:/Hexabitz\ release/H2AR3x/BOS/BOS_utils.h \
+ D:/Hexabitz\ release/H2AR3x/BOS/BOS_messaging.h \
+ D:/Hexabitz\ release/H2AR3x/BOS/BOS_inputs.h \
  ../../Thirdparty/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_adc_ex.h \
  ../../H2AR3/H2AR3.h ../../BOS/BOS.h ../../H2AR3/H2AR3_MemoryMap.h \
  ../../H2AR3/H2AR3_uart.h ../../H2AR3/H2AR3_gpio.h \
- ../../H2AR3/H2AR3_dma.h \
- C:/Users/User/Desktop/hexa_projects/Modules_firmware/H2AR3-Firmware-master/BOS/BOS_DMA.h
+ ../../H2AR3/H2AR3_dma.h D:/Hexabitz\ release/H2AR3x/BOS/BOS_DMA.h
 
-C:/Users/User/Desktop/hexa_projects/Modules_firmware/H2AR3-Firmware-master/BOS/BOS.h:
+D:/Hexabitz\ release/H2AR3x/BOS/BOS.h:
 
-C:/Users/User/Desktop/hexa_projects/Modules_firmware/H2AR3-Firmware-master/BOS/BOS_MsgCodes.h:
+D:/Hexabitz\ release/H2AR3x/BOS/BOS_MsgCodes.h:
 
 ../../Thirdparty/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal.h:
 
@@ -172,13 +170,13 @@ C:/Users/User/Desktop/hexa_projects/Modules_firmware/H2AR3-Firmware-master/BOS/B
 
 ../../Thirdparty/Middleware/FreeRTOS/Source/include/FreeRTOS_CLI.h:
 
-C:/Users/User/Desktop/hexa_projects/Modules_firmware/H2AR3-Firmware-master/BOS/BOS_eeprom.h:
+D:/Hexabitz\ release/H2AR3x/BOS/BOS_eeprom.h:
 
-C:/Users/User/Desktop/hexa_projects/Modules_firmware/H2AR3-Firmware-master/BOS/BOS_utils.h:
+D:/Hexabitz\ release/H2AR3x/BOS/BOS_utils.h:
 
-C:/Users/User/Desktop/hexa_projects/Modules_firmware/H2AR3-Firmware-master/BOS/BOS_messaging.h:
+D:/Hexabitz\ release/H2AR3x/BOS/BOS_messaging.h:
 
-C:/Users/User/Desktop/hexa_projects/Modules_firmware/H2AR3-Firmware-master/BOS/BOS_inputs.h:
+D:/Hexabitz\ release/H2AR3x/BOS/BOS_inputs.h:
 
 ../../Thirdparty/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_adc_ex.h:
 
@@ -194,4 +192,4 @@ C:/Users/User/Desktop/hexa_projects/Modules_firmware/H2AR3-Firmware-master/BOS/B
 
 ../../H2AR3/H2AR3_dma.h:
 
-C:/Users/User/Desktop/hexa_projects/Modules_firmware/H2AR3-Firmware-master/BOS/BOS_DMA.h:
+D:/Hexabitz\ release/H2AR3x/BOS/BOS_DMA.h:

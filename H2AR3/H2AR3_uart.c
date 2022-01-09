@@ -1,5 +1,5 @@
 /*
- BitzOS (BOS) V0.2.5 - Copyright (C) 2017-2021 Hexabitz
+ BitzOS (BOS) V0.2.6 - Copyright (C) 2017-2022 Hexabitz
  All rights reserved
 
  File Name     : H2AR3_uart.c
@@ -156,33 +156,8 @@ void HAL_UART_MspInit(UART_HandleTypeDef* huart)
 {
 
   GPIO_InitTypeDef GPIO_InitStruct;
-  if(huart->Instance==USART1)
-  {
-	#ifdef _Usart1
-    /* Peripheral clock enable */
-    __USART1_CLK_ENABLE();
-  
-    /* USART1 GPIO Configuration */
-    GPIO_InitStruct.Pin = USART1_TX_PIN; 
-    GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
-    GPIO_InitStruct.Pull = GPIO_PULLUP;
-    GPIO_InitStruct.Speed = GPIO_SPEED_HIGH;
-    GPIO_InitStruct.Alternate = USART1_AF;	
-    HAL_GPIO_Init(USART1_TX_PORT, &GPIO_InitStruct);
-		
-		GPIO_InitStruct.Pin = USART1_RX_PIN;  
-    GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
-    GPIO_InitStruct.Pull = GPIO_PULLUP;
-    GPIO_InitStruct.Speed = GPIO_SPEED_HIGH;
-    GPIO_InitStruct.Alternate = USART1_AF;
-    HAL_GPIO_Init(USART1_RX_PORT, &GPIO_InitStruct);
 
-    /* Peripheral interrupt init*/
-    HAL_NVIC_SetPriority(USART1_IRQn, 1, 0);
-    HAL_NVIC_EnableIRQ(USART1_IRQn);
-	#endif
-  }
-  else if(huart->Instance==USART2)
+  if(huart->Instance==USART2)
   {
 	#ifdef _Usart2
     /* Peripheral clock enable */
@@ -234,32 +209,7 @@ void HAL_UART_MspInit(UART_HandleTypeDef* huart)
     HAL_NVIC_EnableIRQ(USART3_8_IRQn);
 	#endif
   }
-  else if(huart->Instance==USART4)
-  {
-	#ifdef _Usart4
-    /* Peripheral clock enable */
-    __USART4_CLK_ENABLE();
-  
-    /* USART4 GPIO Configuration */
-    GPIO_InitStruct.Pin = USART4_TX_PIN; 
-    GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
-    GPIO_InitStruct.Pull = GPIO_PULLUP;
-    GPIO_InitStruct.Speed = GPIO_SPEED_HIGH;
-    GPIO_InitStruct.Alternate = USART4_AF;	
-    HAL_GPIO_Init(USART4_TX_PORT, &GPIO_InitStruct);
-		
-		GPIO_InitStruct.Pin = USART4_RX_PIN;  
-    GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
-    GPIO_InitStruct.Pull = GPIO_PULLUP;
-    GPIO_InitStruct.Speed = GPIO_SPEED_HIGH;
-    GPIO_InitStruct.Alternate = USART4_AF;
-    HAL_GPIO_Init(USART4_RX_PORT, &GPIO_InitStruct);
 
-    /* Peripheral interrupt init*/
-    HAL_NVIC_SetPriority(USART3_8_IRQn, 1, 0);
-    HAL_NVIC_EnableIRQ(USART3_8_IRQn);
-	#endif
-  }
   else if(huart->Instance==USART5)
   {
 	#ifdef _Usart5

@@ -1,19 +1,19 @@
 /*
- BitzOS (BOS) V0.2.5 - Copyright (C) 2017-2021 Hexabitz
+ BitzOS (BOS) V0.2.6 - Copyright (C) 2017-2022 Hexabitz
  All rights reserved
 
- File Name     : H2AR3_it.c
+ File Name     : H0AR9_it.c
  Description   :Interrupt Service Routines.
+
  */
+
+
 /* Includes ------------------------------------------------------------------*/
 #include "BOS.h"
 
-extern DMA_HandleTypeDef hdma_adc;
-extern ADC_HandleTypeDef hadc;
 
 /* External variables --------------------------------------------------------*/
 extern uint8_t UARTRxBuf[NumOfPorts][MSG_RX_BUF_SIZE];
-//extern uint8_t UARTTxBuf[3][MSG_TX_BUF_SIZE];
 extern uint8_t UARTRxBufIndex[NumOfPorts];
 
 /* External function prototypes ----------------------------------------------*/
@@ -171,10 +171,6 @@ void DMA1_Ch4_7_DMA2_Ch3_5_IRQHandler(void)
 	} else if (HAL_DMA_GET_IT_SOURCE(DMA1,DMA_ISR_GIF7) == SET) {
 		HAL_DMA_IRQHandler(&msgTxDMA[2]);
 	}
-
-	 else if (HAL_DMA_GET_IT_SOURCE(DMA2,DMA_ISR_GIF5) == SET) {
-     	HAL_DMA_IRQHandler(&hdma_adc);
-	}
 }
 
 /*-----------------------------------------------------------*/
@@ -219,28 +215,14 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
 	if (portStatus[GetPort(huart)] == FREE || portStatus[GetPort(huart)] == MSG)
 	{
 		// Circular buffer is full. Set a global persistant flag via BOS events and a temporary flag via portStatus.
-		BOS.overrun = GetPort(huart);
+		BOSMessaging.overrun = GetPort(huart);
 		portStatus[GetPort(huart)] = OVERRUN;
 		// Reset the circular RX buffer index
 		UARTRxBufIndex[GetPort(huart)-1] = 0;
 		// Set a port-specific flag here and let the backend task restart DMA
 		MsgDMAStopped[GetPort(huart)-1] = true;	
 	}
-}
 
-/**
-  * @brief This function handles ADC and COMP interrupts (COMP interrupts through EXTI lines 21 and 22).
-  */
-
-void ADC1_COMP_IRQHandler(void)
-{
-  /* USER CODE BEGIN ADC1_COMP_IRQn 0 */
-
-  /* USER CODE END ADC1_COMP_IRQn 0 */
-  HAL_ADC_IRQHandler(&hadc);
-  /* USER CODE BEGIN ADC1_COMP_IRQn 1 */
-
-  /* USER CODE END ADC1_COMP_IRQn 1 */
 }
 
 /*-----------------------------------------------------------*/

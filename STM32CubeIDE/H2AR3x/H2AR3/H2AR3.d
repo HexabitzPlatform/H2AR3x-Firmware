@@ -1,6 +1,5 @@
-H2AR3/H2AR3.o: \
- C:/Users/User/Desktop/hexa_projects/Modules_firmware/H2AR3-Firmware-master/H2AR3/H2AR3.c \
- ../../BOS/BOS.h ../../BOS/BOS_MsgCodes.h \
+H2AR3/H2AR3.o: D:/Hexabitz\ release/H2AR3x/H2AR3/H2AR3.c ../../BOS/BOS.h \
+ ../../BOS/BOS_MsgCodes.h \
  ../../Thirdparty/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal.h \
  ../../H2AR3/stm32f0xx_hal_conf.h \
  ../../Thirdparty/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_rcc.h \

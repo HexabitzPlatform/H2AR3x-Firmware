@@ -1,5 +1,5 @@
 Thirdparty/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_pcd_ex.o: \
- C:/Users/User/Desktop/hexa_projects/Modules_firmware/H2AR3-Firmware-master/Thirdparty/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_pcd_ex.c \
+ D:/Hexabitz\ release/H2AR3x/Thirdparty/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_pcd_ex.c \
  ../../Thirdparty/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal.h \
  ../../H2AR3/stm32f0xx_hal_conf.h \
  ../../Thirdparty/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_rcc.h \

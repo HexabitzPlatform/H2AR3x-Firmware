@@ -1,5 +1,4 @@
-H2AR3/H2AR3_dma.o: \
- C:/Users/User/Desktop/hexa_projects/Modules_firmware/H2AR3-Firmware-master/H2AR3/H2AR3_dma.c \
+H2AR3/H2AR3_dma.o: D:/Hexabitz\ release/H2AR3x/H2AR3/H2AR3_dma.c \
  ../../BOS/BOS.h ../../BOS/BOS_MsgCodes.h \
  ../../Thirdparty/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal.h \
  ../../H2AR3/stm32f0xx_hal_conf.h \

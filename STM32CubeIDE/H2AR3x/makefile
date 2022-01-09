@@ -54,14 +54,15 @@ H2AR3x.hex \
 
 
 # All Target
-all: main-build
+all:
+	+@$(MAKE) --no-print-directory main-build && $(MAKE) --no-print-directory post-build
 
 # Main-build Target
 main-build: H2AR3x.elf secondary-outputs
 
 # Tool invocations
-H2AR3x.elf: $(OBJS) $(USER_OBJS) C:\Users\User\Desktop\hexa_projects\Modules_firmware\H2AR3-Firmware-master\STM32CubeIDE\STM32F091CBUX_FLASH.ld
-	arm-none-eabi-gcc -o "H2AR3x.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m0 -T"C:\Users\User\Desktop\hexa_projects\Modules_firmware\H2AR3-Firmware-master\STM32CubeIDE\STM32F091CBUX_FLASH.ld" --specs=nosys.specs -Wl,-Map="H2AR3x.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -u _printf_float -u _scanf_float -Wl,--start-group -lc -lm -Wl,--end-group
+H2AR3x.elf: $(OBJS) $(USER_OBJS) D:\Hexabitz\ release\H2AR3x\STM32CubeIDE\STM32F091CBUX_FLASH.ld
+	arm-none-eabi-gcc -o "H2AR3x.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m0 -T"D:\Hexabitz release\H2AR3x\STM32CubeIDE\STM32F091CBUX_FLASH.ld" --specs=nosys.specs -Wl,-Map="H2AR3x.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -u _printf_float -Wl,--start-group -lc -lm -Wl,--end-group
 	@echo 'Finished building target: $@'
 	@echo ' '
 
@@ -85,6 +86,10 @@ clean:
 	-$(RM) *
 	-@echo ' '
 
+post-build:
+	arm-none-eabi-objcopy -O ihex H2AR3x.elf H2AR3x.hex
+	-@echo ' '
+
 secondary-outputs: $(SIZE_OUTPUT) $(OBJDUMP_LIST) $(OBJCOPY_HEX)
 
 fail-specified-linker-script-missing:
@@ -95,6 +100,6 @@ warn-no-linker-script-specified:
 	@echo 'Warning: No linker script specified. Check the linker settings in the build configuration.'
 
 .PHONY: all clean dependents fail-specified-linker-script-missing warn-no-linker-script-specified
-.SECONDARY:
+.SECONDARY: post-build
 
 -include ../makefile.targets

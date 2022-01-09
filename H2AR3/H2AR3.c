@@ -1,5 +1,5 @@
 /*
- BitzOS (BOS)V0.2.5 - Copyright (C) 2017-2021 Hexabitz
+ BitzOS (BOS)V0.2.6 - Copyright (C) 2017-2022 Hexabitz
  All rights reserved
 
  File Name     : H2AR3.c
@@ -47,6 +47,8 @@ uint8_t startMeasurementRanging = STOP_MEASUREMENT_RANGING;
 
 
 float DATA_To_SEND = 0.0f;     //float
+//STM32CubeMonitor variable
+float DATA_To_SEND1 __attribute__((section(".mySection")));
 
 float measured_volt, measured_amp;
 
@@ -57,7 +59,7 @@ float measured_volt, measured_amp;
 #define VRef 1.65
 #define voltRatio 533.33333 //Amplifier ratio (150 / 4M) * 50
 #define shuntResistor 0.1
-#define ampTranRatio 0.01
+#define ampTranRatio 1
 
 #define IDLE_CASE                0
 #define STREAM_CLI_CASE          1
@@ -81,52 +83,26 @@ float H2AR3_Read_A;
 
 
 /* Private function prototypes -----------------------------------------------*/
-int
-SendResults(float message, uint8_t Mode, uint8_t unit, uint8_t Port,
-		uint8_t Module, float *Buffer);
-float
-CalculationVolt(void);
-float
-CalculationAmp(void);
-//static void HandleTimeout(TimerHandle_t xTimer);
-int
-SampleV(float *temp);
-int
-SampleA(float *temp);
-
-int
-StreamVToPort(uint8_t Port, uint8_t Module, uint32_t Period, uint32_t Timeout);
-
-int
-StreamAToPort(uint8_t Port, uint8_t Module, uint32_t Period, uint32_t Timeout);
-
-
-void
-VoltAmpTask(void *argument);
-void
-TimerTask(void *argument);
-static void
-CheckForEnterKey(void);
-static void
-HandleTimeout(TimerHandle_t xTimer);
+uint8_t SendResults(float message, uint8_t Mode, uint8_t unit, uint8_t Port,uint8_t Module, float *Buffer);
+float CalculationVolt(void);
+float CalculationAmp(void);
+uint8_t SampleV(float *temp);
+uint8_t SampleA(float *temp);
+uint8_t StreamVToPort(uint8_t Port, uint8_t Module, uint32_t Period, uint32_t Timeout);
+uint8_t StreamAToPort(uint8_t Port, uint8_t Module, uint32_t Period, uint32_t Timeout);
+void VoltAmpTask(void *argument);
+void TimerTask(void *argument);
+static void CheckForEnterKey(void);
+static void HandleTimeout(TimerHandle_t xTimer);
 
 /* Create CLI commands --------------------------------------------------------*/
 
-static portBASE_TYPE
-sampleCommand(int8_t *pcWriteBuffer, size_t xWriteBufferLen,
-		const int8_t *pcCommandString);
-static portBASE_TYPE
-streamCommand(int8_t *pcWriteBuffer, size_t xWriteBufferLen,
-		const int8_t *pcCommandString);
-static portBASE_TYPE
-stopCommand(int8_t *pcWriteBuffer, size_t xWriteBufferLen,
-		const int8_t *pcCommandString);
-static portBASE_TYPE
-unitCommand(int8_t *pcWriteBuffer, size_t xWriteBufferLen,
-		const int8_t *pcCommandString);
-static portBASE_TYPE
-demoCommand(int8_t *pcWriteBuffer, size_t xWriteBufferLen,
-		const int8_t *pcCommandString);
+static portBASE_TYPE sampleCommand(int8_t *pcWriteBuffer, size_t xWriteBufferLen,const int8_t *pcCommandString);
+static portBASE_TYPE streamCommand(int8_t *pcWriteBuffer, size_t xWriteBufferLen,const int8_t *pcCommandString);
+//static portBASE_TYPE StreamCommand(int8_t *pcWriteBuffer, size_t xWriteBufferLen, const int8_t *pcCommandString);
+static portBASE_TYPE stopCommand(int8_t *pcWriteBuffer, size_t xWriteBufferLen,const int8_t *pcCommandString);
+static portBASE_TYPE unitCommand(int8_t *pcWriteBuffer, size_t xWriteBufferLen,const int8_t *pcCommandString);
+static portBASE_TYPE demoCommand(int8_t *pcWriteBuffer, size_t xWriteBufferLen,const int8_t *pcCommandString);
 
 /*-----------------------------------------------------------*/
 
@@ -337,7 +313,11 @@ uint8_t ClearROtopology(void) {
 
 	return SaveToRO();
 }
-/* --- H0FR6 module initialization --- 
+void initialValue(void)
+{
+	DATA_To_SEND1=0.0;
+}
+/* --- H2AR3 module initialization ---
  */
 void Module_Peripheral_Init(void) {
 
@@ -353,7 +333,7 @@ void Module_Peripheral_Init(void) {
 			osPriorityNormal - osPriorityIdle, &VoltAmpHandle);
 
 	MX_ADC_Init();
-//	ADC_Channel_config();
+
 }
 
 /*-----------------------------------------------------------*/
@@ -370,29 +350,29 @@ Module_Status Module_MessagingTask(uint16_t code, uint8_t port, uint8_t src,
 	switch (code) {
 
 	case (CODE_H2AR3_STREAM_PORT_V):
-		period = ((uint32_t) cMessage[port - 1][1 + shift] << 24)
-				+ ((uint32_t) cMessage[port - 1][2 + shift] << 16)
-				+ ((uint32_t) cMessage[port - 1][3 + shift] << 8)
-				+ cMessage[port - 1][4 + shift];
-		timeout = ((uint32_t) cMessage[port - 1][5 + shift] << 24)
-				+ ((uint32_t) cMessage[port - 1][6 + shift] << 16)
-				+ ((uint32_t) cMessage[port - 1][7 + shift] << 8)
-				+ cMessage[port - 1][8 + shift];
-		StreamVToPort(cMessage[port - 1][9 + shift],
-				cMessage[port - 1][10 + shift], period, timeout);
+		period = ((uint32_t) cMessage[port - 1][2 + shift] << 24)
+				+ ((uint32_t) cMessage[port - 1][3 + shift] << 16)
+				+ ((uint32_t) cMessage[port - 1][4 + shift] << 8)
+				+ cMessage[port - 1][5 + shift];
+		timeout = ((uint32_t) cMessage[port - 1][6 + shift] << 24)
+				+ ((uint32_t) cMessage[port - 1][7 + shift] << 16)
+				+ ((uint32_t) cMessage[port - 1][8 + shift] << 8)
+				+ cMessage[port - 1][9 + shift];
+		StreamVToPort(cMessage[port - 1][1 + shift],
+				cMessage[port - 1][shift], period, timeout);
 		break;
 
 	case (CODE_H2AR3_STREAM_PORT_A):
-		period = ((uint32_t) cMessage[port - 1][1 + shift] << 24)
-				+ ((uint32_t) cMessage[port - 1][2 + shift] << 16)
-				+ ((uint32_t) cMessage[port - 1][3 + shift] << 8)
-				+ cMessage[port - 1][4 + shift];
-		timeout = ((uint32_t) cMessage[port - 1][5 + shift] << 24)
-				+ ((uint32_t) cMessage[port - 1][6 + shift] << 16)
-				+ ((uint32_t) cMessage[port - 1][7 + shift] << 8)
-				+ cMessage[port - 1][8 + shift];
-		StreamAToPort(cMessage[port - 1][9 + shift],
-				cMessage[port - 1][10 + shift], period, timeout);
+				period = ((uint32_t) cMessage[port - 1][2 + shift] << 24)
+						+ ((uint32_t) cMessage[port - 1][3 + shift] << 16)
+						+ ((uint32_t) cMessage[port - 1][4 + shift] << 8)
+						+ cMessage[port - 1][5 + shift];
+				timeout = ((uint32_t) cMessage[port - 1][6 + shift] << 24)
+						+ ((uint32_t) cMessage[port - 1][7 + shift] << 16)
+						+ ((uint32_t) cMessage[port - 1][8 + shift] << 8)
+						+ cMessage[port - 1][9 + shift];
+				StreamAToPort(cMessage[port - 1][1 + shift],
+						cMessage[port - 1][shift], period, timeout);
 		break;
 
 	case (CODE_H2AR3_STOP):
@@ -434,18 +414,27 @@ void RegisterModuleCLICommands(void) {
 
 /* --- Get the port for a given UART. 
  */
+//uint8_t GetPort(UART_HandleTypeDef *huart) {
+//	if (huart->Instance == USART4)
+//		return P1;
+//	else if (huart->Instance == USART2)
+//		return P2;
+//	else if (huart->Instance == USART6)
+//		return P3;
+//	else if (huart->Instance == USART3)
+//		return P4;
+//	else if (huart->Instance == USART1)
+//		return P5;
+//
+//	return 0;
+//}
 uint8_t GetPort(UART_HandleTypeDef *huart) {
-	if (huart->Instance == USART4)
+	if (huart->Instance == USART2)
 		return P1;
-	else if (huart->Instance == USART2)
-		return P2;
 	else if (huart->Instance == USART6)
-		return P3;
+		return P2;
 	else if (huart->Instance == USART3)
-		return P4;
-	else if (huart->Instance == USART1)
-		return P5;
-
+		return P3;
 	return 0;
 }
 
@@ -453,7 +442,7 @@ uint8_t GetPort(UART_HandleTypeDef *huart) {
 
 /* --- send results to x --- */
 
-int SendResults(float message, uint8_t Mode, uint8_t Unit, uint8_t Port,
+uint8_t SendResults(float message, uint8_t Mode, uint8_t Unit, uint8_t Port,
 		uint8_t Module, float *Buffer) {
 	float Raw_Msg = 0.0f;
 	uint32_t RawMsgInt = 0;
@@ -657,7 +646,7 @@ float CalculationVolt(void) {
 	raw_adc = Adc_Calculation(Volt);
 	_volt = (float)raw_adc * (3.3 / 4095);
 	_volt = _volt - VRef;
-	measured_volt = _volt * voltRatio; /////////////////final volt calculation here
+	measured_volt = _volt * (4000150/(50*150))+40/*voltRatio*/; /////////////////final volt calculation here
 	return measured_volt;
 }
 
@@ -666,7 +655,8 @@ float CalculationAmp(void) {
 	raw_adc = Adc_Calculation(Amp);
 	_volt = (float)raw_adc * (3.3 / 4095);
 	_volt = _volt - VRef;
-	measured_amp = ((_volt / 100) / shuntResistor) * ampTranRatio; /////////////////final amp calculation here
+	measured_amp = ((_volt * 100) / shuntResistor) * ampTranRatio; /////////////////final amp calculation here
+//	measured_amp = (_volt / shuntResistor) * ampTranRatio * 100;
 	return measured_amp;
 }
 
@@ -704,18 +694,18 @@ static void HandleTimeout(TimerHandle_t xTimer) {
  |																APIs	 																 	|
  -----------------------------------------------------------------------
  */
-int SampleV(float *volt) {
+uint8_t SampleV(float *volt) {
 
-	*volt = measured_volt;
+	*volt = CalculationVolt();
 	return (H2AR3_OK);
 }
 
-int SampleA(float *curr) {
-	*curr = measured_amp;
+uint8_t SampleA(float *curr) {
+	*curr = CalculationAmp();
 	return (H2AR3_OK);
 }
 
-int StreamVToPort(uint8_t Port, uint8_t Module, uint32_t Period,
+uint8_t StreamVToPort(uint8_t Port, uint8_t Module, uint32_t Period,
 		uint32_t Timeout) {
 	global_port = Port;
 	global_module = Module;
@@ -735,7 +725,7 @@ int StreamVToPort(uint8_t Port, uint8_t Module, uint32_t Period,
 	return (H2AR3_OK);
 }
 
-int StreamAToPort(uint8_t Port, uint8_t Module, uint32_t Period,
+uint8_t StreamAToPort(uint8_t Port, uint8_t Module, uint32_t Period,
 		uint32_t Timeout) {
 	global_port = Port;
 	global_module = Module;
@@ -756,7 +746,7 @@ int StreamAToPort(uint8_t Port, uint8_t Module, uint32_t Period,
 }
 
 
-int StreamVToBuffer(float *Buffer, uint32_t Period, uint32_t Timeout) {
+uint8_t StreamVToBuffer(float *Buffer, uint32_t Period, uint32_t Timeout) {
 	global_period = Period;
 	global_timeout = Timeout;
 	ptr_read_buffer = Buffer;
@@ -775,7 +765,7 @@ int StreamVToBuffer(float *Buffer, uint32_t Period, uint32_t Timeout) {
 	return (H2AR3_OK);
 }
 
-int StreamAToBuffer(float *Buffer, uint32_t Period, uint32_t Timeout) {
+uint8_t StreamAToBuffer(float *Buffer, uint32_t Period, uint32_t Timeout) {
 	global_period = Period;
 	global_timeout = Timeout;
 	ptr_read_buffer = Buffer;
@@ -823,7 +813,7 @@ float Average(uint8_t samples) {
 
 /*-----------------------------------------------------------*/
 
-int Stop(void) {
+uint8_t Stop(void) {
 	global_mode = IDLE_CASE;
 
 	xTimerStop(xTimer, 0);
@@ -835,7 +825,7 @@ int Stop(void) {
 
 /* --- stream weightvalue from channel ch to CLI
 */
-int StreamVToCLI(uint32_t Period, uint32_t Timeout)
+uint8_t StreamVToCLI(uint32_t Period, uint32_t Timeout)
 {
 
 	global_period=Period;
@@ -858,7 +848,7 @@ int StreamVToCLI(uint32_t Period, uint32_t Timeout)
 	return (H2AR3_OK);
 }
 
-int StreamAToCLI(uint32_t Period, uint32_t Timeout)
+uint8_t StreamAToCLI(uint32_t Period, uint32_t Timeout)
 {
 
 	global_period=Period;
@@ -940,17 +930,17 @@ static portBASE_TYPE sampleCommand(int8_t *pcWriteBuffer,
 
 	switch (unit) {
 	case Volt:
-		SampleV(&DATA_To_SEND);
+		SampleV(&DATA_To_SEND1);
 		break;
 	case Amp:
-		SampleA(&DATA_To_SEND);
+		SampleA(&DATA_To_SEND1);
 		break;
 	default:
-		SampleV(&DATA_To_SEND);
+		SampleV(&DATA_To_SEND1);
 	}
 
 	global_mode = SAMPLE_CLI_CASE;
-	SendResults(DATA_To_SEND, global_mode, unit, 0, 0, NULL);
+	SendResults(DATA_To_SEND1, global_mode, unit, 0, 0, NULL);
 
 	if (result != H2AR3_OK)
 		strcpy((char*) pcWriteBuffer, (char*) pcMessageError);
@@ -981,145 +971,100 @@ static portBASE_TYPE stopCommand(int8_t *pcWriteBuffer, size_t xWriteBufferLen,
 
 /*-----------------------------------------------------------*/
 
-static portBASE_TYPE streamCommand(int8_t *pcWriteBuffer,
-		size_t xWriteBufferLen, const int8_t *pcCommandString) {
-	static const int8_t *pcMessageBuffer =
-			(int8_t*) "Streaming measurements to internal buffer. Access in the CLI using module parameters: AC Current and Voltage \n\r";
-	static const int8_t *pcMessageModule =
-			(int8_t*) "Streaming measurements to port P%d in module #%d\n\r";
-	static const int8_t *pcMessageCLI =
-			(int8_t*) "Streaming measurements to the CLI\n\n\r";
-	static const int8_t *pcMessageError = (int8_t*) "Wrong parameter\r\n";
-	static const int8_t *pcMessageWrongName = (int8_t*) "Wrong module name\r\n";
-	int8_t *pcParameterString1; /* period */
-	int8_t *pcParameterString2; /* timeout */
-	int8_t *pcParameterString3; /* port or buffer */
-	int8_t *pcParameterString4; /* module */
-	portBASE_TYPE xParameterStringLength1 = 0;
-	portBASE_TYPE xParameterStringLength2 = 0;
-	portBASE_TYPE xParameterStringLength3 = 0;
-	portBASE_TYPE xParameterStringLength4 = 0;
+
+static bool streamCommandParser(const int8_t *pcCommandString, bool *pPortOrCLI, uint32_t *pPeriod, uint32_t *pTimeout, uint8_t *pPort, uint8_t *pModule)
+{
+	const char *pPeriodMSStr = NULL;
+	const char *pTimeoutMSStr = NULL;
+
+	portBASE_TYPE periodStrLen = 0;
+	portBASE_TYPE timeoutStrLen = 0;
+
+	const char *pPortStr = NULL;
+	const char *pModStr = NULL;
+
+	portBASE_TYPE portStrLen = 0;
+	portBASE_TYPE modStrLen = 0;
+
+	pPeriodMSStr = (const char *)FreeRTOS_CLIGetParameter(pcCommandString, 1, &periodStrLen);
+	pTimeoutMSStr = (const char *)FreeRTOS_CLIGetParameter(pcCommandString, 2, &timeoutStrLen);
+
+	// At least 3 Parameters are required!
+	if ((pPeriodMSStr == NULL) || (pTimeoutMSStr == NULL))
+		return false;
+
+	// TODO: Check if Period and Timeout are integers or not!
+	*pPeriod = atoi(pPeriodMSStr);
+	*pTimeout = atoi(pTimeoutMSStr);
+	*pPortOrCLI = true;
+
+	pPortStr = (const char *)FreeRTOS_CLIGetParameter(pcCommandString, 3, &portStrLen);
+	pModStr = (const char *)FreeRTOS_CLIGetParameter(pcCommandString, 4, &modStrLen);
+
+	if ((pModStr == NULL) && (pPortStr == NULL))
+		return true;
+	if ((pModStr == NULL) || (pPortStr == NULL))	// If user has provided 4 Arguments.
+		return false;
+
+	*pPort = atoi(pPortStr);
+	*pModule = atoi(pModStr);
+	*pPortOrCLI = false;
+
+	return true;
+}
+
+static portBASE_TYPE streamCommand(int8_t *pcWriteBuffer, size_t xWriteBufferLen, const int8_t *pcCommandString)
+{
+//	const char *const temperatureCmdName = "temp";
+
 	uint32_t period = 0;
 	uint32_t timeout = 0;
 	uint8_t port = 0;
 	uint8_t module = 0;
 
-	Module_Status result = H2AR3_OK;
+	bool portOrCLI = true; // Port Mode => false and CLI Mode => true
 
-	/* Remove compile time warnings about unused parameters, and check the
-	 write buffer is not NULL.  NOTE - for simplicity, this example assumes the
-	 write buffer length is adequate, so does not check for buffer overflows. */
-	(void) xWriteBufferLen;
-	configASSERT(pcWriteBuffer);
+	const char *pSensName = NULL;
+	portBASE_TYPE sensNameLen = 0;
 
-	/* Obtain the 1st parameter string: channel */
-	pcParameterString1 = (int8_t*) FreeRTOS_CLIGetParameter(pcCommandString, 1,
-			&xParameterStringLength1);
-	/* Obtain the 2nd parameter string: period */
-	pcParameterString2 = (int8_t*) FreeRTOS_CLIGetParameter(pcCommandString, 2,
-			&xParameterStringLength2);
-	/* Obtain the 3rd parameter string: timeout */
-	pcParameterString3 = (int8_t*) FreeRTOS_CLIGetParameter(pcCommandString, 3,
-			&xParameterStringLength3);
-	/* Obtain the 4th parameter string: port */
-	pcParameterString4 = (int8_t*) FreeRTOS_CLIGetParameter(pcCommandString, 4,
-			&xParameterStringLength4);
+	// Make sure we return something
+	*pcWriteBuffer = '\0';
 
-	if (NULL != pcParameterString1) {
-		period = atoi((char*) pcParameterString1);
-	} else {
-		result = H2AR3_ERR_WrongParams;
-	}
-
-	if (NULL != pcParameterString2) {
-		if (!strncmp((const char*) pcParameterString2, "inf", 3)) {
-			timeout = portMAX_DELAY;
-		} else {
-			timeout = atoi((char*) pcParameterString2);
-		}
-	} else {
-		result = H2AR3_ERR_WrongParams;
-	}
-	/* streaming data to internal buffer (module parameter) */
-	if (NULL != pcParameterString3
-			&& !strncmp((const char*) pcParameterString3, "buffer", 6)) {
-		strcpy((char*) pcWriteBuffer, (char*) pcMessageBuffer);
-		switch (unit) {
-		case Volt:
-			StreamVToBuffer(&volt_buffer, period, timeout);
-			break;
-		case Amp:
-			StreamAToBuffer(&amp_buffer, period, timeout);
-			break;
-		default:
-			StreamVToBuffer(&volt_buffer, period, timeout);
-		}
-
-		// Return right away here as we don't want to block the CLI
+	if (!streamCommandParser(pcCommandString,/* &pSensName, &sensNameLen, */&portOrCLI, &period, &timeout, &port, &module)) {
+		snprintf((char *)pcWriteBuffer, xWriteBufferLen, "Invalid Arguments\r\n");
 		return pdFALSE;
 	}
-	/* streaming data to port */
-	else if (NULL != pcParameterString3 && NULL != pcParameterString4
-			&& pcParameterString3[0] == 'p') {
-		port = (uint8_t) atol((char*) pcParameterString3 + 1);
-		module = (uint8_t) GetID((char*) pcParameterString4);
-		if (module != (uint8_t) BOS_ERR_WrongName) {
-			sprintf((char*) pcWriteBuffer, (char*) pcMessageModule, port,
-					module);
 
-			switch (unit) {
-			case Volt:
+	do {
+
+            if(unit == Volt)
+            {
+			if (portOrCLI) {
+				StreamVToCLI(period, timeout);
+
+			} else {
 				StreamVToPort(port, module, period, timeout);
-				break;
-			case Amp:
-				StreamAToPort(port, module, period, timeout);
-				break;
-			default:
-				StreamVToPort(port, module, period, timeout);
+
 			}
-			// Return right away here as we don't want to block the CLI
-			return pdFALSE;
-		} else {
-			strcpy((char*) pcWriteBuffer, (char*) pcMessageWrongName);
-		}
-	}
+            }
+            else if(unit == Amp)
+            {
+    		if (portOrCLI) {
+    			StreamAToCLI(period, timeout);
 
-	/* Stream to the CLI */
-		else if (NULL == pcParameterString3)
-		{
+    		} else {
+    			StreamAToPort(port, module, period, timeout);
 
-				strcpy(( char * ) pcWriteBuffer, ( char * ) pcMessageCLI);
-				writePxMutex(PcPort, (char *)pcWriteBuffer, strlen((char *)pcWriteBuffer), cmd50ms, HAL_MAX_DELAY);
-				switch (unit) {
-				case Volt:
-					StreamVToCLI(period, timeout);
-					break;
-				case Amp:
-					StreamAToCLI(period, timeout);
-					break;
-				default:
-					StreamVToCLI(period, timeout);
-				}
+    		}
+            }
 
-				/* Wait till the end of stream */
-				while(startMeasurementRanging != STOP_MEASUREMENT_RANGING){taskYIELD();}
-				/* clean terminal output */
-				memset((char *) pcWriteBuffer, 0, strlen((char *)pcWriteBuffer));
-		}
+		snprintf((char *)pcWriteBuffer, xWriteBufferLen, "\r\n");
+		return pdFALSE;
+	} while (0);
 
-	else {
-		result = H2AR3_ERR_WrongParams;
-	}
-
-	if (H2AR3_ERR_WrongParams == result) {
-		strcpy((char*) pcWriteBuffer, (char*) pcMessageError);
-	}
-
-	/* There is no more data to return after this single string, so return pdFALSE. */
+	snprintf((char *)pcWriteBuffer, xWriteBufferLen, "Error reading Sensor\r\n");
 	return pdFALSE;
-
 }
-
 /*-----------------------------------------------------------*/
 
 portBASE_TYPE demoCommand(int8_t *pcWriteBuffer, size_t xWriteBufferLen,

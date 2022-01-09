@@ -1,6 +1,6 @@
 Thirdparty/Middleware/FreeRTOS/Source/CMSIS_RTOS/cmsis_os.o: \
- C:/Users/User/Desktop/hexa_projects/Modules_firmware/H2AR3-Firmware-master/Thirdparty/Middleware/FreeRTOS/Source/CMSIS_RTOS/cmsis_os.c \
- C:/Users/User/Desktop/hexa_projects/Modules_firmware/H2AR3-Firmware-master/Thirdparty/Middleware/FreeRTOS/Source/CMSIS_RTOS/cmsis_os.h \
+ D:/Hexabitz\ release/H2AR3x/Thirdparty/Middleware/FreeRTOS/Source/CMSIS_RTOS/cmsis_os.c \
+ D:/Hexabitz\ release/H2AR3x/Thirdparty/Middleware/FreeRTOS/Source/CMSIS_RTOS/cmsis_os.h \
  ../../Thirdparty/CMSIS/Include/core_cmFunc.h \
  ../../Thirdparty/Middleware/FreeRTOS/Source/include/FreeRTOS.h \
  ../../BOS/FreeRTOSConfig.h \
@@ -19,7 +19,7 @@ Thirdparty/Middleware/FreeRTOS/Source/CMSIS_RTOS/cmsis_os.o: \
  ../../Thirdparty/Middleware/FreeRTOS/Source/include/event_groups.h \
  ../../Thirdparty/Middleware/FreeRTOS/Source/include/timers.h
 
-C:/Users/User/Desktop/hexa_projects/Modules_firmware/H2AR3-Firmware-master/Thirdparty/Middleware/FreeRTOS/Source/CMSIS_RTOS/cmsis_os.h:
+D:/Hexabitz\ release/H2AR3x/Thirdparty/Middleware/FreeRTOS/Source/CMSIS_RTOS/cmsis_os.h:
 
 ../../Thirdparty/CMSIS/Include/core_cmFunc.h:
 

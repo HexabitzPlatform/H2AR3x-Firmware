@@ -1,5 +1,5 @@
 /*
- BitzOS (BOS) V0.2.5 - Copyright (C) 2017-2021 Hexabitz
+ BitzOS (BOS) V0.2.6 - Copyright (C) 2017-2022 Hexabitz
  All rights reserved
 
  File Name     : H2AR3_gpio.c
@@ -109,18 +109,10 @@ BOS_Status GetPortGPIOs(uint8_t port, uint32_t *TX_Port, uint16_t *TX_Pin, uint3
 	
 	/* Get port UART */
 	UART_HandleTypeDef* huart = GetUart(port);
-	
-	if (huart == &huart1) 
-	{	
-#ifdef _Usart1		
-		*TX_Port = (uint32_t)USART1_TX_PORT;
-		*TX_Pin = USART1_TX_PIN;
-		*RX_Port = (uint32_t)USART1_RX_PORT;
-		*RX_Pin = USART1_RX_PIN;
-#endif
-	} 
+
+
 #ifdef _Usart2	
-	else if (huart == &huart2) 
+	if (huart == &huart2)
 	{	
 		*TX_Port = (uint32_t)USART2_TX_PORT;
 		*TX_Pin = USART2_TX_PIN;
@@ -137,15 +129,7 @@ BOS_Status GetPortGPIOs(uint8_t port, uint32_t *TX_Port, uint16_t *TX_Pin, uint3
 		*RX_Pin = USART3_RX_PIN;
 	} 
 #endif
-#ifdef _Usart4	
-	else if (huart == &huart4) 
-	{	
-		*TX_Port = (uint32_t)USART4_TX_PORT;
-		*TX_Pin = USART4_TX_PIN;
-		*RX_Port = (uint32_t)USART4_RX_PORT;
-		*RX_Pin = USART4_RX_PIN;
-	} 
-#endif
+
 #ifdef _Usart5	
 	else if (huart == &huart5) 
 	{	

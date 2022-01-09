@@ -1,5 +1,5 @@
 Thirdparty/CMSIS/Device/ST/STM32F0xx/Source/Templates/system_stm32f0xx.o: \
- C:/Users/User/Desktop/hexa_projects/Modules_firmware/H2AR3-Firmware-master/Thirdparty/CMSIS/Device/ST/STM32F0xx/Source/Templates/system_stm32f0xx.c \
+ D:/Hexabitz\ release/H2AR3x/Thirdparty/CMSIS/Device/ST/STM32F0xx/Source/Templates/system_stm32f0xx.c \
  ../../Thirdparty/CMSIS/Device/ST/STM32F0xx/Include/stm32f0xx.h \
  ../../Thirdparty/CMSIS/Device/ST/STM32F0xx/Include/stm32f091xc.h \
  ../../Thirdparty/CMSIS/Include/core_cm0.h \
