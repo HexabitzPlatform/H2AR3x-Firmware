@@ -15,7 +15,8 @@
 #include "H2AR3_uart.h"
 #include "H2AR3_gpio.h"
 #include "H2AR3_dma.h"
-	
+#include "H2AR3_inputs.h"
+#include "H2AR3_eeprom.h"
 	
 /* Exported definitions -------------------------------------------------------*/
 
@@ -283,4 +284,6 @@ extern float CalculationAmp(void);
 //extern float CalculationVolt(void);
 //extern float CalculationAmp(void);
 //#endif
+void SetupPortForRemoteBootloaderUpdate(uint8_t port);
+void remoteBootloaderUpdate(uint8_t src,uint8_t dst,uint8_t inport,uint8_t outport);
 ///************************ (C) COPYRIGHT HEXABITZ *****END OF FILE****/
