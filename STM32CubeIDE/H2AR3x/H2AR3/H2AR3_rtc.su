@@ -1,4 +1,4 @@
-H2AR3_rtc.c:81:12:RTC_CalendarConfig	80	static
+H2AR3_rtc.c:81:12:RTC_CalendarConfig	88	static
 H2AR3_rtc.c:29:12:RTC_Init	8	static
 H2AR3_rtc.c:136:12:BOS_CalendarConfig	48	static
 H2AR3_rtc.c:191:6:GetTimeDate	48	static

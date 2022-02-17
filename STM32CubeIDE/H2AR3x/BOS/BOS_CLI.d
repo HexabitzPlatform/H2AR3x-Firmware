@@ -1,6 +1,7 @@
-BOS/BOS_CLI.o: D:/Hexabitz\ release/H2AR3x/BOS/BOS_CLI.c \
- D:/Hexabitz\ release/H2AR3x/BOS/BOS.h \
- D:/Hexabitz\ release/H2AR3x/BOS/BOS_MsgCodes.h \
+BOS/BOS_CLI.o: \
+ D:/Hexabitz/for\ Release/Modules\ firmware/H2AR3x/BOS/BOS_CLI.c \
+ D:/Hexabitz/for\ Release/Modules\ firmware/H2AR3x/BOS/BOS.h \
+ D:/Hexabitz/for\ Release/Modules\ firmware/H2AR3x/BOS/BOS_MsgCodes.h \
  ../../Thirdparty/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal.h \
  ../../H2AR3/stm32f0xx_hal_conf.h \
  ../../Thirdparty/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_rcc.h \
@@ -53,17 +54,18 @@ BOS/BOS_CLI.o: D:/Hexabitz\ release/H2AR3x/BOS/BOS_CLI.c \
  ../../Thirdparty/Middleware/STM32F0xx/FreeRTOS/Source/include/event_groups.h \
  ../../Thirdparty/Middleware/STM32F0xx/FreeRTOS/Source/include/timers.h \
  ../../Thirdparty/Middleware/STM32F0xx/FreeRTOS/Source/include/FreeRTOS_CLI.h \
- D:/Hexabitz\ release/H2AR3x/BOS/BOS_utils.h \
- D:/Hexabitz\ release/H2AR3x/BOS/BOS_messaging.h ../../H2AR3/H2AR3.h \
- ../../BOS/BOS.h ../../H2AR3/H2AR3_MemoryMap.h ../../H2AR3/H2AR3_uart.h \
- ../../H2AR3/H2AR3_gpio.h ../../H2AR3/H2AR3_dma.h \
- ../../H2AR3/H2AR3_inputs.h \
+ D:/Hexabitz/for\ Release/Modules\ firmware/H2AR3x/BOS/BOS_utils.h \
+ D:/Hexabitz/for\ Release/Modules\ firmware/H2AR3x/BOS/BOS_messaging.h \
+ ../../H2AR3/H2AR3.h ../../BOS/BOS.h ../../H2AR3/H2AR3_MemoryMap.h \
+ ../../H2AR3/H2AR3_uart.h ../../H2AR3/H2AR3_gpio.h \
+ ../../H2AR3/H2AR3_dma.h ../../H2AR3/H2AR3_inputs.h \
  ../../Thirdparty/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_adc_ex.h \
- ../../H2AR3/H2AR3_eeprom.h D:/Hexabitz\ release/H2AR3x/BOS/BOS_DMA.h
+ ../../H2AR3/H2AR3_eeprom.h \
+ D:/Hexabitz/for\ Release/Modules\ firmware/H2AR3x/BOS/BOS_DMA.h
 
-D:/Hexabitz\ release/H2AR3x/BOS/BOS.h:
+D:/Hexabitz/for\ Release/Modules\ firmware/H2AR3x/BOS/BOS.h:
 
-D:/Hexabitz\ release/H2AR3x/BOS/BOS_MsgCodes.h:
+D:/Hexabitz/for\ Release/Modules\ firmware/H2AR3x/BOS/BOS_MsgCodes.h:
 
 ../../Thirdparty/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal.h:
 
@@ -169,9 +171,9 @@ D:/Hexabitz\ release/H2AR3x/BOS/BOS_MsgCodes.h:
 
 ../../Thirdparty/Middleware/STM32F0xx/FreeRTOS/Source/include/FreeRTOS_CLI.h:
 
-D:/Hexabitz\ release/H2AR3x/BOS/BOS_utils.h:
+D:/Hexabitz/for\ Release/Modules\ firmware/H2AR3x/BOS/BOS_utils.h:
 
-D:/Hexabitz\ release/H2AR3x/BOS/BOS_messaging.h:
+D:/Hexabitz/for\ Release/Modules\ firmware/H2AR3x/BOS/BOS_messaging.h:
 
 ../../H2AR3/H2AR3.h:
 
@@ -191,4 +193,4 @@ D:/Hexabitz\ release/H2AR3x/BOS/BOS_messaging.h:
 
 ../../H2AR3/H2AR3_eeprom.h:
 
-D:/Hexabitz\ release/H2AR3x/BOS/BOS_DMA.h:
+D:/Hexabitz/for\ Release/Modules\ firmware/H2AR3x/BOS/BOS_DMA.h:

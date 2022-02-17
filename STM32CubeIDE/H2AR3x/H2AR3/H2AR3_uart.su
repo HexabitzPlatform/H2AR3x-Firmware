@@ -3,7 +3,7 @@ H2AR3_uart.c:42:6:MX_USART2_UART_Init	8	static
 H2AR3_uart.c:65:6:MX_USART3_UART_Init	8	static
 H2AR3_uart.c:88:6:MX_USART4_UART_Init	8	static
 H2AR3_uart.c:134:6:MX_USART6_UART_Init	8	static
-H2AR3_uart.c:155:6:HAL_UART_MspInit	56	static
+H2AR3_uart.c:155:6:HAL_UART_MspInit	64	static
 H2AR3_uart.c:374:21:GetUart	0	static
 H2AR3_uart.c:269:19:readPxMutex	32	static
 H2AR3_uart.c:289:19:writePxMutex	32	static
@@ -12,6 +12,6 @@ H2AR3_uart.c:325:19:writePxITMutex	32	static
 H2AR3_uart.c:341:19:writePxDMAMutex	32	static
 H2AR3_uart.c:361:12:UpdateBaudrate	8	static
 H2AR3_uart.c:427:6:SwapUartPins	16	static
-H2AR3_uart.c:445:12:ReadPortsDir	32	static
-H2AR3_uart.c:468:12:ReadPortsDirMSG	32	static
+H2AR3_uart.c:445:12:ReadPortsDir	24	static
+H2AR3_uart.c:468:12:ReadPortsDirMSG	24	static
 H2AR3_uart.c:485:12:UpdateMyPortsDir	24	static

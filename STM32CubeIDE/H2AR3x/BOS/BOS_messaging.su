@@ -1,7 +1,7 @@
 BOS_messaging.c:116:6:StreamTimerCallback	8	static
-BOS_messaging.c:64:12:SetupDMAStreams	40	static
+BOS_messaging.c:64:12:SetupDMAStreams	32	static
 BOS_messaging.c:174:6:NotifyMessagingTask	8	static
-BOS_messaging.c:307:12:SendMessageFromPort	64	static
+BOS_messaging.c:307:12:SendMessageFromPort	56	static
 BOS_messaging.c:130:12:ForwardReceivedMessage	24	static
 BOS_messaging.c:153:12:BroadcastReceivedMessage	16	static
 BOS_messaging.c:221:12:BroadcastMessage	24	static

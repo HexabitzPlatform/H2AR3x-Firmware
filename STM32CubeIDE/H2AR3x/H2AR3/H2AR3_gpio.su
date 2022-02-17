@@ -1,4 +1,4 @@
 H2AR3_gpio.c:35:6:IND_LED_Init	32	static
 H2AR3_gpio.c:20:6:GPIO_Init	32	static
-H2AR3_gpio.c:106:12:GetPortGPIOs	16	static
+H2AR3_gpio.c:106:12:GetPortGPIOs	24	static
 H2AR3_gpio.c:52:9:IsFactoryReset	88	static

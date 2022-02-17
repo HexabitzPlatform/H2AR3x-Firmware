@@ -1,5 +1,5 @@
 Thirdparty/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_cec.o: \
- D:/Hexabitz\ release/H2AR3x/Thirdparty/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_cec.c \
+ D:/Hexabitz/for\ Release/Modules\ firmware/H2AR3x/Thirdparty/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_cec.c \
  ../../Thirdparty/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal.h \
  ../../H2AR3/stm32f0xx_hal_conf.h \
  ../../Thirdparty/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_rcc.h \

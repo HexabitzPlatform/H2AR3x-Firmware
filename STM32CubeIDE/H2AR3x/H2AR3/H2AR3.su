@@ -6,7 +6,7 @@ H2AR3.c:211:9:SaveToRO	72	static
 H2AR3.c:308:9:ClearROtopology	8	static
 H2AR3.c:316:6:initialValue	0	static
 H2AR3.c:376:6:SetupPortForRemoteBootloaderUpdate	8	static
-H2AR3.c:324:6:remoteBootloaderUpdate	48	static
+H2AR3.c:324:6:remoteBootloaderUpdate	40	static
 H2AR3.c:389:6:Module_Peripheral_Init	24	static
 H2AR3.c:470:6:RegisterModuleCLICommands	8	static
 H2AR3.c:498:9:GetPort	0	static
