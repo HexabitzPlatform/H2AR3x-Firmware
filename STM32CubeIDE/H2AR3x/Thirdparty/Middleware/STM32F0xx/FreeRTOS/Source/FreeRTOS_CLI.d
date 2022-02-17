@@ -1,5 +1,5 @@
 Thirdparty/Middleware/STM32F0xx/FreeRTOS/Source/FreeRTOS_CLI.o: \
- D:/Hexabitz/for\ Release/Modules\ firmware/H2AR3x/Thirdparty/Middleware/STM32F0xx/FreeRTOS/Source/FreeRTOS_CLI.c \
+ D:/Hexabitz\ release/H2AR3x/Thirdparty/Middleware/STM32F0xx/FreeRTOS/Source/FreeRTOS_CLI.c \
  ../../Thirdparty/Middleware/STM32F0xx/FreeRTOS/Source/include/FreeRTOS.h \
  ../../BOS/FreeRTOSConfig.h \
  ../../Thirdparty/Middleware/STM32F0xx/FreeRTOS/Source/include/projdefs.h \

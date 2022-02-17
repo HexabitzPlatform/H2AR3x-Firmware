@@ -14,7 +14,7 @@ queue.c:544:13:xQueueTakeMutexRecursive	16	static
 queue.c:1555:12:xQueueReceiveFromISR	32	static
 queue.c:1642:12:xQueuePeekFromISR	24	static
 queue.c:1696:13:uxQueueMessagesWaiting	8	static
-queue.c:1712:13:uxQueueSpacesAvailable	8	static
+queue.c:1712:13:uxQueueSpacesAvailable	16	static
 queue.c:1730:13:uxQueueMessagesWaitingFromISR	0	static
 queue.c:1760:14:uxQueueGetQueueNumber	0	static
 queue.c:1770:7:vQueueSetQueueNumber	0	static
