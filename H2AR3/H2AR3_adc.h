@@ -15,7 +15,7 @@
 #include "stm32f0xx_hal.h"
 
 DMA_HandleTypeDef hdma_adc;
-ADC_HandleTypeDef hadc;
+extern ADC_HandleTypeDef hadc;
 
 #define volt_measure_input_Pin GPIO_PIN_1
 #define volt_measure_input_GPIO_Port GPIOB
