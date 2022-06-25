@@ -1,5 +1,5 @@
 /*
- BitzOS (BOS)V0.2.6 - Copyright (C) 2017-2022 Hexabitz
+ BitzOS (BOS)V0.2.7 - Copyright (C) 2017-2022 Hexabitz
  All rights reserved
 
  File Name     : H2AR3.c
@@ -405,7 +405,7 @@ void Module_Peripheral_Init(void) {
 
 /*-----------------------------------------------------------*/
 
-/* --- H0FR6 message processing task. 
+/* --- H2AR3 message processing task. 
  */
 Module_Status Module_MessagingTask(uint16_t code, uint8_t port, uint8_t src,
 		uint8_t dst, uint8_t shift) {
@@ -417,27 +417,27 @@ Module_Status Module_MessagingTask(uint16_t code, uint8_t port, uint8_t src,
 	switch (code) {
 
 	case (CODE_H2AR3_STREAM_PORT_V):
-		period = ((uint32_t) cMessage[port - 1][2 + shift] << 24)
-				+ ((uint32_t) cMessage[port - 1][3 + shift] << 16)
-				+ ((uint32_t) cMessage[port - 1][4 + shift] << 8)
-				+ cMessage[port - 1][5 + shift];
-		timeout = ((uint32_t) cMessage[port - 1][6 + shift] << 24)
-				+ ((uint32_t) cMessage[port - 1][7 + shift] << 16)
-				+ ((uint32_t) cMessage[port - 1][8 + shift] << 8)
-				+ cMessage[port - 1][9 + shift];
+		period = ((uint32_t) cMessage[port - 1][2 + shift] )
+				+ ((uint32_t) cMessage[port - 1][3 + shift] << 8)
+				+ ((uint32_t) cMessage[port - 1][4 + shift] << 16)
+				+ ((uint32_t)cMessage[port - 1][5 + shift] <<24);
+		timeout = ((uint32_t) cMessage[port - 1][6 + shift] )
+				+ ((uint32_t) cMessage[port - 1][7 + shift] << 8)
+				+ ((uint32_t) cMessage[port - 1][8 + shift] << 16)
+				+ ((uint32_t)cMessage[port - 1][9 + shift] <<24);
 		StreamVToPort(cMessage[port - 1][1 + shift],
 				cMessage[port - 1][shift], period, timeout);
 		break;
 
 	case (CODE_H2AR3_STREAM_PORT_A):
-				period = ((uint32_t) cMessage[port - 1][2 + shift] << 24)
-						+ ((uint32_t) cMessage[port - 1][3 + shift] << 16)
-						+ ((uint32_t) cMessage[port - 1][4 + shift] << 8)
-						+ cMessage[port - 1][5 + shift];
-				timeout = ((uint32_t) cMessage[port - 1][6 + shift] << 24)
-						+ ((uint32_t) cMessage[port - 1][7 + shift] << 16)
-						+ ((uint32_t) cMessage[port - 1][8 + shift] << 8)
-						+ cMessage[port - 1][9 + shift];
+				period = ((uint32_t) cMessage[port - 1][2 + shift] )
+						+ ((uint32_t) cMessage[port - 1][3 + shift] << 8)
+						+ ((uint32_t) cMessage[port - 1][4 + shift] << 16)
+						+ ((uint32_t)cMessage[port - 1][5 + shift] <<24);
+				timeout = ((uint32_t) cMessage[port - 1][6 + shift] )
+						+ ((uint32_t) cMessage[port - 1][7 + shift] << 8)
+						+ ((uint32_t) cMessage[port - 1][8 + shift] << 16)
+						+((uint32_t) cMessage[port - 1][9 + shift] <<24);
 				StreamAToPort(cMessage[port - 1][1 + shift],
 						cMessage[port - 1][shift], period, timeout);
 		break;

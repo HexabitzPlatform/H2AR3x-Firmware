@@ -1,5 +1,5 @@
 /*
- BitzOS (BOS) V0.2.6 - Copyright (C) 2017-2022 Hexabitz
+ BitzOS (BOS) V0.2.7 - Copyright (C) 2017-2022 Hexabitz
  All rights reserved
 
  File Name     : H2AR3_adc.h
@@ -15,7 +15,7 @@
 #include "stm32f0xx_hal.h"
 
 DMA_HandleTypeDef hdma_adc;
-ADC_HandleTypeDef hadc;
+extern ADC_HandleTypeDef hadc;
 
 #define volt_measure_input_Pin GPIO_PIN_1
 #define volt_measure_input_GPIO_Port GPIOB
