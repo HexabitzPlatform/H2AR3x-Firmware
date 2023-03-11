@@ -10,5 +10,5 @@ H2AR3_it.c:163:6:DMA1_Ch4_7_DMA2_Ch3_5_IRQHandler	8	static
 H2AR3_it.c:185:6:HAL_UART_TxCpltCallback	16	static
 H2AR3_it.c:199:6:HAL_UART_ErrorCallback	8	static
 H2AR3_it.c:218:6:HAL_UART_RxCpltCallback	40	static
-H2AR3_it.c:293:6:vApplicationStackOverflowHook	24	static
-H2AR3_it.c:315:6:vApplicationMallocFailedHook	24	static
+H2AR3_it.c:299:6:vApplicationStackOverflowHook	24	static
+H2AR3_it.c:321:6:vApplicationMallocFailedHook	24	static
