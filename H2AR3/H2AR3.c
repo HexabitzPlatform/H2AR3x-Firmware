@@ -1,5 +1,5 @@
 /*
- BitzOS (BOS)V0.2.7 - Copyright (C) 2017-2022 Hexabitz
+ BitzOS (BOS)V0.2.9 - Copyright (C) 2017-2023 Hexabitz
  All rights reserved
 
  File Name     : H2AR3.c
@@ -711,9 +711,13 @@ static uint32_t Adc_Calculation(uint8_t selected) {
 float CalculationVolt(void) {
 
 	raw_adc = Adc_Calculation(Volt);
-	_volt = (float)raw_adc * (3.3 / 4095);
+	_volt = (float)raw_adc * (3.3 / 4095);// 12 bit resolution
 	_volt = _volt - VRef;
-	measured_volt = _volt * (4000150/(50*150))+40/*voltRatio*/; /////////////////final volt calculation here
+	// the following condition is required in case of phase absence for 2LSB hystress
+	//if((_volt<0.04)&&(_volt>-0.04)) {_volt=0;}// better than +-0.0016
+	//measured_volt = _volt * (4000150/(50*150))+40/*voltRatio*/; /////////////////final volt calculation here
+	// what is the voltage ratio in the order of fourty volts!!!??
+	measured_volt = _volt * (4000150/(50*150));//measured_volt =0;533.3533
 	return measured_volt;
 }
 
@@ -722,8 +726,11 @@ float CalculationAmp(void) {
 	raw_adc = Adc_Calculation(Amp);
 	_volt = (float)raw_adc * (3.3 / 4095);
 	_volt = _volt - VRef;
-	measured_amp = ((_volt * 100) / shuntResistor) * ampTranRatio; /////////////////final amp calculation here
+//	measured_amp = ((_volt * 100) / shuntResistor) * ampTranRatio; /////////////////final amp calculation here
 //	measured_amp = (_volt / shuntResistor) * ampTranRatio * 100;
+	//if ((_volt<0.04)&&(_volt>-0.04)) {_volt=0;}
+	//measured_amp = _volt/0.0841;
+	measured_amp =(_volt/0.009795);//2.5 we have to make average error of vref before load is switched on
 	return measured_amp;
 }
 
