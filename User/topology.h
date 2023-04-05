@@ -24,36 +24,36 @@
 #define _mod2	2<<3
 
 // Topology
-static uint16_t array[__N ][7] ={
-	{_H2AR3, _mod2 | P1, 0, 0, 0, 0, 0}, 						 // Module 1
-	{_H01R0, _mod1 | P1, 0, 0, 0, 0, 0},					     // Module 2
-};
+ static uint16_t array[__N ][7] ={
+ 	{_H2AR3, 0, _mod2 | P2, 0, 0, 0, 0}, 						 // Module 1
+ 	{_H2AR3, 0, _mod1 | P2,0, 0, 0, 0},					     // Module 2
+ };
 
-// Configurations for duplex serial ports
-#if ( _module == 1 )
-	#define	H2AR3	1
-	#define	_P1pol_normal	1
-	#define	_P2pol_normal	1
-	#define	_P3pol_normal	1
-	#define	_P4pol_normal	1
-	#define	_P5pol_normal	1
-	#define	_P6pol_normal	1
-#endif
+ // Configurations for duplex serial ports
+ #if ( _module == 1 )
+ 	#define	H2AR3	1
+ 	#define	_P1pol_normal	1
+ 	#define	_P2pol_normal	1
+ 	#define	_P3pol_normal	1
+ 	#define	_P4pol_normal	1
+ 	#define	_P5pol_normal	1
+ 	#define	_P6pol_normal	1
+ #endif
 
-#if ( _module == 2 )
-	#define	H01R0	1
-	#define	_P1pol_reversed	1
-	#define	_P2pol_normal	1
-	#define	_P3pol_normal	1
-	#define	_P4pol_normal	1
-	#define	_P5pol_normal	1
-	#define	_P6pol_normal	1
+ #if ( _module == 2 )
+ 	#define	H2AR3	1
+ 	#define	_P1pol_normal	1
+ 	#define	_P2pol_reversed	1
+ 	#define	_P3pol_normal	1
+ 	#define	_P4pol_normal	1
+ 	#define	_P5pol_normal	1
+ 	#define	_P6pol_normal	1
 
-#endif
+ #endif
 
-#ifdef __cplusplus
-}
-#endif
-#endif /*__ topology_H */
+ #ifdef __cplusplus
+ }
+ #endif
+ #endif /*__ topology_H */
 
-/************************ (C) COPYRIGHT HEXABITZ *****END OF FILE****/
+ /************************ (C) COPYRIGHT HEXABITZ *****END OF FILE****/

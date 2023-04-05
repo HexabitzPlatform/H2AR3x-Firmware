@@ -1,6 +1,6 @@
 H2AR3_inputs.c:68:13:buttonPressedCallback	0	static
-H2AR3_inputs.c:309:12:CheckForTimedButtonPress	8	static
-H2AR3_inputs.c:334:12:CheckForTimedButtonRelease	8	static
+H2AR3_inputs.c:309:12:CheckForTimedButtonPress	12	static
+H2AR3_inputs.c:334:12:CheckForTimedButtonRelease	12	static
 H2AR3_inputs.c:359:6:ResetAttachedButtonStates	0	static
 H2AR3_inputs.c:375:12:AddPortButton	72	static
 H2AR3_inputs.c:445:12:RemovePortButton	24	static
@@ -22,4 +22,4 @@ H2AR3_inputs.c:927:13:buttonClickedCallback	0	static
 H2AR3_inputs.c:935:13:buttonDblClickedCallback	0	static
 H2AR3_inputs.c:943:13:buttonPressedForXCallback	0	static
 H2AR3_inputs.c:951:13:buttonReleasedForYCallback	0	static
-H2AR3_inputs.c:73:6:CheckAttachedButtons	72	static
+H2AR3_inputs.c:73:6:CheckAttachedButtons	56	static

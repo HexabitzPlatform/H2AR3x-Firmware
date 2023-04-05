@@ -12,7 +12,7 @@ H2AR3_dma.c:237:6:DMA_MSG_TX_UnSetup	8	static
 H2AR3_dma.c:412:6:RemapAndLinkDMAtoUARTRx	16	static
 H2AR3_dma.c:194:6:DMA_MSG_RX_Setup	16	static
 H2AR3_dma.c:162:6:SetupMessagingRxDMAs	8	static
-H2AR3_dma.c:322:6:SwitchStreamDMAToMsg	32	static
+H2AR3_dma.c:322:6:SwitchStreamDMAToMsg	24	static
 H2AR3_dma.c:251:6:DMA_STREAM_Setup	24	static
 H2AR3_dma.c:527:6:RemapAndLinkDMAtoUARTTx	16	static
 H2AR3_dma.c:211:6:DMA_MSG_TX_Setup	8	static
