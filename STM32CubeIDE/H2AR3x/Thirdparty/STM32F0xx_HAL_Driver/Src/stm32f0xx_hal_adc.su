@@ -11,7 +11,7 @@ stm32f0xx_hal_adc.c:859:19:HAL_ADC_PollForConversion	24	static
 stm32f0xx_hal_adc.c:979:19:HAL_ADC_PollForEvent	24	static
 stm32f0xx_hal_adc.c:1055:19:HAL_ADC_Start_IT	8	static
 stm32f0xx_hal_adc.c:1136:19:HAL_ADC_Stop_IT	8	static
-stm32f0xx_hal_adc.c:1189:19:HAL_ADC_Start_DMA	16	static
+stm32f0xx_hal_adc.c:1189:19:HAL_ADC_Start_DMA	24	static
 stm32f0xx_hal_adc.c:1278:19:HAL_ADC_Stop_DMA	16	static
 stm32f0xx_hal_adc.c:1350:10:HAL_ADC_GetValue	0	static
 stm32f0xx_hal_adc.c:1486:13:HAL_ADC_ConvCpltCallback	0	static

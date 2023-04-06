@@ -1,5 +1,5 @@
 Thirdparty/Middleware/STM32F0xx/FreeRTOS/Source/FreeRTOS_CLI.o: \
- D:/Hexabitz\ release/H2AR3x/Thirdparty/Middleware/STM32F0xx/FreeRTOS/Source/FreeRTOS_CLI.c \
+ C:/Users/ASUS/Desktop/H2AR3/Thirdparty/Middleware/STM32F0xx/FreeRTOS/Source/FreeRTOS_CLI.c \
  ../../Thirdparty/Middleware/STM32F0xx/FreeRTOS/Source/include/FreeRTOS.h \
  ../../BOS/FreeRTOSConfig.h \
  ../../Thirdparty/Middleware/STM32F0xx/FreeRTOS/Source/include/projdefs.h \
@@ -44,7 +44,7 @@ Thirdparty/Middleware/STM32F0xx/FreeRTOS/Source/FreeRTOS_CLI.o: \
  ../../Thirdparty/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_tim_ex.h \
  ../../Thirdparty/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_uart.h \
  ../../Thirdparty/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_uart_ex.h \
- ../../User/project.h \
+ ../../User/project.h ../../User/topology.h \
  ../../Thirdparty/Middleware/STM32F0xx/FreeRTOS/Source/CMSIS_RTOS/cmsis_os.h \
  ../../Thirdparty/Middleware/STM32F0xx/FreeRTOS/Source/include/timers.h \
  ../../Thirdparty/Middleware/STM32F0xx/FreeRTOS/Source/include/task.h \
@@ -151,6 +151,8 @@ Thirdparty/Middleware/STM32F0xx/FreeRTOS/Source/FreeRTOS_CLI.o: \
 ../../Thirdparty/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_uart_ex.h:
 
 ../../User/project.h:
+
+../../User/topology.h:
 
 ../../Thirdparty/Middleware/STM32F0xx/FreeRTOS/Source/CMSIS_RTOS/cmsis_os.h:
 
