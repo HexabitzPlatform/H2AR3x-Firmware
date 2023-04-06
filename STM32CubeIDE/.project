@@ -107,7 +107,7 @@
 		<link>
 			<name>BOS/BOS_msgparser.c</name>
 			<type>1</type>
-			<locationURI>PARENT-2-PROJECT_LOC/Screenshots/H2AR3/BOS/BOS_msgparser.c</locationURI>
+			<locationURI>PARENT-1-PROJECT_LOC/BOS/BOS_msgparser.c</locationURI>
 		</link>
 		<link>
 			<name>BOS/BOS_utils.h</name>
