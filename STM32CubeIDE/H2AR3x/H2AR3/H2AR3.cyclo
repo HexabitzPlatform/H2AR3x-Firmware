@@ -1,0 +1,10 @@
+..\..\H2AR3\H2AR3.c:67:6:SystemClock_Config	1
+..\..\H2AR3\H2AR3.c:128:9:SaveToRO	14
+..\..\H2AR3\H2AR3.c:232:9:ClearROtopology	1
+..\..\H2AR3\H2AR3.c:244:6:remoteBootloaderUpdate	7
+..\..\H2AR3\H2AR3.c:296:6:SetupPortForRemoteBootloaderUpdate	1
+..\..\H2AR3\H2AR3.c:310:6:Module_Peripheral_Init	9
+..\..\H2AR3\H2AR3.c:344:15:Module_MessagingTask	1
+..\..\H2AR3\H2AR3.c:359:9:GetPort	7
+..\..\H2AR3\H2AR3.c:379:6:ACMonitorTask	1
+..\..\H2AR3\H2AR3.c:396:6:RegisterModuleCLICommands	1
