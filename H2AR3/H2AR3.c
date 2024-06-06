@@ -33,11 +33,37 @@ module_param_t modParam[NUM_MODULE_PARAMS] ={{.paramPtr = NULL, .paramFormat =FM
 
 /* Private variables ---------------------------------------------------------*/
 TaskHandle_t ACMonitorTaskHandle = NULL;
+uint8_t global_port, global_module, global_mode, unit = Volt;
+uint32_t global_period, global_timeout;
+float volt_buffer;
+float amp_buffer;
+float *ptr_read_buffer;
+uint8_t H2AR3_DATA_FORMAT = FMT_FLOAT;
+float H2AR3_Read_V;
+float H2AR3_Read_A;
+extern FLASH_ProcessTypeDef pFlash;
+extern uint8_t numOfRecordedSnippets;
+uint32_t raw_adc, tmp_adc;
+uint32_t adcTempFiltered;
+float _volt;
+uint32_t Volt_buffer[1] = { 0 };
+uint32_t Amp_buffer[1] = { 0 };
+TIM_HandleTypeDef htim3;
+typedef struct
+{
+    uint16_t Filter_Order;
+    uint16_t Buffer_Index;
+    FILTER_DATA_TYPE Data_Buffer[512];
+    float* Filter_Coeffecients;
+}FIR_Filter_cfg;
 
+FIR_Filter_cfg A_Filter;
+FIR_Filter_cfg V_Filter;
 /* Private function prototypes -----------------------------------------------*/
 void ExecuteMonitor(void);
 void FLASH_Page_Eras(uint32_t Addr );
 void ACMonitorTask(void *argument);
+static void AVG_FIR_LPF(FILTER_DATA_TYPE IN, FILTER_DATA_TYPE* OUT, FIR_Filter_cfg* FILTER_OBJ);
 
 /* Create CLI commands --------------------------------------------------------*/
 
@@ -362,13 +388,13 @@ uint8_t GetPort(UART_HandleTypeDef *huart){
 		return P1;
 	else if(huart->Instance == USART2)
 		return P2;
-	else if(huart->Instance == USART3)
+	else if(huart->Instance == USART6)
 		return P3;
 	else if(huart->Instance == USART1)
 		return P4;
 	else if(huart->Instance == USART5)
 		return P5;
-	else if(huart->Instance == USART6)
+	else if(huart->Instance == USART3)
 		return P6;
 	
 	return 0;
@@ -398,8 +424,60 @@ void RegisterModuleCLICommands(void){
 }
 
 /*-----------------------------------------------------------*/
+static uint32_t Adc_Calculation(uint8_t selected) {
 
+	switch (selected) {
+	case Amp:
+		A_Filter.Filter_Order=AVG_FILTER_ORDER_A;
+		ADC_Select_CH7();
+		HAL_ADC_Start(&hadc);
+		HAL_ADC_PollForConversion(&hadc, 1000);
+		tmp_adc = HAL_ADC_GetValue(&hadc);
+		HAL_ADC_Stop(&hadc);
+		ADC_Deselect_CH7();
+		AVG_FIR_LPF(tmp_adc,&adcTempFiltered,&A_Filter);
+		break;
 
+	case Volt:
+		V_Filter.Filter_Order=AVG_FILTER_ORDER_V;
+		ADC_Select_CH9();
+		HAL_ADC_Start(&hadc);
+		HAL_ADC_PollForConversion(&hadc, 1000);
+		tmp_adc = HAL_ADC_GetValue(&hadc);
+		HAL_ADC_Stop(&hadc);
+		ADC_Deselect_CH9();
+		AVG_FIR_LPF(tmp_adc,&adcTempFiltered,&V_Filter);
+		break;
+
+	default:
+		break;
+	}
+
+	return adcTempFiltered;
+
+}
+
+static void AVG_FIR_LPF(FILTER_DATA_TYPE IN, FILTER_DATA_TYPE* OUT, FIR_Filter_cfg* FILTER_OBJ)
+{
+	FILTER_DATA_TYPE SUM = 0;
+    uint16_t i = 0;
+
+    // Push The New Input To The History Buffer
+    FILTER_OBJ->Data_Buffer[FILTER_OBJ->Buffer_Index] = IN;
+    FILTER_OBJ->Buffer_Index++;
+    if(FILTER_OBJ->Buffer_Index == FILTER_OBJ->Filter_Order+1)
+    {
+        FILTER_OBJ->Buffer_Index = 0;
+    }
+
+    // Calculate The Average For The Data In The Buffer
+    for(i=0; i < FILTER_OBJ->Filter_Order+1; i++)
+    {
+        SUM += FILTER_OBJ->Data_Buffer[i];
+    }
+
+    *OUT = SUM / (FILTER_OBJ->Filter_Order+1);
+}
 /*-----------------------------------------------------------*/
 
 
