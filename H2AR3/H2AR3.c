@@ -59,12 +59,14 @@ typedef struct
 
 FIR_Filter_cfg A_Filter;
 FIR_Filter_cfg V_Filter;
+float measured_volt, measured_amp;
 /* Private function prototypes -----------------------------------------------*/
 void ExecuteMonitor(void);
 void FLASH_Page_Eras(uint32_t Addr );
 void ACMonitorTask(void *argument);
 static void AVG_FIR_LPF(FILTER_DATA_TYPE IN, FILTER_DATA_TYPE* OUT, FIR_Filter_cfg* FILTER_OBJ);
-
+Module_Status CalculationVolt( float * measured_volt) ;
+Module_Status CalculationAmp(float *measured_volt) ;
 /* Create CLI commands --------------------------------------------------------*/
 
 
@@ -479,7 +481,35 @@ static void AVG_FIR_LPF(FILTER_DATA_TYPE IN, FILTER_DATA_TYPE* OUT, FIR_Filter_c
     *OUT = SUM / (FILTER_OBJ->Filter_Order+1);
 }
 /*-----------------------------------------------------------*/
-
+Module_Status CalculationVolt(float * measured_volt) {
+	Module_Status status = H2AR3_OK;
+	raw_adc = Adc_Calculation(Volt);
+	_volt = (float) raw_adc * (3.3 / 4095);		// 12 bit resolution
+	_volt = _volt - VRef;
+	*measured_volt = _volt * (4000150 / (50 * 150));//measured_volt =0;533.3533
+	return status;
+}
+/*-----------------------------------------------------------*/
+Module_Status CalculationAmp(float *measured_volt) {
+	Module_Status status = H2AR3_OK;
+	raw_adc = Adc_Calculation(Amp);
+	_volt = (float) raw_adc * (3.3 / 4095);
+	_volt = _volt - VRef;
+	measured_amp = (_volt / 0.009795);//2.5 we have to make average error of vref before load is switched on
+	return status;
+}
+/*-----------------------------------------------------------*/
+Module_Status SampleV(float *volt) {
+	Module_Status status = H2AR3_OK;
+	status = CalculationVolt(volt);
+	return status;
+}
+/*-----------------------------------------------------------*/
+Module_Status SampleA(float *curr) {
+	Module_Status status = H2AR3_OK;
+	status =  CalculationAmp(curr);
+	return status;
+}
 
 
 /*-----------------------------------------------------------*/
