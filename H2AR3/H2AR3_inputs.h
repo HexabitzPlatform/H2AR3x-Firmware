@@ -17,7 +17,7 @@
 #include "stm32g0xx_hal_adc_ex.h"
 #include "string.h"
 /* Private and global variables ----------------------------------------------*/
-
+extern ADC_HandleTypeDef hadc;
 /* Private function prototypes -----------------------------------------------*/
 
 /* -----------------------------------------------------------------------

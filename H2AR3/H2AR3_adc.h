@@ -17,6 +17,12 @@
 DMA_HandleTypeDef hdma_adc;
 extern ADC_HandleTypeDef hadc;
 
+void MX_ADC_Init(void);
+void ADC_Select_CH7(void);
+void ADC_Deselect_CH7(void);
+void ADC_Select_CH9(void);
+void ADC_Deselect_CH9(void);
+
 #define volt_measure_input_Pin GPIO_PIN_1
 #define volt_measure_input_GPIO_Port GPIOB
 

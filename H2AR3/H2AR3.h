@@ -25,6 +25,7 @@
 #include "H2AR3_dma.h"
 #include "H2AR3_inputs.h"
 #include "H2AR3_eeprom.h"
+#include "H2AR3_adc.h"
 /* Exported definitions -------------------------------------------------------*/
 
 #define	modulePN		_H2AR3
@@ -150,20 +151,14 @@ extern void MX_USART6_UART_Init(void);
 extern void SystemClock_Config(void);
 extern void ExecuteMonitor(void);
 
-/* Define UART Init prototypes */
-extern void MX_ADC_Init(void);
-//extern void ADC_Channel_config(voi
 
-extern void ADC_Select_CH7(void);
-extern void ADC_Deselect_CH7(void);
-extern void ADC_Select_CH9(void);
-extern void ADC_Deselect_CH9(void);
 
 /* -----------------------------------------------------------------------
  |								  APIs							          |  																 	|
 /* -----------------------------------------------------------------------
  */
-
+Module_Status SampleV(float *volt);
+Module_Status SampleA(float *curr);
 
 void SetupPortForRemoteBootloaderUpdate(uint8_t port);
 void remoteBootloaderUpdate(uint8_t src,uint8_t dst,uint8_t inport,uint8_t outport);
