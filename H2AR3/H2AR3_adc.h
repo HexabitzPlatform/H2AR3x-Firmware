@@ -13,8 +13,9 @@
 
 /* Includes ------------------------------------------------------------------*/
 #include "stm32g0xx_hal.h"
+extern ADC_HandleTypeDef hadc1;
 extern DMA_HandleTypeDef hdma_adc;
-extern ADC_HandleTypeDef hadc;
+//extern ADC_HandleTypeDef hadc;
 
 void MX_ADC_Init(void);
 void ADC_Select_CH7(void);

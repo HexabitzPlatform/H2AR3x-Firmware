@@ -432,10 +432,10 @@ static uint32_t Adc_Calculation(uint8_t selected) {
 	case Amp:
 		A_Filter.Filter_Order=AVG_FILTER_ORDER_A;
 		ADC_Select_CH7();
-		HAL_ADC_Start(&hadc);
-		HAL_ADC_PollForConversion(&hadc, 1000);
-		tmp_adc = HAL_ADC_GetValue(&hadc);
-		HAL_ADC_Stop(&hadc);
+		HAL_ADC_Start(&hadc1);
+		HAL_ADC_PollForConversion(&hadc1, 1000);
+		tmp_adc = HAL_ADC_GetValue(&hadc1);
+		HAL_ADC_Stop(&hadc1);
 		ADC_Deselect_CH7();
 		AVG_FIR_LPF(tmp_adc,&adcTempFiltered,&A_Filter);
 		break;
@@ -443,10 +443,10 @@ static uint32_t Adc_Calculation(uint8_t selected) {
 	case Volt:
 		V_Filter.Filter_Order=AVG_FILTER_ORDER_V;
 		ADC_Select_CH9();
-		HAL_ADC_Start(&hadc);
-		HAL_ADC_PollForConversion(&hadc, 1000);
-		tmp_adc = HAL_ADC_GetValue(&hadc);
-		HAL_ADC_Stop(&hadc);
+		HAL_ADC_Start(&hadc1);
+		HAL_ADC_PollForConversion(&hadc1, 1000);
+		tmp_adc = HAL_ADC_GetValue(&hadc1);
+		HAL_ADC_Stop(&hadc1);
 		ADC_Deselect_CH9();
 		AVG_FIR_LPF(tmp_adc,&adcTempFiltered,&V_Filter);
 		break;
