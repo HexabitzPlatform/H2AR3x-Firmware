@@ -134,6 +134,16 @@
 			<locationURI>PARENT-1-PROJECT_LOC/H2AR3/H2AR3_MemoryMap.h</locationURI>
 		</link>
 		<link>
+			<name>H2AR3/H2AR3_adc.c</name>
+			<type>1</type>
+			<locationURI>PARENT-1-PROJECT_LOC/H2AR3/H2AR3_adc.c</locationURI>
+		</link>
+		<link>
+			<name>H2AR3/H2AR3_adc.h</name>
+			<type>1</type>
+			<locationURI>PARENT-1-PROJECT_LOC/H2AR3/H2AR3_adc.h</locationURI>
+		</link>
+		<link>
 			<name>H2AR3/H2AR3_dma.c</name>
 			<type>1</type>
 			<locationURI>PARENT-1-PROJECT_LOC/H2AR3/H2AR3_dma.c</locationURI>

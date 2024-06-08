@@ -4,7 +4,7 @@
 ..\..\H2AR3\H2AR3_dma.c:99:6:DMA_MSG_TX_CH_Init	1
 ..\..\H2AR3\H2AR3_dma.c:116:6:DMA_STREAM_CH_Init	1
 ..\..\H2AR3\H2AR3_dma.c:133:6:DMA_FRONTEND_CH_Init	1
-..\..\H2AR3\H2AR3_dma.c:152:6:SetupMessagingRxDMAs	4
+..\..\H2AR3\H2AR3_dma.c:152:6:SetupMessagingRxDMAs	5
 ..\..\H2AR3\H2AR3_dma.c:183:6:DMA_MSG_RX_Setup	1
 ..\..\H2AR3\H2AR3_dma.c:201:6:DMA_MSG_TX_Setup	4
 ..\..\H2AR3\H2AR3_dma.c:226:6:DMA_MSG_TX_UnSetup	1

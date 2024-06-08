@@ -13,8 +13,7 @@
 
 /* Includes ------------------------------------------------------------------*/
 #include "stm32g0xx_hal.h"
-
-DMA_HandleTypeDef hdma_adc;
+extern DMA_HandleTypeDef hdma_adc;
 extern ADC_HandleTypeDef hadc;
 
 void MX_ADC_Init(void);
