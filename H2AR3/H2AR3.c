@@ -342,7 +342,7 @@ void Module_Peripheral_Init(void){
 	MX_USART1_UART_Init();
 	MX_USART2_UART_Init();
 	MX_USART6_UART_Init();
-
+	MX_ADC_Init();
 	 //Circulating DMA Channels ON All Module
 		 for(int i=1;i<=NumOfPorts;i++)
 			{
@@ -426,28 +426,28 @@ void RegisterModuleCLICommands(void){
 }
 
 /*-----------------------------------------------------------*/
-static uint32_t Adc_Calculation(uint8_t selected) {
+uint32_t Adc_Calculation(uint8_t selected) {
 
 	switch (selected) {
 	case Amp:
 		A_Filter.Filter_Order=AVG_FILTER_ORDER_A;
-		ADC_Select_CH7();
+		ADC_Select_CH6();
 		HAL_ADC_Start(&hadc1);
 		HAL_ADC_PollForConversion(&hadc1, 1000);
 		tmp_adc = HAL_ADC_GetValue(&hadc1);
 		HAL_ADC_Stop(&hadc1);
-		ADC_Deselect_CH7();
+		ADC_Deselect_CH6();
 		AVG_FIR_LPF(tmp_adc,&adcTempFiltered,&A_Filter);
 		break;
 
 	case Volt:
 		V_Filter.Filter_Order=AVG_FILTER_ORDER_V;
-		ADC_Select_CH9();
+		ADC_Select_CH16();
 		HAL_ADC_Start(&hadc1);
 		HAL_ADC_PollForConversion(&hadc1, 1000);
 		tmp_adc = HAL_ADC_GetValue(&hadc1);
 		HAL_ADC_Stop(&hadc1);
-		ADC_Deselect_CH9();
+		ADC_Deselect_CH16();
 		AVG_FIR_LPF(tmp_adc,&adcTempFiltered,&V_Filter);
 		break;
 
@@ -482,20 +482,20 @@ static void AVG_FIR_LPF(FILTER_DATA_TYPE IN, FILTER_DATA_TYPE* OUT, FIR_Filter_c
 }
 /*-----------------------------------------------------------*/
 Module_Status CalculationVolt(float * measured_volt) {
-	Module_Status status = H2AR3_OK;
+ 	Module_Status status = H2AR3_OK;
 	raw_adc = Adc_Calculation(Volt);
-	_volt = (float) raw_adc * (3.3 / 4095);		// 12 bit resolution
+	_volt = (float) (raw_adc * 3)/4095;		// 12 bit resolution
 	_volt = _volt - VRef;
-	*measured_volt = _volt * (4000150 / (50 * 150));//measured_volt =0;533.3533
+	*measured_volt = ( _volt * 4000150)/ (50 * 150);//measured_volt =0;533.3533
 	return status;
 }
 /*-----------------------------------------------------------*/
-Module_Status CalculationAmp(float *measured_volt) {
+Module_Status CalculationAmp(float *measured_amp) {
 	Module_Status status = H2AR3_OK;
 	raw_adc = Adc_Calculation(Amp);
-	_volt = (float) raw_adc * (3.3 / 4095);
+	_volt = (float) (raw_adc * 3 )/ 4095;
 	_volt = _volt - VRef;
-	measured_amp = (_volt / 0.009795);//2.5 we have to make average error of vref before load is switched on
+	*measured_amp = (_volt / 0.009795);//2.5 we have to make average error of vref before load is switched on
 	return status;
 }
 /*-----------------------------------------------------------*/
