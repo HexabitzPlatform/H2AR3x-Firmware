@@ -45,7 +45,6 @@ extern FLASH_ProcessTypeDef pFlash;
 extern uint8_t numOfRecordedSnippets;
 uint32_t raw_adc, tmp_adc;
 uint32_t adcTempFiltered;
-float _volt;
 uint32_t Volt_buffer[1] = { 0 };
 uint32_t Amp_buffer[1] = { 0 };
 TIM_HandleTypeDef htim3;
@@ -67,6 +66,7 @@ void ACMonitorTask(void *argument);
 static void AVG_FIR_LPF(FILTER_DATA_TYPE IN, FILTER_DATA_TYPE* OUT, FIR_Filter_cfg* FILTER_OBJ);
 Module_Status CalculationVolt( float * measured_volt) ;
 Module_Status CalculationAmp(float *measured_volt) ;
+
 /* Create CLI commands --------------------------------------------------------*/
 
 
@@ -343,6 +343,7 @@ void Module_Peripheral_Init(void){
 	MX_USART2_UART_Init();
 	MX_USART6_UART_Init();
 	MX_ADC_Init();
+
 	 //Circulating DMA Channels ON All Module
 		 for(int i=1;i<=NumOfPorts;i++)
 			{
@@ -483,18 +484,20 @@ static void AVG_FIR_LPF(FILTER_DATA_TYPE IN, FILTER_DATA_TYPE* OUT, FIR_Filter_c
 /*-----------------------------------------------------------*/
 Module_Status CalculationVolt(float * measured_volt) {
  	Module_Status status = H2AR3_OK;
+ 	float _volt;
 	raw_adc = Adc_Calculation(Volt);
-	_volt = (float) (raw_adc * 3)/4095;		// 12 bit resolution
-	_volt = _volt - VRef;
-	*measured_volt = ( _volt * 4000150)/ (50 * 150);//measured_volt =0;533.3533
+	_volt = (float) (raw_adc * VREF )/Resolution_12_Bit;		// 12 bit resolution
+	_volt = (_volt - (VBAIS + Offsite) ) ;
+	*measured_volt = _volt * voltRatio;                         //measured_volt =0;533.3533
 	return status;
 }
 /*-----------------------------------------------------------*/
 Module_Status CalculationAmp(float *measured_amp) {
 	Module_Status status = H2AR3_OK;
+	float _volt;
 	raw_adc = Adc_Calculation(Amp);
-	_volt = (float) (raw_adc * 3 )/ 4095;
-	_volt = _volt - VRef;
+	_volt = (float) (raw_adc * VREF )/ 4095;
+	_volt = (_volt - VBAIS) ;
 	*measured_amp = (_volt / 0.009795);//2.5 we have to make average error of vref before load is switched on
 	return status;
 }

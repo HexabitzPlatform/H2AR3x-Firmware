@@ -4,12 +4,12 @@
  
  File Name     : H2AR3.h
  Description   : Header file for module H2AR3.
- 	 	 	 	 (Description_of_module)
+ (Description_of_module)
 
-(Description of Special module peripheral configuration):
->>
->>
->>
+ (Description of Special module peripheral configuration):
+ >>
+ >>
+ >>
 
  */
 
@@ -29,7 +29,6 @@
 /* Exported definitions -------------------------------------------------------*/
 
 #define	modulePN		_H2AR3
-
 
 /* Port-related definitions */
 #define	NumOfPorts			3
@@ -51,7 +50,6 @@
 #define _Usart5 1
 #define _Usart6	1
 
-
 /* Port-UART mapping */
 
 #define P1uart &huart4
@@ -60,7 +58,6 @@
 #define P4uart &huart1
 #define P5uart &huart5
 #define P6uart &huart3
-
 
 /* Port Definitions */
 #define	USART1_TX_PIN		GPIO_PIN_9
@@ -104,13 +101,15 @@
 // Module Addressing Space 500 - 599
 #define _EE_MODULE							500		
 
-#define Volt 1
-#define Amp 2
-#define VRef 1.65
-#define voltRatio 533.33333 //Amplifier ratio (150 / 4M) * 50
-#define shuntResistor 0.1
-#define ampTranRatio 1
-
+#define Volt                     1
+#define Amp                      2
+#define VBAIS                    1.5
+#define VREF                     3
+#define Resolution_12_Bit        4095
+#define Offsite                  0.09633899
+#define voltRatio                533.33333
+#define shuntResistor            0.1
+#define ampTranRatio             1
 #define IDLE_CASE                0
 #define STREAM_CLI_CASE          1
 #define STREAM_PORT_CASE         2
@@ -120,13 +119,18 @@
 #define SAMPLE_PORT_CASE         7
 #define SAMPLE_BUFFER_CASE       8
 #define SAMPLE_CLI_VERBOSE_CASE  9
-#define FILTER_DATA_TYPE    uint32_t
-#define AVG_FILTER_ORDER_A  3
-#define AVG_FILTER_ORDER_V  10
+#define FILTER_DATA_TYPE         uint32_t
+#define AVG_FILTER_ORDER_A       3
+#define AVG_FILTER_ORDER_V       10
 
 /* Module_Status Type Definition */
 typedef enum {
-	H2AR3_OK =0, H2AR3_ERR_UnknownMessage, H2AR3_ERR_WrongColor, H2AR3_ERR_WrongIntensity, H2AR3_ERR_WrongMode, H2AR3_ERROR =255
+	H2AR3_OK = 0,
+	H2AR3_ERR_UnknownMessage,
+	H2AR3_ERR_WrongColor,
+	H2AR3_ERR_WrongIntensity,
+	H2AR3_ERR_WrongMode,
+	H2AR3_ERROR = 255
 } Module_Status;
 
 /* Indicator LED */
@@ -151,23 +155,21 @@ extern void MX_USART6_UART_Init(void);
 extern void SystemClock_Config(void);
 extern void ExecuteMonitor(void);
 
-
-
 /* -----------------------------------------------------------------------
  |								  APIs							          |  																 	|
-/* -----------------------------------------------------------------------
+ /* -----------------------------------------------------------------------
  */
 Module_Status SampleV(float *volt);
 Module_Status SampleA(float *curr);
 
 void SetupPortForRemoteBootloaderUpdate(uint8_t port);
-void remoteBootloaderUpdate(uint8_t src,uint8_t dst,uint8_t inport,uint8_t outport);
+void remoteBootloaderUpdate(uint8_t src, uint8_t dst, uint8_t inport,
+		uint8_t outport);
 
 /* -----------------------------------------------------------------------
  |								Commands							      |															 	|
-/* -----------------------------------------------------------------------
+ /* -----------------------------------------------------------------------
  */
-
 
 #endif /* H2AR3_H */
 
