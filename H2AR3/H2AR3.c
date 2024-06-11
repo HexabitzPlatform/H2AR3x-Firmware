@@ -38,6 +38,7 @@ uint32_t global_period, global_timeout;
 float volt_buffer;
 float amp_buffer;
 float *ptr_read_buffer;
+float Iin , Vin ;
 uint8_t H2AR3_DATA_FORMAT = FMT_FLOAT;
 float H2AR3_Read_V;
 float H2AR3_Read_A;
@@ -364,7 +365,7 @@ void Module_Peripheral_Init(void){
 
 	/* Create module special task (if needed) */
 	if(ACMonitorTaskHandle == NULL)
-			xTaskCreate(ACMonitorTask,(const char* ) "RGBledTask",configMINIMAL_STACK_SIZE,NULL,osPriorityNormal - osPriorityIdle,&ACMonitorTaskHandle);
+			xTaskCreate(ACMonitorTask,(const char* ) "ACMonitorTask",configMINIMAL_STACK_SIZE,NULL,osPriorityNormal - osPriorityIdle,&ACMonitorTaskHandle);
 }
 
 /*-----------------------------------------------------------*/
@@ -405,15 +406,18 @@ uint8_t GetPort(UART_HandleTypeDef *huart){
 
 /*-----------------------------------------------------------*/
 /* ACMonitorTask function */
+int i ;
 void ACMonitorTask(void *argument){
 
 	/* Infinite loop */
 	for(;;){
-
+		i ++ ;
+		CalculationVolt(&Vin);
+		CalculationAmp(&Iin);
 //		switch(rgbLedMode){
 //
 //			default:
-//				osDelay(10);
+//
 //				break;
 //		}
 
@@ -481,6 +485,7 @@ static void AVG_FIR_LPF(FILTER_DATA_TYPE IN, FILTER_DATA_TYPE* OUT, FIR_Filter_c
 
     *OUT = SUM / (FILTER_OBJ->Filter_Order+1);
 }
+
 /*-----------------------------------------------------------*/
 Module_Status CalculationVolt(float * measured_volt) {
  	Module_Status status = H2AR3_OK;
@@ -496,24 +501,58 @@ Module_Status CalculationAmp(float *measured_amp) {
 	Module_Status status = H2AR3_OK;
 	float _volt;
 	raw_adc = Adc_Calculation(Amp);
-	_volt = (float) (raw_adc * VREF )/ 4095;
-	_volt = (_volt - VBAIS) ;
-	*measured_amp = (_volt / 0.009795);//2.5 we have to make average error of vref before load is switched on
+	_volt = (float) (raw_adc * VREF) / 4095;
+	_volt = (_volt - (VBAIS + Offsite));
+	*measured_amp = (_volt / 0.009795); //2.5 we have to make average error of vref before load is switched on
 	return status;
 }
 /*-----------------------------------------------------------*/
 Module_Status SampleV(float *volt) {
 	Module_Status status = H2AR3_OK;
-	status = CalculationVolt(volt);
+	*volt = Vin;
 	return status;
 }
 /*-----------------------------------------------------------*/
 Module_Status SampleA(float *curr) {
 	Module_Status status = H2AR3_OK;
-	status =  CalculationAmp(curr);
+	*curr =  Iin;
 	return status;
 }
 
+Module_Status Exporttoport(uint8_t module,uint8_t port)
+ {
+	float floatData = 0;
+	static uint8_t temp[4] = { 0 };
+	Module_Status status = H2AR3_OK;
+
+	if (port == 0 && module == myID) {
+		return H2AR3_ERR_WrongParams;
+	}
+
+
+		status = CalculationVolt(&floatData);
+		if (module == myID || module == 0) {
+			temp[0] = (uint8_t) ((*(uint32_t*) &floatData) >> 0);
+			temp[1] = (uint8_t) ((*(uint32_t*) &floatData) >> 8);
+			temp[2] = (uint8_t) ((*(uint32_t*) &floatData) >> 16);
+			temp[3] = (uint8_t) ((*(uint32_t*) &floatData) >> 24);
+			writePxITMutex(port, (char*) &temp[0], 4 * sizeof(uint8_t), 10);
+		} else {
+			if (H2AR3_OK == status)
+				messageParams[1] = BOS_OK;
+			else
+				messageParams[1] = BOS_ERROR;
+			messageParams[0] = FMT_FLOAT;
+			messageParams[2] = (uint8_t) ((*(uint32_t*) &floatData) >> 0);
+			messageParams[3] = (uint8_t) ((*(uint32_t*) &floatData) >> 8);
+			messageParams[4] = (uint8_t) ((*(uint32_t*) &floatData) >> 16);
+			messageParams[5] = (uint8_t) ((*(uint32_t*) &floatData) >> 24);
+			SendMessageToModule(module, CODE_READ_RESPONSE, sizeof(float) + 2);
+		}
+
+	memset(&temp[0], 0, sizeof(temp));
+	return status;
+}
 
 /*-----------------------------------------------------------*/
 

@@ -130,6 +130,7 @@ typedef enum {
 	H2AR3_ERR_WrongColor,
 	H2AR3_ERR_WrongIntensity,
 	H2AR3_ERR_WrongMode,
+	H2AR3_ERR_WrongParams,
 	H2AR3_ERROR = 255
 } Module_Status;
 
