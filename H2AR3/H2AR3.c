@@ -486,7 +486,7 @@ Module_Status CalculationVolt(float * measured_volt) {
  	Module_Status status = H2AR3_OK;
  	float _volt;
 	raw_adc = Adc_Calculation(Volt);
-	_volt = (float) (raw_adc * VREF )/Resolution_12_Bit;		// 12 bit resolution
+	_volt = (float) (raw_adc * VREF )/Resolution_12_Bit;	 	// 12 bit resolution
 	_volt = (_volt - (VBAIS + Offsite) ) ;
 	*measured_volt = _volt * voltRatio;                         //measured_volt =0;533.3533
 	return status;

@@ -103,11 +103,11 @@
 
 #define Volt                     1
 #define Amp                      2
-#define VBAIS                    1.5
-#define VREF                     3
-#define Resolution_12_Bit        4095
-#define Offsite                  0.09633899
-#define voltRatio                533.33333
+#define VBAIS                    1.5            // VBAIS = 1.5 from Schematics
+#define VREF                     3              // VREF  = 3  from Schematics
+#define Resolution_12_Bit        4095           //  ADC Resolution
+#define Offsite                  0.09633899     // Calculation Offsite (Offsite= volt - VREF) in case no inpout voltag
+#define voltRatio                533.33333      // Amplifier ratio ( 150 R / 4M ) * 50
 #define shuntResistor            0.1
 #define ampTranRatio             1
 #define IDLE_CASE                0
