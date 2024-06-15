@@ -101,6 +101,12 @@
 // Module Addressing Space 500 - 599
 #define _EE_MODULE							500		
 
+#define MIN_PERIOD_MS				100
+
+#define SAMPLE_TO_PORT          1
+#define STREAM_TO_PORT          2
+#define STREAM_TO_Terminal      3
+
 #define Volt                     1
 #define Amp                      2
 #define VBAIS                    1.5            // VBAIS = 1.5 from Schematics
@@ -123,6 +129,8 @@
 #define AVG_FILTER_ORDER_A       3
 #define AVG_FILTER_ORDER_V       10
 
+#define MIN_MEMS_PERIOD_MS				100
+#define MAX_MEMS_TIMEOUT_MS				0xFFFFFFFF
 /* Module_Status Type Definition */
 typedef enum {
 	H2AR3_OK = 0,
@@ -131,6 +139,7 @@ typedef enum {
 	H2AR3_ERR_WrongIntensity,
 	H2AR3_ERR_WrongMode,
 	H2AR3_ERR_WrongParams,
+	H2AR3_ERR_TERMINATED,
 	H2AR3_ERROR = 255
 } Module_Status;
 
