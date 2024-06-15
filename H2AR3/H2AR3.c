@@ -384,15 +384,6 @@ void Module_Peripheral_Init(void){
 Module_Status Module_MessagingTask(uint16_t code,uint8_t port,uint8_t src,uint8_t dst,uint8_t shift){
 	Module_Status result =H2AR3_OK;
 
-
-	switch(code){
-
-		default:
-			result =H2AR3_ERR_UnknownMessage;
-			break;
-	}
-	
-	return result;
 }
 /* --- Get the port for a given UART. 
  */
@@ -711,6 +702,30 @@ Module_Status Exportstreamtoterminal(uint32_t Numofsamples, uint32_t timeout,uin
 
 	}
  }
+/*-----------------------------------------------------------*/
+Module_Status StreamtoPort(uint8_t module,uint8_t port,All_Data function,uint32_t Numofsamples,uint32_t timeout)
+{
+	Module_Status status = H2AR3_OK;
+	tofMode=STREAM_TO_PORT;
+	port1 = port ;
+	module1 =module;
+	Numofsamples1=Numofsamples;
+	timeout1=timeout;
+	mode1= function;
+	return status;
+
+}
+/*-----------------------------------------------------------*/
+Module_Status StreamToTerminal(uint8_t port,All_Data function,uint32_t Numofsamples,uint32_t timeout)
+{
+	Module_Status status = H2AR3_OK;
+	tofMode=STREAM_TO_Terminal;
+	port3 = port ;
+	Numofsamples3=Numofsamples;
+	timeout3=timeout;
+	mode3= function;
+	return status;
+}
 /*-----------------------------------------------------------*/
 
 /* -----------------------------------------------------------------------
