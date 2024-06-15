@@ -519,7 +519,7 @@ Module_Status SampleA(float *curr) {
 	return status;
 }
 
-Module_Status Exporttoport(uint8_t module,uint8_t port)
+Module_Status Exporttoport(uint8_t module,uint8_t port,All_Data Mode)
  {
 	float floatData = 0;
 	static uint8_t temp[4] = { 0 };
@@ -528,8 +528,8 @@ Module_Status Exporttoport(uint8_t module,uint8_t port)
 	if (port == 0 && module == myID) {
 		return H2AR3_ERR_WrongParams;
 	}
-
-
+switch (Mode) {
+	case VOLT:
 		status = CalculationVolt(&floatData);
 		if (module == myID || module == 0) {
 			temp[0] = (uint8_t) ((*(uint32_t*) &floatData) >> 0);
@@ -549,10 +549,36 @@ Module_Status Exporttoport(uint8_t module,uint8_t port)
 			messageParams[5] = (uint8_t) ((*(uint32_t*) &floatData) >> 24);
 			SendMessageToModule(module, CODE_READ_RESPONSE, sizeof(float) + 2);
 		}
+		break;
+	case AMP:
+		status = CalculationAmp(&floatData);
+		if (module == myID || module == 0) {
+			temp[0] = (uint8_t) ((*(uint32_t*) &floatData) >> 0);
+			temp[1] = (uint8_t) ((*(uint32_t*) &floatData) >> 8);
+			temp[2] = (uint8_t) ((*(uint32_t*) &floatData) >> 16);
+			temp[3] = (uint8_t) ((*(uint32_t*) &floatData) >> 24);
+			writePxITMutex(port, (char*) &temp[0], 4 * sizeof(uint8_t), 10);
+		} else {
+			if (H2AR3_OK == status)
+				messageParams[1] = BOS_OK;
+			else
+				messageParams[1] = BOS_ERROR;
+			messageParams[0] = FMT_FLOAT;
+			messageParams[2] = (uint8_t) ((*(uint32_t*) &floatData) >> 0);
+			messageParams[3] = (uint8_t) ((*(uint32_t*) &floatData) >> 8);
+			messageParams[4] = (uint8_t) ((*(uint32_t*) &floatData) >> 16);
+			messageParams[5] = (uint8_t) ((*(uint32_t*) &floatData) >> 24);
+			SendMessageToModule(module, CODE_READ_RESPONSE, sizeof(float) + 2);
+	default:
+		break;
+}
+
+
 
 	memset(&temp[0], 0, sizeof(temp));
 	return status;
 }
+ }
 
 /*-----------------------------------------------------------*/
 

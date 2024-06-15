@@ -134,6 +134,11 @@ typedef enum {
 	H2AR3_ERROR = 255
 } Module_Status;
 
+typedef enum {
+	VOLT=0,
+	AMP,
+}All_Data;
+
 /* Indicator LED */
 #define _IND_LED_PORT			GPIOA
 #define _IND_LED_PIN			GPIO_PIN_15
