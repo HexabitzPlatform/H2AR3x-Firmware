@@ -45,9 +45,9 @@
 /* Define available USARTs */
 #define _Usart1 1
 #define _Usart2 1
-#define _Usart3 1
-#define _Usart4 1
-#define _Usart5 1
+#define _Usart3 0
+#define _Usart4 0
+#define _Usart5 0
 #define _Usart6	1
 
 /* Port-UART mapping */
@@ -94,7 +94,7 @@
 #define	USART6_RX_PIN		GPIO_PIN_5
 #define	USART6_TX_PORT		GPIOA
 #define	USART6_RX_PORT		GPIOA
-#define	USART6_AF			GPIO_AF8_USART6
+#define	USART6_AF			GPIO_AF3_USART6
 
 /* Module EEPROM Variables */
 #define NUM_MODULE_PARAMS						1
