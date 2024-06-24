@@ -43,8 +43,8 @@ void RemapAndLinkDMAtoUARTTx(UART_HandleTypeDef *huart,DMA_HandleTypeDef *hDMA);
  */
 void DMA_Init(void){
 	/* DMA controller clock enable */
-	__DMA1_CLK_ENABLE();
-	__DMA2_CLK_ENABLE();
+	__HAL_RCC_DMA1_CLK_ENABLE();
+	__HAL_RCC_DMA2_CLK_ENABLE();
 
 	/* Initialize messaging RX DMAs x 6 - Update for non-standard MCUs */
 #ifdef _P1
@@ -54,7 +54,7 @@ void DMA_Init(void){
 	DMA_MSG_RX_CH_Init(&msgRxDMA[1],DMA1_Channel2);
 #endif
 #ifdef _P3
-	DMA_MSG_RX_CH_Init(&msgRxDMA[2],DMA1_Channel3);
+	DMA_MSG_RX_CH_Init(&msgRxDMA[2],DMA1_Channel6);
 #endif
 #ifdef _P4
 	DMA_MSG_RX_CH_Init(&msgRxDMA[3],DMA1_Channel1);
@@ -180,6 +180,7 @@ void SetupMessagingRxDMAs(void){
 
 /* Messaging DMA RX setup (port-to-memory) 
  */
+HAL_StatusTypeDef d;
 void DMA_MSG_RX_Setup(UART_HandleTypeDef *huart,DMA_HandleTypeDef *hDMA){
 	/* Remap and link to UART Rx */
 	//RemapAndLinkDMAtoUARTRx(huart,hDMA);
@@ -191,7 +192,7 @@ void DMA_MSG_RX_Setup(UART_HandleTypeDef *huart,DMA_HandleTypeDef *hDMA){
 
 	/* Start DMA stream	*/
 
-	HAL_UART_Receive_DMA(huart,(uint8_t* )&UARTRxBuf[GetPort(huart) - 1],MSG_RX_BUF_SIZE);
+	d=HAL_UART_Receive_DMA(huart,(uint8_t* )&UARTRxBuf[1],MSG_RX_BUF_SIZE);
 }
 
 /*-----------------------------------------------------------*/

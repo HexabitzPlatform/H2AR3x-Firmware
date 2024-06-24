@@ -366,36 +366,38 @@ void SetupPortForRemoteBootloaderUpdate(uint8_t port){
 
 /* --- H2AR3 module initialization.
  */
-void Module_Peripheral_Init(void){
-	 __HAL_RCC_GPIOB_CLK_ENABLE();
-	 __HAL_RCC_GPIOA_CLK_ENABLE();
+void Module_Peripheral_Init(void) {
+	__HAL_RCC_GPIOB_CLK_ENABLE();
+	__HAL_RCC_GPIOA_CLK_ENABLE();
 	/* Array ports */
-	MX_USART1_UART_Init();
+
 	MX_USART2_UART_Init();
+	MX_USART1_UART_Init();
 	MX_USART6_UART_Init();
 	MX_ADC_Init();
 
-	 //Circulating DMA Channels ON All Module
-		 for(int i=1;i<=NumOfPorts;i++)
-			{
-			  if(GetUart(i)==&huart1)
-			           { index_dma[i-1]=&(DMA1_Channel1->CNDTR); }
-			  else if(GetUart(i)==&huart2)
-					   { index_dma[i-1]=&(DMA1_Channel2->CNDTR); }
-			  else if(GetUart(i)==&huart3)
-					   { index_dma[i-1]=&(DMA1_Channel3->CNDTR); }
-			  else if(GetUart(i)==&huart4)
-					   { index_dma[i-1]=&(DMA1_Channel4->CNDTR); }
-			  else if(GetUart(i)==&huart5)
-					   { index_dma[i-1]=&(DMA1_Channel5->CNDTR); }
-			  else if(GetUart(i)==&huart6)
-					   { index_dma[i-1]=&(DMA1_Channel6->CNDTR); }
-			}
-
+	//Circulating DMA Channels ON All Module
+	for (int i = 1; i <= NumOfPorts; i++) {
+		if (GetUart(i) == &huart1) {
+			index_dma[i - 1] = &(DMA1_Channel1->CNDTR);
+		} else if (GetUart(i) == &huart2) {
+			index_dma[i - 1] = &(DMA1_Channel2->CNDTR);
+		} else if (GetUart(i) == &huart3) {
+			index_dma[i - 1] = &(DMA1_Channel3->CNDTR);
+		} else if (GetUart(i) == &huart4) {
+			index_dma[i - 1] = &(DMA1_Channel4->CNDTR);
+		} else if (GetUart(i) == &huart5) {
+			index_dma[i - 1] = &(DMA1_Channel5->CNDTR);
+		} else if (GetUart(i) == &huart6) {
+			index_dma[i - 1] = &(DMA1_Channel6->CNDTR);
+		}
+	}
 
 	/* Create module special task (if needed) */
-	if(ACMonitorTaskHandle == NULL)
-			xTaskCreate(ACMonitorTask,(const char* ) "ACMonitorTask",configMINIMAL_STACK_SIZE,NULL,osPriorityNormal - osPriorityIdle,&ACMonitorTaskHandle);
+	if (ACMonitorTaskHandle == NULL)
+		xTaskCreate(ACMonitorTask, (const char*) "ACMonitorTask",
+				configMINIMAL_STACK_SIZE, NULL,
+				osPriorityNormal - osPriorityIdle, &ACMonitorTaskHandle);
 }
 
 /*-----------------------------------------------------------*/

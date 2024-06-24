@@ -31,7 +31,7 @@
 #define	modulePN		_H2AR3
 
 /* Port-related definitions */
-#define	NumOfPorts			3
+#define	NumOfPorts			4
 
 #define P_PROG 				P2						/* ST factory bootloader UART */
 /* Define available ports */
