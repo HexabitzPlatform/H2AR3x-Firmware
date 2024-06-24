@@ -97,40 +97,37 @@
 #define	USART6_AF			GPIO_AF3_USART6
 
 /* Module EEPROM Variables */
-#define NUM_MODULE_PARAMS						1
+#define NUM_MODULE_PARAMS					1
 // Module Addressing Space 500 - 599
 #define _EE_MODULE							500		
-
-#define MIN_PERIOD_MS				100
+/* Module special parameters */
+#define MIN_PERIOD_MS				    100
+#define UNSNGD_HALF_WORD_MAX_VAL        0xFFFF
+#define UNSNGD_HALF_WORD_MIN_VAL	    0x0000
+#define TWO_COMPL_VAL_MASK			    0x7FFF
+#define MIN_MEMS_PERIOD_MS				100
+#define MAX_MEMS_TIMEOUT_MS				0xFFFFFFFF
 
 #define SAMPLE_TO_PORT          1
 #define STREAM_TO_PORT          2
 #define STREAM_TO_Terminal      3
 
-#define Volt                     1
-#define Amp                      2
+/* ADC special parameters */
 #define VBAIS                    1.5            // VBAIS = 1.5 from Schematics
 #define VREF                     3              // VREF  = 3  from Schematics
-#define Resolution_12_Bit        4095           //  ADC Resolution
-#define Offsite                  0.09633899     // Calculation Offsite (Offsite= volt - VREF) in case no inpout voltag
-#define voltRatio                533.33333      // Amplifier ratio ( 150 R / 4M ) * 50
-#define shuntResistor            0.1
-#define ampTranRatio             1
-#define IDLE_CASE                0
-#define STREAM_CLI_CASE          1
-#define STREAM_PORT_CASE         2
-#define STREAM_BUFFER_CASE       3
-#define STREAM_CLI_VERBOSE_CASE  4
-#define SAMPLE_CLI_CASE          6
-#define SAMPLE_PORT_CASE         7
-#define SAMPLE_BUFFER_CASE       8
-#define SAMPLE_CLI_VERBOSE_CASE  9
+#define ADC_RESOLUTION_12_BIT    4095           //  ADC Resolution
+#define VOLTAGE_OFFSET           0.09633899     // Calculation Offsite (Offsite= volt - VREF) in case no inpout voltag
+#define VOLTRATIO                533.33333      // Amplifier ratio ( 150 R / 4M ) * 50
+
+/* LPF special parameters */
 #define FILTER_DATA_TYPE         uint32_t
 #define AVG_FILTER_ORDER_A       3
 #define AVG_FILTER_ORDER_V       10
 
-#define MIN_MEMS_PERIOD_MS				100
-#define MAX_MEMS_TIMEOUT_MS				0xFFFFFFFF
+/* Indicator LED */
+#define _IND_LED_PORT			GPIOA
+#define _IND_LED_PIN			GPIO_PIN_15
+
 /* Module_Status Type Definition */
 typedef enum {
 	H2AR3_OK = 0,
@@ -143,14 +140,21 @@ typedef enum {
 	H2AR3_ERROR = 255
 } Module_Status;
 
+/* AC monitor status type definitions */
 typedef enum {
 	VOLT=0,
 	AMP,
 }All_Data;
 
-/* Indicator LED */
-#define _IND_LED_PORT			GPIOA
-#define _IND_LED_PIN			GPIO_PIN_15
+typedef struct
+{
+    uint16_t Filter_Order;
+    uint16_t Buffer_Index;
+    FILTER_DATA_TYPE Data_Buffer[512];
+    float* Filter_Coeffecients;
+}FIR_Filter_cfg;
+
+
 
 /* Export UART variables */
 extern UART_HandleTypeDef huart1;
@@ -174,8 +178,8 @@ extern void ExecuteMonitor(void);
  |								  APIs							          |  																 	|
  /* -----------------------------------------------------------------------
  */
-Module_Status SampleV(float *volt);
-Module_Status SampleA(float *curr);
+Module_Status SampleVoltage(float *volt);
+Module_Status SampleCurrent(float *curr);
 Module_Status SampletoPort(uint8_t module,uint8_t port,All_Data function);
 Module_Status StreamToTerminal(uint8_t port,All_Data function,uint32_t Numofsamples,uint32_t timeout);
 Module_Status StreamtoPort(uint8_t module,uint8_t port,All_Data function,uint32_t Numofsamples,uint32_t timeout);
