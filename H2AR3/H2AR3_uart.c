@@ -46,7 +46,7 @@ void MX_USART1_UART_Init(void){
 
 	  HAL_UARTEx_DisableFifoMode(&huart1);
 
-#if _P4pol_reversed
+#if _P3pol_reversed
 	huart1.AdvancedInit.AdvFeatureInit = UART_ADVFEATURE_SWAP_INIT;
 	huart1.AdvancedInit.Swap = UART_ADVFEATURE_SWAP_ENABLE;
 	HAL_UART_Init(&huart1);
@@ -77,7 +77,7 @@ void MX_USART2_UART_Init(void){
 
 				  HAL_UARTEx_DisableFifoMode(&huart2);
 
-#if _P2pol_reversed
+#if _P1pol_reversed
 	huart2.AdvancedInit.AdvFeatureInit = UART_ADVFEATURE_SWAP_INIT;
 	huart2.AdvancedInit.Swap = UART_ADVFEATURE_SWAP_ENABLE;
 	HAL_UART_Init(&huart2);
@@ -168,7 +168,7 @@ void MX_USART6_UART_Init(void){
 	huart6.Init.ClockPrescaler = UART_PRESCALER_DIV1;
 	huart6.AdvancedInit.AdvFeatureInit = UART_ADVFEATURE_NO_INIT;
 	HAL_UART_Init(&huart6);
-#if _P6pol_reversed
+#if _P2pol_reversed
 	huart6.AdvancedInit.AdvFeatureInit = UART_ADVFEATURE_SWAP_INIT;
 	huart6.AdvancedInit.Swap = UART_ADVFEATURE_SWAP_ENABLE;
 	HAL_UART_Init(&huart6);

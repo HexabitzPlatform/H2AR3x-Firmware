@@ -180,7 +180,6 @@ void SetupMessagingRxDMAs(void){
 
 /* Messaging DMA RX setup (port-to-memory) 
  */
-HAL_StatusTypeDef d;
 void DMA_MSG_RX_Setup(UART_HandleTypeDef *huart,DMA_HandleTypeDef *hDMA){
 	/* Remap and link to UART Rx */
 	//RemapAndLinkDMAtoUARTRx(huart,hDMA);
@@ -192,7 +191,7 @@ void DMA_MSG_RX_Setup(UART_HandleTypeDef *huart,DMA_HandleTypeDef *hDMA){
 
 	/* Start DMA stream	*/
 
-	d=HAL_UART_Receive_DMA(huart,(uint8_t* )&UARTRxBuf[1],MSG_RX_BUF_SIZE);
+	HAL_UART_Receive_DMA(huart,(uint8_t* )&UARTRxBuf[GetPort(huart) - 1],MSG_RX_BUF_SIZE);
 }
 
 /*-----------------------------------------------------------*/

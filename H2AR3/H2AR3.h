@@ -31,33 +31,33 @@
 #define	modulePN		_H2AR3
 
 /* Port-related definitions */
-#define	NumOfPorts			4
+#define	NumOfPorts			3
 
 #define P_PROG 				P2						/* ST factory bootloader UART */
 /* Define available ports */
 #define _P1
 #define _P2 
 #define _P3 
-#define _P4
+//#define _P4
 //#define _P5
 //#define _P6
 
 /* Define available USARTs */
 #define _Usart1 1
 #define _Usart2 1
-#define _Usart3 0
-#define _Usart4 0
-#define _Usart5 0
+//#define _Usart3 0
+//#define _Usart4 0
+//#define _Usart5 0
 #define _Usart6	1
 
 /* Port-UART mapping */
 
-#define P1uart &huart4
-#define P2uart &huart2
-#define P3uart &huart6
-#define P4uart &huart1
-#define P5uart &huart5
-#define P6uart &huart3
+#define P1uart &huart2
+#define P2uart &huart6
+#define P3uart &huart1
+//#define P4uart &huart1
+//#define P5uart &huart5
+//#define P6uart &huart3
 
 /* Port Definitions */
 #define	USART1_TX_PIN		GPIO_PIN_9
