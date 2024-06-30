@@ -111,7 +111,7 @@
 #define SAMPLE_TO_PORT          1
 #define STREAM_TO_PORT          2
 #define STREAM_TO_Terminal      3
-
+#define DEFAULT                 4
 /* ADC special parameters */
 #define VBAIS                    1.5            // VBAIS = 1.5 from Schematics
 #define VREF                     3              // VREF  = 3  from Schematics
