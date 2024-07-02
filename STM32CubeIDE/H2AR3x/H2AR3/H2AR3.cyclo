@@ -1,0 +1,16 @@
+..\..\H2AR3\H2AR3.c:95:6:SystemClock_Config	1
+..\..\H2AR3\H2AR3.c:156:9:SaveToRO	14
+..\..\H2AR3\H2AR3.c:260:9:ClearROtopology	1
+..\..\H2AR3\H2AR3.c:272:6:remoteBootloaderUpdate	7
+..\..\H2AR3\H2AR3.c:324:6:SetupPortForRemoteBootloaderUpdate	1
+..\..\H2AR3\H2AR3.c:338:6:Module_Peripheral_Init	9
+..\..\H2AR3\H2AR3.c:372:15:Module_MessagingTask	1
+..\..\H2AR3\H2AR3.c:387:9:GetPort	7
+..\..\H2AR3\H2AR3.c:407:6:ACMonitorTask	1
+..\..\H2AR3\H2AR3.c:424:6:RegisterModuleCLICommands	1
+..\..\H2AR3\H2AR3.c:429:17:Adc_Calculation	3
+..\..\H2AR3\H2AR3.c:462:13:AVG_FIR_LPF	3
+..\..\H2AR3\H2AR3.c:484:15:CalculationVolt	1
+..\..\H2AR3\H2AR3.c:493:15:CalculationAmp	1
+..\..\H2AR3\H2AR3.c:502:15:SampleV	1
+..\..\H2AR3\H2AR3.c:508:15:SampleA	1

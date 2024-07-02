@@ -1,5 +1,5 @@
 /*
- BitzOS (BOS) V0.2.9 - Copyright (C) 2017-2023 Hexabitz
+ BitzOS (BOS) V0.3.4 - Copyright (C) 2017-2024 Hexabitz
  All rights reserved
 
  File Name     : BOS_inputs.c
@@ -17,9 +17,8 @@ uint32_t pressCounter[NumOfPorts + 1] = { 0 };
 uint32_t releaseCounter[NumOfPorts + 1] = { 0 };
 uint8_t dblCounter[NumOfPorts + 1] = { 0 };
 bool needToDelayButtonStateReset = false, delayButtonStateReset = false;
-ADC_HandleTypeDef hadc;
 ADC_ChannelConfTypeDef sConfig = { 0 };
-
+ADC_HandleTypeDef hadc1;
 /* Private buttons function prototypes -----------------------------------------------*/
 BOS_Status CheckForTimedButtonPress(uint8_t port);
 BOS_Status CheckForTimedButtonRelease(uint8_t port);
@@ -36,7 +35,7 @@ void buttonReleasedForYCallback(uint8_t port, uint8_t eventType);
 
 void MX_ADC_Init(void);
 void Error_Handler(void);
-uint8_t Get_channel(UART_HandleTypeDef *huart, char *side);
+uint32_t Get_channel(UART_HandleTypeDef *huart, char *side);
 uint8_t Get_Rank(uint8_t Port, char *side);
 void ReadTempAndVref(float *temp, float *Vref);
 void ReadADCChannel(uint8_t Port, char *side, float *ADC_Value);
@@ -49,14 +48,14 @@ void Deinit_ADC_Channel(uint8_t port);
 #define Vref_Cal ((uint16_t *)((uint32_t)0x1ffff7BA))
 #define V25  1.41
 #define Avg_Slope 4.3
-uint8_t Channel = 0;
+uint16_t Channel = 0;
 
 uint16_t ADCchannelvalue[4] = { 0 };
 uint16_t ADC_value_temp = 0;
 uint16_t ADC_value_Vref = 0;
 uint8_t ADC_flag = 0, Rank_t = 0;
 float percentage = 0, current = 0;
-uint8_t flag_ADC_Select=0;
+uint8_t flag_ADC_Select[2]={0};
 /* -----------------------------------------------------------------------
  |												 Private Functions	 														|
  -----------------------------------------------------------------------
@@ -397,7 +396,7 @@ BOS_Status AddPortButton(uint8_t buttonType, uint8_t port) {
 	GPIO_InitStruct.Pin = TX_Pin;
 	GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
 	GPIO_InitStruct.Pull = GPIO_NOPULL;
-	GPIO_InitStruct.Speed = GPIO_SPEED_LOW;
+	GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
 	HAL_GPIO_Init((GPIO_TypeDef*) TX_Port, &GPIO_InitStruct);
 	/* Input (RXD) */
 	GPIO_InitStruct.Pin = RX_Pin;
@@ -495,14 +494,15 @@ BOS_Status RemovePortButton(uint8_t port) {
 #ifdef _Usart6	
 		MX_USART6_UART_Init();
 #endif
-	} else if (huart->Instance == USART7) {
+	/*} else if (huart->Instance == USART7) {
 #ifdef _Usart7	
 		MX_USART7_UART_Init();
 #endif
 	} else if (huart->Instance == USART8) {
 #ifdef _Usart8	
 		MX_USART8_UART_Init();
-#endif
+#endif*/
+		//TOBECHECKED
 	} else
 		result = BOS_ERROR;
 
@@ -639,66 +639,97 @@ BOS_Status SetButtonEvents(uint8_t port, uint8_t clicked, uint8_t dbl_clicked,
  *
  */
 void MX_ADC_Init(void) {
-	hadc.Instance = ADC1;
-	hadc.Init.ClockPrescaler = ADC_CLOCK_SYNC_PCLK_DIV4;
-	hadc.Init.Resolution = ADC_RESOLUTION_12B;
-	hadc.Init.DataAlign = ADC_DATAALIGN_RIGHT;
-	hadc.Init.ScanConvMode = ADC_SCAN_DIRECTION_FORWARD;
-	hadc.Init.EOCSelection = ADC_EOC_SINGLE_CONV;
-	hadc.Init.LowPowerAutoWait = DISABLE;
-	hadc.Init.LowPowerAutoPowerOff = DISABLE;
-	hadc.Init.ContinuousConvMode = ENABLE;
-	hadc.Init.DiscontinuousConvMode = DISABLE;
-	hadc.Init.ExternalTrigConv = ADC_SOFTWARE_START;
-	hadc.Init.ExternalTrigConvEdge = ADC_EXTERNALTRIGCONVEDGE_NONE;
-	hadc.Init.DMAContinuousRequests = DISABLE;
-	hadc.Init.Overrun = ADC_OVR_DATA_PRESERVED;
 
-	if (HAL_ADC_Init(&hadc) != HAL_OK) {
+	  hadc1.Instance = ADC1;
+	  hadc1.Init.ClockPrescaler = ADC_CLOCK_SYNC_PCLK_DIV2;
+	  hadc1.Init.Resolution = ADC_RESOLUTION_12B;
+	  hadc1.Init.DataAlign = ADC_DATAALIGN_RIGHT;
+	  hadc1.Init.ScanConvMode = ADC_SCAN_SEQ_FIXED;
+	  hadc1.Init.EOCSelection = ADC_EOC_SINGLE_CONV;
+	  hadc1.Init.LowPowerAutoWait = DISABLE;
+	  hadc1.Init.LowPowerAutoPowerOff = DISABLE;
+	  hadc1.Init.ContinuousConvMode = DISABLE;
+	  hadc1.Init.NbrOfConversion = 1;
+	  hadc1.Init.ExternalTrigConv = ADC_SOFTWARE_START;
+	  hadc1.Init.ExternalTrigConvEdge = ADC_EXTERNALTRIGCONVEDGE_NONE;
+	  hadc1.Init.DMAContinuousRequests = DISABLE;
+	  hadc1.Init.Overrun = ADC_OVR_DATA_PRESERVED;
+	  hadc1.Init.SamplingTimeCommon1 = ADC_SAMPLETIME_39CYCLES_5;
+	  hadc1.Init.OversamplingMode = DISABLE;
+	  hadc1.Init.TriggerFrequencyMode = ADC_TRIGGER_FREQ_HIGH;
+
+	if (HAL_ADC_Init(&hadc1) != HAL_OK) {
 		Error_Handler();
 	}
 	ADC_flag = 1;
 }
 void HAL_ADC_MspInit(ADC_HandleTypeDef *adcHandle) {
 
-	GPIO_InitTypeDef GPIO_InitStruct = { 0 };
-		/* ADC1 clock enable */
-		__HAL_RCC_ADC1_CLK_ENABLE();
-		__HAL_RCC_GPIOA_CLK_ENABLE();
-		/**ADC GPIO Configuration
-		 PA2     ------> ADC_IN2
-		 PA3     ------> ADC_IN3
-		 PA4     ------> ADC_IN4
-		 PA5     ------> ADC_IN5
-		 */
-		if(flag_ADC_Select==1){
-		GPIO_InitStruct.Pin = GPIO_PIN_2 | GPIO_PIN_3 | GPIO_PIN_4 | GPIO_PIN_5;
-		GPIO_InitStruct.Mode = GPIO_MODE_ANALOG;
-		GPIO_InitStruct.Pull = GPIO_NOPULL;
-		HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);}
+	  GPIO_InitTypeDef GPIO_InitStruct = {0};
+	  RCC_PeriphCLKInitTypeDef PeriphClkInit = {0};
+	  if(adcHandle->Instance==ADC1)
+	  {
+	  /* USER CODE BEGIN ADC1_MspInit 0 */
 
+	  /* USER CODE END ADC1_MspInit 0 */
+
+	  /** Initializes the peripherals clocks
+	  */
+	    PeriphClkInit.PeriphClockSelection = RCC_PERIPHCLK_ADC;
+	    PeriphClkInit.AdcClockSelection = RCC_ADCCLKSOURCE_SYSCLK;
+	    if (HAL_RCCEx_PeriphCLKConfig(&PeriphClkInit) != HAL_OK)
+	    {
+	      Error_Handler();
+	    }
+
+	    /* ADC1 clock enable */
+	    __HAL_RCC_ADC_CLK_ENABLE();
+
+	    __HAL_RCC_GPIOA_CLK_ENABLE();
+	    __HAL_RCC_GPIOB_CLK_ENABLE();
+	    /**ADC1 GPIO Configuration
+	    PA6     ------> ADC1_IN6
+	    PB12     ------> ADC1_IN16
+	    */
+	    GPIO_InitStruct.Pin = GPIO_PIN_6;
+	    GPIO_InitStruct.Mode = GPIO_MODE_ANALOG;
+	    GPIO_InitStruct.Pull = GPIO_NOPULL;
+	    HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
+
+	    GPIO_InitStruct.Pin = GPIO_PIN_12;
+	    GPIO_InitStruct.Mode = GPIO_MODE_ANALOG;
+	    GPIO_InitStruct.Pull = GPIO_NOPULL;
+	    HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
+
+	  /* USER CODE BEGIN ADC1_MspInit 1 */
+
+	  /* USER CODE END ADC1_MspInit 1 */
+	  }
 }
 
 
 void HAL_ADC_MspDeInit(ADC_HandleTypeDef *adcHandle) {
 
-	if (adcHandle->Instance == ADC1) {
-		/* USER CODE BEGIN ADC1_MspDeInit 0 */
+	  if(adcHandle->Instance==ADC1)
+	  {
+	  /* USER CODE BEGIN ADC1_MspDeInit 0 */
 
-		/* USER CODE END ADC1_MspDeInit 0 */
-		/* Peripheral clock disable */
-		__HAL_RCC_ADC1_CLK_DISABLE();
+	  /* USER CODE END ADC1_MspDeInit 0 */
+	    /* Peripheral clock disable */
+	    __HAL_RCC_ADC_CLK_DISABLE();
 
-		/**ADC GPIO Configuration
-		 PA0     ------> ADC_IN0
-		 PA1     ------> ADC_IN1
-		 */
-		HAL_GPIO_DeInit(GPIOA, GPIO_PIN_0 | GPIO_PIN_1);
+	    /**ADC1 GPIO Configuration
+	    PA6     ------> ADC1_IN6
+	    PB12     ------> ADC1_IN16
+	    */
+	    HAL_GPIO_DeInit(GPIOA, GPIO_PIN_6);
 
-		/* USER CODE BEGIN ADC1_MspDeInit 1 */
+	    HAL_GPIO_DeInit(GPIOB, GPIO_PIN_12);
 
-		/* USER CODE END ADC1_MspDeInit 1 */
-	}
+	  /* USER CODE BEGIN ADC1_MspDeInit 1 */
+
+	  /* USER CODE END ADC1_MspDeInit 1 */
+	  }
 }
 
 /** select port 2 & port 3 for the selected ADC regular channel to be converted. */
@@ -707,9 +738,12 @@ void ADCSelectChannel(uint8_t ADC_port, char *side) {
 
 
 	if (ADC_port == 2 || ADC_port == 3) {
-		flag_ADC_Select=1;
+		if(ADC_port == 2)
+		{flag_ADC_Select[0]=1;}
+		else
+		{flag_ADC_Select[1]=1;}
 		HAL_UART_DeInit(GetUart(ADC_port));
-		portStatus[ADC_port - 1] = CUSTOM;
+		portStatus[ADC_port] = CUSTOM;
 		Channel = Get_channel(GetUart(ADC_port), side);
 		Rank_t = Get_Rank(ADC_port, side);
 		if (ADC_flag == 0)
@@ -727,21 +761,25 @@ void ReadADCChannel(uint8_t Port, char *side, float *ADC_Value) {
 
 		sConfig.Channel = Channel;
 		sConfig.Rank = ADC_RANK_CHANNEL_NUMBER;
-		sConfig.SamplingTime = ADC_SAMPLETIME_28CYCLES_5;
-		if (HAL_ADC_ConfigChannel(&hadc, &sConfig) != HAL_OK) {
+		//sConfig.SamplingTime = ADC_SAMPLETIME_28CYCLES_5;
+		sConfig.SamplingTime = ADC_SAMPLETIME_79CYCLES_5;
+		//TOBECHECKED
+		if (HAL_ADC_ConfigChannel(&hadc1, &sConfig) != HAL_OK) {
 			Error_Handler();
 		}
-		HAL_ADC_Start(&hadc);
-		HAL_ADC_PollForConversion(&hadc, 100);
-		ADCchannelvalue[Rank_t] = HAL_ADC_GetValue(&hadc);
+		HAL_ADC_Start(&hadc1);
+		HAL_ADC_PollForConversion(&hadc1, 100);
+		ADCchannelvalue[Rank_t] = HAL_ADC_GetValue(&hadc1);
 
-		HAL_ADC_Stop(&hadc);
+		HAL_ADC_Stop(&hadc1);
 
 		/* --- Disable chosen channel.*/
 		sConfig.Channel = Channel;
 		sConfig.Rank = ADC_RANK_NONE;
-		sConfig.SamplingTime = ADC_SAMPLETIME_28CYCLES_5;
-		if (HAL_ADC_ConfigChannel(&hadc, &sConfig) != HAL_OK) {
+		//sConfig.SamplingTime = ADC_SAMPLETIME_28CYCLES_5;
+		sConfig.SamplingTime = ADC_SAMPLETIME_79CYCLES_5;
+				//TOBECHECKED
+		if (HAL_ADC_ConfigChannel(&hadc1, &sConfig) != HAL_OK) {
 			Error_Handler();
 		}
 
@@ -761,24 +799,24 @@ void ReadTempAndVref(float *temp, float *Vref) {
 	sConfig.Channel = ADC_CHANNEL_TEMPSENSOR;
 	sConfig.Rank = ADC_RANK_CHANNEL_NUMBER;
 	sConfig.SamplingTime = ADC_SAMPLETIME_7CYCLES_5;
-	if (HAL_ADC_ConfigChannel(&hadc, &sConfig) != HAL_OK) {
+	if (HAL_ADC_ConfigChannel(&hadc1, &sConfig) != HAL_OK) {
 		Error_Handler();
 	}
 
-	HAL_ADC_Start(&hadc);
+	HAL_ADC_Start(&hadc1);
 
-	HAL_ADC_PollForConversion(&hadc, 100);
-	ADC_value_temp = HAL_ADC_GetValue(&hadc);
+	HAL_ADC_PollForConversion(&hadc1, 100);
+	ADC_value_temp = HAL_ADC_GetValue(&hadc1);
 	*temp = ((3.3 * ADC_value_temp / 4095 - V25) / Avg_Slope) + 25;
 
-	HAL_ADC_Stop(&hadc);
+	HAL_ADC_Stop(&hadc1);
 
 	/* --- Disable internal temperature channel.*/
 
 	sConfig.Channel = ADC_CHANNEL_TEMPSENSOR;
 	sConfig.Rank = ADC_RANK_NONE;
 	sConfig.SamplingTime = ADC_SAMPLETIME_7CYCLES_5;
-	if (HAL_ADC_ConfigChannel(&hadc, &sConfig) != HAL_OK) {
+	if (HAL_ADC_ConfigChannel(&hadc1, &sConfig) != HAL_OK) {
 		Error_Handler();
 	}
 
@@ -786,24 +824,26 @@ void ReadTempAndVref(float *temp, float *Vref) {
 
 	sConfig.Channel = ADC_CHANNEL_VREFINT;
 	sConfig.Rank = ADC_RANK_CHANNEL_NUMBER;
-	sConfig.SamplingTime = ADC_SAMPLETIME_55CYCLES_5;
-	if (HAL_ADC_ConfigChannel(&hadc, &sConfig) != HAL_OK) {
+	//sConfig.SamplingTime = ADC_SAMPLETIME_55CYCLES_5;
+	sConfig.SamplingTime = ADC_SAMPLETIME_79CYCLES_5;
+	//TOBECHECKED
+	if (HAL_ADC_ConfigChannel(&hadc1, &sConfig) != HAL_OK) {
 		Error_Handler();
 	}
 
-	HAL_ADC_Start(&hadc);
-	HAL_ADC_PollForConversion(&hadc, 100);
-	ADC_value_Vref = HAL_ADC_GetValue(&hadc);
+	HAL_ADC_Start(&hadc1);
+	HAL_ADC_PollForConversion(&hadc1, 100);
+	ADC_value_Vref = HAL_ADC_GetValue(&hadc1);
 	*Vref = 3.3 * (*Vref_Cal) / ADC_value_Vref;
 
-	HAL_ADC_Stop(&hadc);
+	HAL_ADC_Stop(&hadc1);
 
 	/* Disable internal Voltage Reference channel */
 
 	sConfig.Channel = ADC_CHANNEL_VREFINT;
 	sConfig.Rank = ADC_RANK_NONE;
 	sConfig.SamplingTime = ADC_SAMPLETIME_7CYCLES_5;
-	if (HAL_ADC_ConfigChannel(&hadc, &sConfig) != HAL_OK) {
+	if (HAL_ADC_ConfigChannel(&hadc1, &sConfig) != HAL_OK) {
 		Error_Handler();
 	}
 }
@@ -812,8 +852,8 @@ uint16_t Get_PIN(UART_HandleTypeDef *huart) {
 
 	if (huart->Instance == USART2)
 		return GPIO_PIN_2;
-	else if (huart->Instance == USART6)
-		return GPIO_PIN_4;
+	else if (huart->Instance == USART3)
+		return GPIO_PIN_10;
 }
 
 float GetReadPrecentage(uint8_t port, float *precentageValue) {
@@ -824,20 +864,20 @@ float GetReadPrecentage(uint8_t port, float *precentageValue) {
 			MX_ADC_Init();
 			HAL_UART_DeInit(GetUart(port));
 			if (port == 3) {
-				HAL_GPIO_DeInit(GPIOA, GPIO_PIN_4);
-				GPIO_InitStruct.Pin = GPIO_PIN_4;
+				HAL_GPIO_DeInit(GPIOB, GPIO_PIN_10);
+				GPIO_InitStruct.Pin = GPIO_PIN_10;
 				GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
-				GPIO_InitStruct.Speed = GPIO_SPEED_HIGH;
-				HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
-				portStatus[port - 1] = CUSTOM;
-				HAL_GPIO_WritePin(GPIOA, GPIO_PIN_4, GPIO_PIN_SET);
+				GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_HIGH;
+				HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
+				portStatus[port] = CUSTOM;
+				HAL_GPIO_WritePin(GPIOB, GPIO_PIN_10, GPIO_PIN_SET);
 			} else {
 				HAL_GPIO_DeInit(GPIOA, GPIO_PIN_2);
 				GPIO_InitStruct.Pin = GPIO_PIN_2;
 				GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
-				GPIO_InitStruct.Speed = GPIO_SPEED_HIGH;
+				GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_HIGH;
 				HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
-				portStatus[port - 1] = CUSTOM;
+				portStatus[port] = CUSTOM;
 				HAL_GPIO_WritePin(GPIOA, GPIO_PIN_2, GPIO_PIN_SET);
 
 			}
@@ -846,24 +886,24 @@ float GetReadPrecentage(uint8_t port, float *precentageValue) {
 		sConfig.Channel = Channel;
 		sConfig.Rank = ADC_RANK_CHANNEL_NUMBER;
 		sConfig.SamplingTime = ADC_SAMPLETIME_7CYCLES_5;
-		if (HAL_ADC_ConfigChannel(&hadc, &sConfig) != HAL_OK) {
+		if (HAL_ADC_ConfigChannel(&hadc1, &sConfig) != HAL_OK) {
 			Error_Handler();
 
 		}
-		HAL_ADC_Start(&hadc);
-		HAL_ADC_PollForConversion(&hadc, 100);
-		percentage = HAL_ADC_GetValue(&hadc);
+		HAL_ADC_Start(&hadc1);
+		HAL_ADC_PollForConversion(&hadc1, 100);
+		percentage = HAL_ADC_GetValue(&hadc1);
 		percentage = 3.3 * percentage / 4095;
 
 		current = (100 * percentage) / 3.3;
 		*precentageValue = current;
-		HAL_ADC_Stop(&hadc);
+		HAL_ADC_Stop(&hadc1);
 
 		/* --- Disable chosen channel.*/
 		sConfig.Channel = Channel;
 		sConfig.Rank = ADC_RANK_NONE;
 		sConfig.SamplingTime = ADC_SAMPLETIME_7CYCLES_5;
-		if (HAL_ADC_ConfigChannel(&hadc, &sConfig) != HAL_OK) {
+		if (HAL_ADC_ConfigChannel(&hadc1, &sConfig) != HAL_OK) {
 			Error_Handler();
 		}
 
@@ -872,16 +912,16 @@ float GetReadPrecentage(uint8_t port, float *precentageValue) {
 
 /* --- Get the ADC_channel Number for a given UART.
  */
-uint8_t Get_channel(UART_HandleTypeDef *huart, char *side) {
+uint32_t Get_channel(UART_HandleTypeDef *huart, char *side) {
 
-	if (huart->Instance == USART2 && side == "top")
+	if (huart->Instance == USART2 && !strcmp(side,"top"))
 		return ADC_CHANNEL_2;
-	else if (huart->Instance == USART2 && side == "bottom")
+	else if (huart->Instance == USART2 && !strcmp(side,"bottom"))
 		return ADC_CHANNEL_3;
-	else if (huart->Instance == USART6 && side == "top")
-		return ADC_CHANNEL_4;
-	else if (huart->Instance == USART6 && side == "bottom")
-		return ADC_CHANNEL_5;
+	else if (huart->Instance == USART3 && !strcmp(side,"top"))
+		return ADC_CHANNEL_11;
+	else if (huart->Instance == USART3 && !strcmp(side,"bottom"))
+		return ADC_CHANNEL_15;
 }
 
 void Error_Handler(void) {
@@ -892,22 +932,22 @@ void Error_Handler(void) {
 
 uint8_t Get_Rank(uint8_t Port, char *side) {
 
-	if (Port == 2 && side == "top")
+	if (Port == 2 && !strcmp(side,"top"))
 		Rank_t = 0;
-	else if (Port == 2 && side == "bottom")
+	else if (Port == 2 && !strcmp(side,"bottom"))
 		Rank_t = 1;
-	else if (Port == 3 && side == "top")
+	else if (Port == 3 && !strcmp(side,"top"))
 		Rank_t = 2;
-	else if (Port == 3 && side == "bottom")
+	else if (Port == 3 && !strcmp(side,"bottom"))
 		Rank_t = 3;
 	return Rank_t;
 }
 
 void Deinit_ADC_Channel(uint8_t port) {
 
-	HAL_ADC_DeInit(&hadc);
+	HAL_ADC_DeInit(&hadc1);
 	HAL_UART_Init(GetUart(port));
-	portStatus[port - 1] = FREE;
+	portStatus[port] = FREE;
 	ADC_flag = 0;
 }
 

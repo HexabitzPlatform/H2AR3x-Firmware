@@ -1,10 +1,18 @@
 /*
-    BitzOS (BOS) V0.2.9 - Copyright (C) 2017-2023 Hexabitz
-    All rights reserved
-		
-    File Name     : H2AR3.h
-    Description   : Header file for module H2AR3 AC current and voltage sensor.
-*/
+ BitzOS (BOS) V0.3.4 - Copyright (C) 2017-2024 Hexabitz
+ All rights reserved
+ 
+ File Name     : H2AR3.h
+ Description   : Header file for module H2AR3.
+ (Description_of_module)
+
+ (Description of Special module peripheral configuration):
+ >>
+ >>
+ >>
+
+ */
+
 /* Define to prevent recursive inclusion -------------------------------------*/
 #ifndef H2AR3_H
 #define H2AR3_H
@@ -17,37 +25,47 @@
 #include "H2AR3_dma.h"
 #include "H2AR3_inputs.h"
 #include "H2AR3_eeprom.h"
-	
+#include "H2AR3_adc.h"
 /* Exported definitions -------------------------------------------------------*/
 
-#define	modulePN			_H2AR3
-#define _IND_LED_PORT		GPIOA
-#define _IND_LED_PIN		GPIO_PIN_11
-
+#define	modulePN		_H2AR3
 
 /* Port-related definitions */
 #define	NumOfPorts			3
-#define P_PROG 				P2						/* ST factory bootloader UART */
 
+#define P_PROG 				P2						/* ST factory bootloader UART */
 /* Define available ports */
-#define _P1 
+#define _P1
 #define _P2 
 #define _P3 
-
+//#define _P4
+//#define _P5
+//#define _P6
 
 /* Define available USARTs */
 #define _Usart1 1
 #define _Usart2 1
-#define _Usart3 1
-#define _Usart4 1
-#define _Usart6 1
+//#define _Usart3 0
+//#define _Usart4 0
+//#define _Usart5 0
+#define _Usart6	1
 
 /* Port-UART mapping */
+
 #define P1uart &huart2
 #define P2uart &huart6
-#define P3uart &huart3
+#define P3uart &huart1
+//#define P4uart &huart1
+//#define P5uart &huart5
+//#define P6uart &huart3
 
 /* Port Definitions */
+#define	USART1_TX_PIN		GPIO_PIN_9
+#define	USART1_RX_PIN		GPIO_PIN_10
+#define	USART1_TX_PORT		GPIOA
+#define	USART1_RX_PORT		GPIOA
+#define	USART1_AF			GPIO_AF1_USART1
+
 #define	USART2_TX_PIN		GPIO_PIN_2
 #define	USART2_RX_PIN		GPIO_PIN_3
 #define	USART2_TX_PORT		GPIOA
@@ -58,35 +76,84 @@
 #define	USART3_RX_PIN		GPIO_PIN_11
 #define	USART3_TX_PORT		GPIOB
 #define	USART3_RX_PORT		GPIOB
-#define	USART3_AF			GPIO_AF4_USART3
+#define	USART3_AF			GPIO_AF4_USART6
+
+#define	USART4_TX_PIN		GPIO_PIN_0
+#define	USART4_RX_PIN		GPIO_PIN_1
+#define	USART4_TX_PORT		GPIOA
+#define	USART4_RX_PORT		GPIOA
+#define	USART4_AF			GPIO_AF4_USART4
+
+#define	USART5_TX_PIN		GPIO_PIN_3
+#define	USART5_RX_PIN		GPIO_PIN_2
+#define	USART5_TX_PORT		GPIOD
+#define	USART5_RX_PORT		GPIOD
+#define	USART5_AF			GPIO_AF3_USART5
 
 #define	USART6_TX_PIN		GPIO_PIN_4
 #define	USART6_RX_PIN		GPIO_PIN_5
 #define	USART6_TX_PORT		GPIOA
 #define	USART6_RX_PORT		GPIOA
-#define	USART6_AF			GPIO_AF5_USART6
+#define	USART6_AF			GPIO_AF3_USART6
 
+/* Module EEPROM Variables */
+#define NUM_MODULE_PARAMS					1
+// Module Addressing Space 500 - 599
+#define _EE_MODULE							500		
+/* Module special parameters */
+#define MIN_PERIOD_MS				    100
+#define UNSNGD_HALF_WORD_MAX_VAL        0xFFFF
+#define UNSNGD_HALF_WORD_MIN_VAL	    0x0000
+#define TWO_COMPL_VAL_MASK			    0x7FFF
+#define MIN_MEMS_PERIOD_MS				100
+#define MAX_MEMS_TIMEOUT_MS				0xFFFFFFFF
 
-#define NUM_MODULE_PARAMS		1
+#define SAMPLE_TO_PORT          1
+#define STREAM_TO_PORT          2
+#define STREAM_TO_Terminal      3
+#define DEFAULT                 4
+/* ADC special parameters */
+#define VBAIS                    1.5            // VBAIS = 1.5 from Schematics
+#define VREF                     3              // VREF  = 3  from Schematics
+#define ADC_RESOLUTION_12_BIT    4095           //  ADC Resolution
+#define VOLTAGE_OFFSET           0.09633899     // Calculation Offsite (Offsite= volt - VREF) in case no inpout voltag
+#define VOLTRATIO                533.33333      // Amplifier ratio ( 150 R / 4M ) * 50
 
-typedef enum  { STATE_OFF, STATE_ON, STATE_PWM } Relay_state_t; 
+/* LPF special parameters */
+#define FILTER_DATA_TYPE         uint32_t
+#define AVG_FILTER_ORDER_A       3
+#define AVG_FILTER_ORDER_V       10
 
+/* Indicator LED */
+#define _IND_LED_PORT			GPIOA
+#define _IND_LED_PIN			GPIO_PIN_15
 
-#define TIMERID_TIMEOUT_MEASUREMENT   0xFF
-#define STOP_MEASUREMENT_RANGING      0
-#define START_MEASUREMENT_RANGING     1
-
-/* H01R0_Status Type Definition */  
-typedef enum 
-{
-    H2AR3_OK = 0,
-	H2AR3_ERR_UnknownMessage = 1,
-	H2AR3_ERR_WrongParams = 2,
+/* Module_Status Type Definition */
+typedef enum {
+	H2AR3_OK = 0,
+	H2AR3_ERR_UnknownMessage,
+	H2AR3_ERR_WrongColor,
+	H2AR3_ERR_WrongIntensity,
+	H2AR3_ERR_WrongMode,
+	H2AR3_ERR_WrongParams,
+	H2AR3_ERR_TERMINATED,
 	H2AR3_ERROR = 255
 } Module_Status;
 
+/* AC monitor status type definitions */
+typedef enum {
+	VOLT=0,
+	AMP,
+}All_Data;
 
-/* Indicator LED */
+typedef struct
+{
+    uint16_t Filter_Order;
+    uint16_t Buffer_Index;
+    FILTER_DATA_TYPE Data_Buffer[512];
+    float* Filter_Coeffecients;
+}FIR_Filter_cfg;
+
 
 
 /* Export UART variables */
@@ -94,196 +161,38 @@ extern UART_HandleTypeDef huart1;
 extern UART_HandleTypeDef huart2;
 extern UART_HandleTypeDef huart3;
 extern UART_HandleTypeDef huart4;
+extern UART_HandleTypeDef huart5;
 extern UART_HandleTypeDef huart6;
-
-/* Define ADC_DMA Init prototypes */
-extern DMA_HandleTypeDef hdma_adc;
-extern ADC_HandleTypeDef hadc;
 
 /* Define UART Init prototypes */
 extern void MX_USART1_UART_Init(void);
 extern void MX_USART2_UART_Init(void);
 extern void MX_USART3_UART_Init(void);
 extern void MX_USART4_UART_Init(void);
+extern void MX_USART5_UART_Init(void);
 extern void MX_USART6_UART_Init(void);
+extern void SystemClock_Config(void);
+extern void ExecuteMonitor(void);
 
-/* Define UART Init prototypes */
-extern void MX_ADC_Init(void);
-//extern void ADC_Channel_config(void);
-
-extern void ADC_Select_CH7(void);
-extern void ADC_Deselect_CH7(void);
-extern void ADC_Select_CH9(void);
-extern void ADC_Deselect_CH9(void);
-
-extern uint32_t Volt_buffer[1];
-extern uint32_t Amp_buffer[1];
 /* -----------------------------------------------------------------------
-	|																APIs	 																 	|
-   ----------------------------------------------------------------------- 
-*/
+ |								  APIs							          |  																 	|
+ /* -----------------------------------------------------------------------
+ */
+Module_Status SampleVoltage(float *volt);
+Module_Status SampleCurrent(float *curr);
+Module_Status SampletoPort(uint8_t module,uint8_t port,All_Data function);
+Module_Status StreamToTerminal(uint8_t port,All_Data function,uint32_t Numofsamples,uint32_t timeout);
+Module_Status StreamtoPort(uint8_t module,uint8_t port,All_Data function,uint32_t Numofsamples,uint32_t timeout);
 
-extern uint8_t SampleV(float * temp);
-extern uint8_t SampleA(float * temp);
-extern float CalculationVolt(void);
-extern float CalculationAmp(void);
-#endif
+void SetupPortForRemoteBootloaderUpdate(uint8_t port);
+void remoteBootloaderUpdate(uint8_t src, uint8_t dst, uint8_t inport,
+		uint8_t outport);
 
+/* -----------------------------------------------------------------------
+ |								Commands							      |															 	|
+ /* -----------------------------------------------------------------------
+ */
 
+#endif /* H2AR3_H */
 
 /************************ (C) COPYRIGHT HEXABITZ *****END OF FILE****/
-
-
-///*
-//    BitzOS (BOS) V0.2.4 - Copyright (C) 2017-2021 Hexabitz
-//    All rights reserved
-//
-//    File Name     : H2AR3.h
-//    Description   : Header file for module H2AR3 AC current and voltage sensor.
-//*/
-///* Define to prevent recursive inclusion -------------------------------------*/
-//#ifndef H2AR3_H
-//#define H2AR3_H
-//
-///* Includes ------------------------------------------------------------------*/
-//#include "BOS.h"
-//#include "H2AR3_MemoryMap.h"
-//#include "H2AR3_uart.h"
-//#include "H2AR3_gpio.h"
-//#include "H2AR3_dma.h"
-//
-//
-///* Exported definitions -------------------------------------------------------*/
-//
-//#define	modulePN			_H2AR3
-//#define _IND_LED_PORT		GPIOA
-//#define _IND_LED_PIN		GPIO_PIN_11
-//
-//
-///* Port-related definitions */
-//#define	NumOfPorts			5
-//#define P_PROG 				P2						/* ST factory bootloader UART */
-//
-///* Define available ports */
-//#define _P1
-//#define _P2
-//#define _P3
-//#define _P4
-//#define _P5
-//
-///* Define available USARTs */
-//#define _Usart1 1
-//#define _Usart2 1
-//#define _Usart3 1
-//#define _Usart4 1
-//#define _Usart6 1
-//
-///* Port-UART mapping */
-//#define P1uart &huart4
-//#define P2uart &huart2
-//#define P3uart &huart6
-//#define P4uart &huart3
-//#define P5uart &huart1
-//
-///* Port Definitions */
-//#define	USART1_TX_PIN		GPIO_PIN_9
-//#define	USART1_RX_PIN		GPIO_PIN_10
-//#define	USART1_TX_PORT		GPIOA
-//#define	USART1_RX_PORT		GPIOA
-//#define	USART1_AF			GPIO_AF1_USART1
-//
-//#define	USART2_TX_PIN		GPIO_PIN_2
-//#define	USART2_RX_PIN		GPIO_PIN_3
-//#define	USART2_TX_PORT		GPIOA
-//#define	USART2_RX_PORT		GPIOA
-//#define	USART2_AF			GPIO_AF1_USART2
-//
-//#define	USART3_TX_PIN		GPIO_PIN_10
-//#define	USART3_RX_PIN		GPIO_PIN_11
-//#define	USART3_TX_PORT		GPIOB
-//#define	USART3_RX_PORT		GPIOB
-//#define	USART3_AF			GPIO_AF4_USART3
-//
-//#define	USART4_TX_PIN		GPIO_PIN_0
-//#define	USART4_RX_PIN		GPIO_PIN_1
-//#define	USART4_TX_PORT		GPIOA
-//#define	USART4_RX_PORT		GPIOA
-//#define	USART4_AF			GPIO_AF4_USART4
-//
-//#define	USART5_TX_PIN		GPIO_PIN_3
-//#define	USART5_RX_PIN		GPIO_PIN_4
-//#define	USART5_TX_PORT	    GPIOB
-//#define	USART5_RX_PORT		GPIOB
-//#define	USART5_AF			GPIO_AF4_USART5
-//
-//#define	USART6_TX_PIN		GPIO_PIN_4
-//#define	USART6_RX_PIN		GPIO_PIN_5
-//#define	USART6_TX_PORT		GPIOA
-//#define	USART6_RX_PORT		GPIOA
-//#define	USART6_AF			GPIO_AF5_USART6
-//
-//
-//#define NUM_MODULE_PARAMS		1
-//
-//typedef enum  { STATE_OFF, STATE_ON, STATE_PWM } Relay_state_t;
-//
-//
-//#define TIMERID_TIMEOUT_MEASUREMENT   0xFF
-//#define STOP_MEASUREMENT_RANGING      0
-//#define START_MEASUREMENT_RANGING     1
-//
-///* H01R0_Status Type Definition */
-//typedef enum
-//{
-//    H2AR3_OK = 0,
-//	H2AR3_ERR_UnknownMessage = 1,
-//	H2AR3_ERR_WrongParams = 2,
-//	H2AR3_ERROR = 255
-//} Module_Status;
-//
-//
-///* Indicator LED */
-//
-//
-///* Export UART variables */
-//extern UART_HandleTypeDef huart1;
-//extern UART_HandleTypeDef huart2;
-//extern UART_HandleTypeDef huart3;
-//extern UART_HandleTypeDef huart4;
-//extern UART_HandleTypeDef huart6;
-//
-///* Define ADC_DMA Init prototypes */
-//extern DMA_HandleTypeDef hdma_adc;
-//extern ADC_HandleTypeDef hadc;
-//
-///* Define UART Init prototypes */
-//extern void MX_USART1_UART_Init(void);
-//extern void MX_USART2_UART_Init(void);
-//extern void MX_USART3_UART_Init(void);
-//extern void MX_USART4_UART_Init(void);
-//extern void MX_USART6_UART_Init(void);
-//
-///* Define UART Init prototypes */
-//extern void MX_ADC_Init(void);
-////extern void ADC_Channel_config(void);
-//
-//extern void ADC_Select_CH7(void);
-//extern void ADC_Deselect_CH7(void);
-//extern void ADC_Select_CH9(void);
-//extern void ADC_Deselect_CH9(void);
-//
-//extern uint32_t Volt_buffer[1];
-//extern uint32_t Amp_buffer[1];
-///* -----------------------------------------------------------------------
-//	|																APIs	 																 	|
-//   -----------------------------------------------------------------------
-//*/
-//
-//extern int SampleV(float * temp);
-//extern int SampleA(float * temp);
-//extern float CalculationVolt(void);
-//extern float CalculationAmp(void);
-//#endif
-void SetupPortForRemoteBootloaderUpdate(uint8_t port);
-void remoteBootloaderUpdate(uint8_t src,uint8_t dst,uint8_t inport,uint8_t outport);
-///************************ (C) COPYRIGHT HEXABITZ *****END OF FILE****/
