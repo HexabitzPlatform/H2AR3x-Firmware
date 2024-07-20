@@ -575,7 +575,7 @@ Module_Status Exportstreamtoport (uint8_t module,uint8_t port,All_Data function,
 		vTaskDelay(pdMS_TO_TICKS(period));
 		samples++;
 	}
-	module1 = DEFAULT;
+	tofMode = DEFAULT;
 	samples = 0;
 	return status;
 }
@@ -604,11 +604,12 @@ switch (Mode) {
 			else
 				messageParams[1] = BOS_ERROR;
 			messageParams[0] = FMT_FLOAT;
-			messageParams[2] = (uint8_t) ((*(uint32_t*) &floatData) >> 0);
-			messageParams[3] = (uint8_t) ((*(uint32_t*) &floatData) >> 8);
-			messageParams[4] = (uint8_t) ((*(uint32_t*) &floatData) >> 16);
-			messageParams[5] = (uint8_t) ((*(uint32_t*) &floatData) >> 24);
-			SendMessageToModule(module, CODE_READ_RESPONSE, sizeof(float) + 2);
+			messageParams[2] = 1;
+			messageParams[3] = (uint8_t) ((*(uint32_t*) &floatData) >> 0);
+			messageParams[4] = (uint8_t) ((*(uint32_t*) &floatData) >> 8);
+			messageParams[5] = (uint8_t) ((*(uint32_t*) &floatData) >> 16);
+			messageParams[6] = (uint8_t) ((*(uint32_t*) &floatData) >> 24);
+			SendMessageToModule(module, CODE_READ_RESPONSE, sizeof(float) + 3);
 		}
 		break;
 	case AMP:
@@ -625,17 +626,18 @@ switch (Mode) {
 			else
 				messageParams[1] = BOS_ERROR;
 			messageParams[0] = FMT_FLOAT;
-			messageParams[2] = (uint8_t) ((*(uint32_t*) &floatData) >> 0);
-			messageParams[3] = (uint8_t) ((*(uint32_t*) &floatData) >> 8);
-			messageParams[4] = (uint8_t) ((*(uint32_t*) &floatData) >> 16);
-			messageParams[5] = (uint8_t) ((*(uint32_t*) &floatData) >> 24);
-			SendMessageToModule(module, CODE_READ_RESPONSE, sizeof(float) + 2);
+			messageParams[2] = 1;
+			messageParams[3] = (uint8_t) ((*(uint32_t*) &floatData) >> 0);
+			messageParams[4] = (uint8_t) ((*(uint32_t*) &floatData) >> 8);
+			messageParams[5] = (uint8_t) ((*(uint32_t*) &floatData) >> 16);
+			messageParams[6] = (uint8_t) ((*(uint32_t*) &floatData) >> 24);
+			SendMessageToModule(module, CODE_READ_RESPONSE, sizeof(float) + 3);
 	default:
 		break;
 }
 
 	}
-	module1 = DEFAULT;
+	tofMode = DEFAULT;
 	memset(&temp[0], 0, sizeof(temp));
 	return status;
 }
@@ -721,7 +723,7 @@ Module_Status Exportstreamtoterminal(uint32_t Numofsamples, uint32_t timeout,uin
 
 	}
 
-	module1 = DEFAULT;
+	tofMode = DEFAULT;
 	return status;
  }
 
