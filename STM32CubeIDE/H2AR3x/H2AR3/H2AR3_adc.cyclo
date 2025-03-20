@@ -1,4 +1,4 @@
-..\..\H2AR3\H2AR3_adc.c:11:6:ADC_Select_CH7	1
-..\..\H2AR3\H2AR3_adc.c:25:6:ADC_Deselect_CH7	1
-..\..\H2AR3\H2AR3_adc.c:38:6:ADC_Select_CH9	1
-..\..\H2AR3\H2AR3_adc.c:52:6:ADC_Deselect_CH9	1
+..\..\H2AR3\H2AR3_adc.c:11:6:ADC_Select_CH6	1
+..\..\H2AR3\H2AR3_adc.c:25:6:ADC_Deselect_CH6	1
+..\..\H2AR3\H2AR3_adc.c:38:6:ADC_Select_CH16	1
+..\..\H2AR3\H2AR3_adc.c:52:6:ADC_Deselect_CH16	1
