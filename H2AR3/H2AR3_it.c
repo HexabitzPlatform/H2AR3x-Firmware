@@ -25,6 +25,7 @@ extern TaskHandle_t xCommandConsoleTaskHandle; // CLI Task handler.
 
 uint16_t PacketLength = 0;
 uint8_t count = 0;
+extern uint8_t WakeupFromStopFlag;
 /******************************************************************************/
 /*            Cortex-M0 Processor Interruption and Exception Handlers         */
 /******************************************************************************/
@@ -341,7 +342,26 @@ void HAL_UART_ErrorCallback(UART_HandleTypeDef *huart){
 }
 
 /*-----------------------------------------------------------*/
+/*-----------------------------------------------------------*/
+/**
+  * @brief UART wakeup from Stop mode callback
+  * @param huart: uart handle
+  * @retval None
+  */
+void HAL_UARTEx_WakeupCallback(UART_HandleTypeDef *huart) {
 
+	WakeupFromStopFlag = 1;
+
+	if (huart->Instance == USART1)
+		HAL_UARTEx_DisableStopMode(huart);
+
+	if (huart->Instance == USART2)
+		HAL_UARTEx_DisableStopMode(huart);
+
+	if (huart->Instance == USART3)
+		HAL_UARTEx_DisableStopMode(huart);
+
+}
 void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart){
 //	uint8_t port_number = GetPort(huart);
 //	uint8_t port_index = port_number - 1;
