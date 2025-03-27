@@ -28,8 +28,14 @@ UART_HandleTypeDef huart6;
 extern FLASH_ProcessTypeDef pFlash;
 extern uint8_t numOfRecordedSnippets;
 
-/* Module exported parameters ------------------------------------------------*/
-module_param_t modParam[NUM_MODULE_PARAMS] ={{.paramPtr = NULL, .paramFormat =FMT_FLOAT, .paramName =""}};
+float H2AR3_voltage = 0.0f;
+float H2AR3_current = 0.0f;
+
+/* Exported Typedef */
+module_param_t modParam[NUM_MODULE_PARAMS] = {
+    {.paramPtr = &H2AR3_voltage, .paramFormat = FMT_FLOAT, .paramName = "voltage"},
+    {.paramPtr = &H2AR3_current, .paramFormat = FMT_FLOAT, .paramName = "current"}
+};
 
 /* Local functions */
 Module_Status CalculationVolt( float * measured_volt) ;
@@ -401,6 +407,36 @@ void Module_Peripheral_Init(void) {
 		xTaskCreate(ACMonitorTask, (const char*) "ACMonitorTask",
 				configMINIMAL_STACK_SIZE, NULL,
 				osPriorityNormal - osPriorityIdle, &ACMonitorTaskHandle);
+}
+
+/***************************************************************************/
+/* This function is useful only for input (sensor) modules.
+ * @brief: Samples a module parameter value based on parameter index.
+ * @param paramIndex: Index of the parameter (1-based index).
+ * @param value: Pointer to store the sampled float value.
+ * @retval: Module_Status indicating success or failure.
+ */
+Module_Status GetModuleParameter(uint8_t paramIndex, float *value) {
+    Module_Status status = BOS_OK;
+
+    switch (paramIndex) {
+        /* Sample Voltage */
+        case 1:
+            status = SampleVoltage(value);
+            break;
+
+        /* Sample Current */
+        case 2:
+            status = SampleCurrent(value);
+            break;
+
+        /* Invalid parameter index */
+        default:
+            status = BOS_ERR_WrongParam;
+            break;
+    }
+
+    return status;
 }
 
 /*-----------------------------------------------------------*/

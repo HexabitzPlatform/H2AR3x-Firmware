@@ -97,7 +97,7 @@
 #define	USART6_AF			GPIO_AF3_USART6
 
 /* Module EEPROM Variables */
-#define NUM_MODULE_PARAMS					1
+#define NUM_MODULE_PARAMS					2
 // Module Addressing Space 500 - 599
 #define _EE_MODULE							500		
 /* Module special parameters */
