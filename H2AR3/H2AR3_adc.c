@@ -57,15 +57,15 @@ void HAL_ADC_MspInit(ADC_HandleTypeDef *adcHandle) {
 		 PA6     ------> ADC1_IN6
 		 PB12     ------> ADC1_IN16
 		 */
-		GPIO_InitStruct.Pin = GPIO_PIN_6;
+		GPIO_InitStruct.Pin = AMP_ADC_PIN;
 		GPIO_InitStruct.Mode = GPIO_MODE_ANALOG;
 		GPIO_InitStruct.Pull = GPIO_NOPULL;
-		HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
+		HAL_GPIO_Init(AMP_ADC_GPIO_PORT, &GPIO_InitStruct);
 
-		GPIO_InitStruct.Pin = GPIO_PIN_12;
+		GPIO_InitStruct.Pin = VOLT_ADC_PIN;
 		GPIO_InitStruct.Mode = GPIO_MODE_ANALOG;
 		GPIO_InitStruct.Pull = GPIO_NOPULL;
-		HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
+		HAL_GPIO_Init(VOLT_ADC_GPIO_PORT, &GPIO_InitStruct);
 
 	}
 }
@@ -82,17 +82,17 @@ void HAL_ADC_MspDeInit(ADC_HandleTypeDef *adcHandle) {
 		 PA6     ------> ADC1_IN6
 		 PB12     ------> ADC1_IN16
 		 */
-		HAL_GPIO_DeInit(GPIOA, GPIO_PIN_6);
+		HAL_GPIO_DeInit(AMP_ADC_GPIO_PORT, AMP_ADC_PIN);
 
-		HAL_GPIO_DeInit(GPIOB, GPIO_PIN_12);
+		HAL_GPIO_DeInit(VOLT_ADC_GPIO_PORT, VOLT_ADC_PIN);
 	}
 }
 
 /***************************************************************************/
-void ADC_Select_CH6(void) {
+void SelectAmpereADCChannel(void) {
 	ADC_ChannelConfTypeDef sConfig = { 0 };
 
-	sConfig.Channel = ADC_CHANNEL_6;
+	sConfig.Channel = AMP_ADC_CHANNEL;
 	sConfig.Rank = ADC_RANK_CHANNEL_NUMBER;
 	sConfig.SamplingTime = ADC_SAMPLETIME_39CYCLES_5;
 
@@ -100,10 +100,10 @@ void ADC_Select_CH6(void) {
 }
 
 /***************************************************************************/
-void ADC_Deselect_CH6(void) {
+void DeselectAmpereADCChannel(void) {
 	ADC_ChannelConfTypeDef sConfig = { 0 };
 
-	sConfig.Channel = ADC_CHANNEL_6;
+	sConfig.Channel = AMP_ADC_CHANNEL;
 	sConfig.Rank = ADC_RANK_NONE;
 	sConfig.SamplingTime = ADC_SAMPLETIME_39CYCLES_5;
 
@@ -111,10 +111,10 @@ void ADC_Deselect_CH6(void) {
 }
 
 /***************************************************************************/
-void ADC_Select_CH16(void) {
+void SelectVoltADCChannel(void) {
 	ADC_ChannelConfTypeDef sConfig = { 0 };
 
-	sConfig.Channel = ADC_CHANNEL_16;
+	sConfig.Channel = VOLT_ADC_CHANNEL;
 	sConfig.Rank = ADC_RANK_CHANNEL_NUMBER;
 	sConfig.SamplingTime = ADC_SAMPLETIME_39CYCLES_5;
 
@@ -122,10 +122,10 @@ void ADC_Select_CH16(void) {
 }
 
 /***************************************************************************/
-void ADC_Deselect_CH16(void) {
+void DeselectVoltADCChannel(void) {
 	ADC_ChannelConfTypeDef sConfig = { 0 };
 
-	sConfig.Channel = ADC_CHANNEL_16;
+	sConfig.Channel = VOLT_ADC_CHANNEL;
 	sConfig.Rank = ADC_RANK_NONE;
 	sConfig.SamplingTime = ADC_SAMPLETIME_39CYCLES_5;
 

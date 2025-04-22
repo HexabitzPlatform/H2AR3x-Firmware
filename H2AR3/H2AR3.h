@@ -87,6 +87,13 @@
 #define	USART6_AF			GPIO_AF3_USART6
 
 /* ADC Pin Definition */
+#define VOLT_ADC_PIN        GPIO_PIN_12
+#define VOLT_ADC_GPIO_PORT  GPIOB
+#define VOLT_ADC_CHANNEL    ADC_CHANNEL_16
+
+#define AMP_ADC_PIN         GPIO_PIN_6
+#define AMP_ADC_GPIO_PORT   GPIOA
+#define AMP_ADC_CHANNEL     ADC_CHANNEL_6
 
 /* Indicator LED */
 #define _IND_LED_PORT	    GPIOA
@@ -106,7 +113,7 @@
 
 #define NUM_MODULE_PARAMS		 2
 
-/* Module special parameters */
+/* Streaming parameters */
 #define MIN_PERIOD_MS		     100
 #define MIN_MEMS_PERIOD_MS		 100
 #define MAX_MEMS_TIMEOUT_MS		 0xFFFFFFFF
@@ -167,4 +174,4 @@ Module_Status StreamtoPort(uint8_t module,uint8_t port,All_Data function,uint32_
 
 #endif /* H2AR3_H */
 
-/************************ (C) COPYRIGHT HEXABITZ *****END OF FILE****/
+/***************** (C) COPYRIGHT HEXABITZ ***** END OF FILE ****************/

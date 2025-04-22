@@ -15,14 +15,7 @@
 #endif
 
 /* Includes ****************************************************************/
-#include "stm32g0xx_hal.h"
-
-
-#define VOLT_ADC_PIN        GPIO_PIN_1
-#define VOLT_ADC_GPIO_PORT  GPIOB
-
-#define AMP_ADC_PIN         GPIO_PIN_7
-#define AMP_ADC_GPIO_PORT   GPIOA
+#include "BOS.h"
 
 /* Exported Variables ******************************************************/
 extern ADC_HandleTypeDef hadc1;
@@ -30,10 +23,10 @@ extern DMA_HandleTypeDef hdma_adc;
 
 /* Exported Functions ******************************************************/
 void MX_ADC_Init(void);
-void ADC_Select_CH6(void);
-void ADC_Deselect_CH6(void);
-void ADC_Select_CH16(void);
-void ADC_Deselect_CH16(void);
+void SelectAmpereADCChannel(void);
+void DeselectAmpereADCChannel(void);
+void SelectVoltADCChannel(void);
+void DeselectVoltADCChannel(void);
 
 #ifdef __cplusplus
 }

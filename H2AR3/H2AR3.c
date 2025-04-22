@@ -682,30 +682,33 @@ void ACMonitorTask(void *argument) {
 
 /***************************************************************************/
 uint32_t ADCCalculation(uint8_t selected) {
-
 	uint32_t adcTemp =0;
 	uint32_t adcTempFiltered =0;
 
 	switch (selected) {
 	case AMP:
 		AMPFilter.FilterOrder = AVG_FILTER_ORDER_A;
-		ADC_Select_CH6();
+		SelectAmpereADCChannel();
+
 		HAL_ADC_Start(&hadc1);
 		HAL_ADC_PollForConversion(&hadc1, 1000);
 		adcTemp = HAL_ADC_GetValue(&hadc1);
 		HAL_ADC_Stop(&hadc1);
-		ADC_Deselect_CH6();
+
+		DeselectAmpereADCChannel();
 		AvarageLPF(adcTemp, &adcTempFiltered, &AMPFilter);
 		break;
 
 	case VOLT:
 		VoltFilter.FilterOrder = AVG_FILTER_ORDER_V;
-		ADC_Select_CH16();
+		SelectVoltADCChannel();
+
 		HAL_ADC_Start(&hadc1);
 		HAL_ADC_PollForConversion(&hadc1, 1000);
 		adcTemp = HAL_ADC_GetValue(&hadc1);
 		HAL_ADC_Stop(&hadc1);
-		ADC_Deselect_CH16();
+
+		DeselectVoltADCChannel();
 		AvarageLPF(adcTemp, &adcTempFiltered, &VoltFilter);
 		break;
 
