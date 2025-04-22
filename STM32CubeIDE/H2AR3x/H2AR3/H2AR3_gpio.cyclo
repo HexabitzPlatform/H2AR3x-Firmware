@@ -1,4 +1,0 @@
-..\..\H2AR3\H2AR3_gpio.c:18:6:GPIO_Init	1
-..\..\H2AR3\H2AR3_gpio.c:31:6:IND_LED_Init	1
-..\..\H2AR3\H2AR3_gpio.c:44:9:IsFactoryReset	3
-..\..\H2AR3\H2AR3_gpio.c:91:12:GetPortGPIOs	4

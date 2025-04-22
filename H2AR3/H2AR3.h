@@ -1,5 +1,5 @@
 /*
- BitzOS (BOS) V0.3.4 - Copyright (C) 2017-2024 Hexabitz
+ BitzOS (BOS) V0.4.0 - Copyright (C) 2017-2025 Hexabitz
  All rights reserved
  
  File Name     : H2AR3.h
@@ -10,14 +10,13 @@
  >>
  >>
  >>
-
  */
 
-/* Define to prevent recursive inclusion -------------------------------------*/
+/* Define to prevent recursive inclusion ***********************************/
 #ifndef H2AR3_H
 #define H2AR3_H
 
-/* Includes ------------------------------------------------------------------*/
+/* Includes ****************************************************************/
 #include "BOS.h"
 #include "H2AR3_MemoryMap.h"
 #include "H2AR3_uart.h"
@@ -26,8 +25,8 @@
 #include "H2AR3_inputs.h"
 #include "H2AR3_eeprom.h"
 #include "H2AR3_adc.h"
-/* Exported definitions -------------------------------------------------------*/
 
+/* Exported Macros *********************************************************/
 #define	MODULE_PN		_H2AR3
 
 /* Port-related Definitions */
@@ -49,6 +48,7 @@
 #define UART_P2 &huart6
 #define UART_P3 &huart1
 
+/* Module-specific Hardware Definitions ************************************/
 /* Port Definitions */
 #define	USART1_TX_PIN		GPIO_PIN_9
 #define	USART1_RX_PIN		GPIO_PIN_10
@@ -86,23 +86,13 @@
 #define	USART6_RX_PORT		GPIOA
 #define	USART6_AF			GPIO_AF3_USART6
 
-/* Module EEPROM Variables */
-#define NUM_MODULE_PARAMS					2
+/* ADC Pin Definition */
 
+/* Indicator LED */
+#define _IND_LED_PORT			GPIOA
+#define _IND_LED_PIN			GPIO_PIN_15
 
-/* Module special parameters */
-#define MIN_PERIOD_MS				    100
-#define UNSNGD_HALF_WORD_MAX_VAL        0xFFFF
-#define UNSNGD_HALF_WORD_MIN_VAL	    0x0000
-#define TWO_COMPL_VAL_MASK			    0x7FFF
-#define MIN_MEMS_PERIOD_MS				100
-#define MAX_MEMS_TIMEOUT_MS				0xFFFFFFFF
-
-#define SAMPLE_TO_PORT          1
-#define STREAM_TO_PORT          2
-#define STREAM_TO_Terminal      3
-#define DEFAULT                 4
-
+/* Module-specific Macro Definitions ***************************************/
 /* ADC special parameters */
 #define VBAIS                    1.5            // VBAIS = 1.5 from Schematics
 #define VREF                     3              // VREF  = 3  from Schematics
@@ -115,11 +105,19 @@
 #define AVG_FILTER_ORDER_A       3
 #define AVG_FILTER_ORDER_V       10
 
-/* Indicator LED */
-#define _IND_LED_PORT			GPIOA
-#define _IND_LED_PIN			GPIO_PIN_15
+#define NUM_MODULE_PARAMS		 2
 
-/* Module_Status Type Definition */
+/* Module special parameters */
+#define MIN_PERIOD_MS		     100
+#define MIN_MEMS_PERIOD_MS		 100
+#define MAX_MEMS_TIMEOUT_MS		 0xFFFFFFFF
+#define SAMPLE_TO_PORT           1
+#define STREAM_TO_PORT           2
+#define STREAM_TO_Terminal       3
+#define DEFAULT                  4
+
+/* Module-specific Type Definition *****************************************/
+/* Module-status Type Definition */
 typedef enum {
 	H2AR3_OK = 0,
 	H2AR3_ERR_UnknownMessage,
@@ -137,6 +135,7 @@ typedef enum {
 	AMP,
 }All_Data;
 
+/* Filter status type definitions */
 typedef struct
 {
     uint16_t Filter_Order;
@@ -162,12 +161,12 @@ extern void MX_USART5_UART_Init(void);
 extern void MX_USART6_UART_Init(void);
 extern void SystemClock_Config(void);
 
-/* -----------------------------------------------------------------------
- |								  APIs							          |  																 	|
- /* -----------------------------------------------------------------------
- */
+/***************************************************************************/
+/***************************** General Functions ***************************/
+/***************************************************************************/
 Module_Status SampleVoltage(float *volt);
 Module_Status SampleCurrent(float *curr);
+
 Module_Status SampletoPort(uint8_t module,uint8_t port,All_Data function);
 Module_Status StreamToTerminal(uint8_t port,All_Data function,uint32_t Numofsamples,uint32_t timeout);
 Module_Status StreamtoPort(uint8_t module,uint8_t port,All_Data function,uint32_t Numofsamples,uint32_t timeout);
