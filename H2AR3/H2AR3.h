@@ -89,8 +89,8 @@
 /* ADC Pin Definition */
 
 /* Indicator LED */
-#define _IND_LED_PORT			GPIOA
-#define _IND_LED_PIN			GPIO_PIN_15
+#define _IND_LED_PORT	    GPIOA
+#define _IND_LED_PIN		GPIO_PIN_15
 
 /* Module-specific Macro Definitions ***************************************/
 /* ADC special parameters */
@@ -98,10 +98,9 @@
 #define VREF                     3              // VREF  = 3  from Schematics
 #define ADC_RESOLUTION_12_BIT    4095           //  ADC Resolution
 #define VOLTAGE_OFFSET           0.09633899     // Calculation Offsite (Offsite= volt - VREF) in case no inpout voltag
-#define VOLTRATIO                533.33333      // Amplifier ratio ( 150 R / 4M ) * 50
+#define VOLT_RATIO               533.33333      // Amplifier ratio ( 150 R / 4M ) * 50
 
 /* LPF special parameters */
-#define FILTER_DATA_TYPE         uint32_t
 #define AVG_FILTER_ORDER_A       3
 #define AVG_FILTER_ORDER_V       10
 
@@ -120,29 +119,24 @@
 /* Module-status Type Definition */
 typedef enum {
 	H2AR3_OK = 0,
-	H2AR3_ERR_UnknownMessage,
-	H2AR3_ERR_WrongColor,
-	H2AR3_ERR_WrongIntensity,
-	H2AR3_ERR_WrongMode,
-	H2AR3_ERR_WrongParams,
+	H2AR3_ERR_WRONGPARAMS,
 	H2AR3_ERR_TERMINATED,
 	H2AR3_ERROR = 255
 } Module_Status;
 
 /* AC monitor status type definitions */
 typedef enum {
-	VOLT=0,
-	AMP,
-}All_Data;
+	VOLT = 0,
+	AMP
+} All_Data;
 
-/* Filter status type definitions */
-typedef struct
-{
-    uint16_t Filter_Order;
-    uint16_t Buffer_Index;
-    FILTER_DATA_TYPE Data_Buffer[512];
-    float* Filter_Coeffecients;
-}FIR_Filter_cfg;
+/* Filter type definitions */
+typedef struct {
+	uint16_t FilterOrder;
+	uint16_t BufferIndex;
+	uint32_t DataBuffer[512];
+	float *FilterCoeffecients;
+} Filter_t;
 
 /* Export UART variables */
 extern UART_HandleTypeDef huart1;

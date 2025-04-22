@@ -25,26 +25,22 @@ UART_HandleTypeDef huart4;
 UART_HandleTypeDef huart5;
 UART_HandleTypeDef huart6;
 
-FIR_Filter_cfg A_Filter;
-FIR_Filter_cfg V_Filter;
+Filter_t AMPFilter;
+Filter_t VoltFilter;
 
 TaskHandle_t ACMonitorTaskHandle = NULL;
 
 ADC_HandleTypeDef hadc1;
 
 /* Private Variables *******************************************************/
-uint32_t raw_adc;
-uint32_t tmp_adc;
-uint32_t adcTempFiltered;
+uint32_t adcRawData =0;
 float voltage;
-float current_;
-float measured_amp;
-float measured_volt;
+float current;
 
 /* Streaming variables */
 static bool stopStream = false;
 uint8_t flag ;
-uint8_t tofMode;
+uint8_t StreamingDataMode;
 uint8_t port1, module1,mode1;
 uint8_t port2 ,module2,mode2;
 uint8_t port3 ,module3,mode3;
@@ -75,7 +71,7 @@ Module_Status Module_MessagingTask(uint16_t code,uint8_t port,uint8_t src,uint8_
 
 /* Local function prototypes ***********************************************/
 void ACMonitorTask(void *argument);
-static void AvarageLPF(FILTER_DATA_TYPE IN, FILTER_DATA_TYPE* OUT, FIR_Filter_cfg* FILTER_OBJ);
+void AvarageLPF(uint32_t IN, uint32_t* OUT, Filter_t* FILTER_OBJ);
 uint32_t ADCCalculation(uint8_t selected);
 Module_Status CalculationAmp(float *measured_volt);
 Module_Status CalculationVolt(float * measured_volt);
@@ -659,9 +655,9 @@ void ACMonitorTask(void *argument) {
 	/* Infinite loop */
 	for (;;) {
 		CalculationVolt(&voltage);
-		CalculationAmp(&current_);
+		CalculationAmp(&current);
 		/*  */
-		switch (tofMode) {
+		switch (StreamingDataMode) {
 
 		case STREAM_TO_PORT:
 			Exportstreamtoport(module1, port1, mode1, Numofsamples1, timeout1);
@@ -687,27 +683,30 @@ void ACMonitorTask(void *argument) {
 /***************************************************************************/
 uint32_t ADCCalculation(uint8_t selected) {
 
+	uint32_t adcTemp =0;
+	uint32_t adcTempFiltered =0;
+
 	switch (selected) {
 	case AMP:
-		A_Filter.Filter_Order = AVG_FILTER_ORDER_A;
+		AMPFilter.FilterOrder = AVG_FILTER_ORDER_A;
 		ADC_Select_CH6();
 		HAL_ADC_Start(&hadc1);
 		HAL_ADC_PollForConversion(&hadc1, 1000);
-		tmp_adc = HAL_ADC_GetValue(&hadc1);
+		adcTemp = HAL_ADC_GetValue(&hadc1);
 		HAL_ADC_Stop(&hadc1);
 		ADC_Deselect_CH6();
-		AvarageLPF(tmp_adc, &adcTempFiltered, &A_Filter);
+		AvarageLPF(adcTemp, &adcTempFiltered, &AMPFilter);
 		break;
 
 	case VOLT:
-		V_Filter.Filter_Order = AVG_FILTER_ORDER_V;
+		VoltFilter.FilterOrder = AVG_FILTER_ORDER_V;
 		ADC_Select_CH16();
 		HAL_ADC_Start(&hadc1);
 		HAL_ADC_PollForConversion(&hadc1, 1000);
-		tmp_adc = HAL_ADC_GetValue(&hadc1);
+		adcTemp = HAL_ADC_GetValue(&hadc1);
 		HAL_ADC_Stop(&hadc1);
 		ADC_Deselect_CH16();
-		AvarageLPF(tmp_adc, &adcTempFiltered, &V_Filter);
+		AvarageLPF(adcTemp, &adcTempFiltered, &VoltFilter);
 		break;
 
 	default:
@@ -719,23 +718,23 @@ uint32_t ADCCalculation(uint8_t selected) {
 }
 
 /***************************************************************************/
-static void AvarageLPF(FILTER_DATA_TYPE IN, FILTER_DATA_TYPE *OUT, FIR_Filter_cfg *FILTER_OBJ) {
-	FILTER_DATA_TYPE SUM = 0;
+void AvarageLPF(uint32_t IN, uint32_t *OUT, Filter_t *FILTER_OBJ) {
+	uint32_t SUM = 0;
 	uint16_t i = 0;
 
 	/* Push The New Input To The History Buffer */
-	FILTER_OBJ->Data_Buffer[FILTER_OBJ->Buffer_Index] = IN;
-	FILTER_OBJ->Buffer_Index++;
-	if (FILTER_OBJ->Buffer_Index == FILTER_OBJ->Filter_Order + 1) {
-		FILTER_OBJ->Buffer_Index = 0;
+	FILTER_OBJ->DataBuffer[FILTER_OBJ->BufferIndex] = IN;
+	FILTER_OBJ->BufferIndex++;
+	if (FILTER_OBJ->BufferIndex == FILTER_OBJ->FilterOrder + 1) {
+		FILTER_OBJ->BufferIndex = 0;
 	}
 
 	/* Calculate The Average For The Data In The Buffer */
-	for (i = 0; i < FILTER_OBJ->Filter_Order + 1; i++) {
-		SUM += FILTER_OBJ->Data_Buffer[i];
+	for (i = 0; i < FILTER_OBJ->FilterOrder + 1; i++) {
+		SUM += FILTER_OBJ->DataBuffer[i];
 	}
 
-	*OUT = SUM / (FILTER_OBJ->Filter_Order + 1);
+	*OUT = SUM / (FILTER_OBJ->FilterOrder + 1);
 }
 
 /***************************************************************************/
@@ -743,11 +742,11 @@ Module_Status CalculationVolt(float *measured_volt) {
 	Module_Status status = H2AR3_OK;
 	float _volt;
 
-	raw_adc = ADCCalculation(VOLT);
+	adcRawData = ADCCalculation(VOLT);
 
-	_volt = (float) (raw_adc * VREF) / ADC_RESOLUTION_12_BIT; /* 12 bit resolution */
+	_volt = (float) (adcRawData * VREF) / ADC_RESOLUTION_12_BIT; /* 12 bit resolution */
 	_volt = (_volt - (VBAIS + VOLTAGE_OFFSET));
-	*measured_volt = _volt * VOLTRATIO;              /* measured_volt =0;533.3533 */
+	*measured_volt = _volt * VOLT_RATIO;              /* measured_volt =0;533.3533 */
 
 	return status;
 }
@@ -757,9 +756,9 @@ Module_Status CalculationAmp(float *measured_amp) {
 	Module_Status status = H2AR3_OK;
 	float _volt;
 
-	raw_adc = ADCCalculation(AMP);
+	adcRawData = ADCCalculation(AMP);
 
-	_volt = (float) (raw_adc * VREF) / 4095;
+	_volt = (float) (adcRawData * VREF) / 4095;
 	_volt = (_volt - (VBAIS + VOLTAGE_OFFSET));
 
 	/* 2.5 we have to make average error of vref before load is switched on */
@@ -777,7 +776,7 @@ Module_Status Exportstreamtoport(uint8_t module, uint8_t port, All_Data function
 	period = timeout / Numofsamples;
 
 	if (timeout < MIN_PERIOD_MS || period < MIN_PERIOD_MS)
-		return H2AR3_ERR_WrongParams;
+		return H2AR3_ERR_WRONGPARAMS;
 
 	while (samples < Numofsamples) {
 		status = Exporttoport(module, port, function);
@@ -785,7 +784,7 @@ Module_Status Exportstreamtoport(uint8_t module, uint8_t port, All_Data function
 		samples++;
 	}
 
-	tofMode = DEFAULT;
+	StreamingDataMode = DEFAULT;
 	samples = 0;
 
 	return status;
@@ -798,7 +797,7 @@ Module_Status Exporttoport(uint8_t module, uint8_t port, All_Data Mode) {
 	static uint8_t temp[4] = { 0 };
 
 	if (port == 0 && module == myID)
-		return H2AR3_ERR_WrongParams;
+		return H2AR3_ERR_WRONGPARAMS;
 
 	switch (Mode) {
 	case VOLT:
@@ -852,7 +851,7 @@ Module_Status Exporttoport(uint8_t module, uint8_t port, All_Data Mode) {
 		}
 	}
 
-	tofMode = DEFAULT;
+	StreamingDataMode = DEFAULT;
 	memset(&temp[0], 0, sizeof(temp));
 
 	return status;
@@ -895,7 +894,7 @@ Module_Status Exportstreamtoterminal(uint32_t Numofsamples, uint32_t timeout, ui
 	char cstring[100];
 	long numTimes = timeout / period;
 	if (period < MIN_MEMS_PERIOD_MS)
-		return H2AR3_ERR_WrongParams;
+		return H2AR3_ERR_WRONGPARAMS;
 
 	switch (function) {
 	case VOLT:
@@ -937,7 +936,7 @@ Module_Status Exportstreamtoterminal(uint32_t Numofsamples, uint32_t timeout, ui
 
 	}
 
-	tofMode = DEFAULT;
+	StreamingDataMode = DEFAULT;
 
 	return status;
 }
@@ -965,7 +964,7 @@ static Module_Status StreamToCLI(uint32_t Numofsamples, uint32_t timeout, Sample
 	uint32_t period = timeout / Numofsamples;
 
 	if (period < MIN_MEMS_PERIOD_MS)
-		return H2AR3_ERR_WrongParams;
+		return H2AR3_ERR_WRONGPARAMS;
 
 	for (uint8_t chr = 0; chr < MSG_RX_BUF_SIZE; chr++) {
 		if (UARTRxBuf[pcPort - 1][chr] == '\r') {
@@ -1016,7 +1015,7 @@ Module_Status SampleVoltage(float *volt) {
 Module_Status SampleCurrent(float *curr) {
 	Module_Status status = H2AR3_OK;
 
-	*curr = current_;
+	*curr = current;
 
 	return status;
 }
@@ -1025,7 +1024,7 @@ Module_Status SampleCurrent(float *curr) {
 Module_Status StreamtoPort(uint8_t module, uint8_t port, All_Data function,	uint32_t Numofsamples, uint32_t timeout) {
 	Module_Status status = H2AR3_OK;
 
-	tofMode = STREAM_TO_PORT;
+	StreamingDataMode = STREAM_TO_PORT;
 	port1 = port;
 	module1 = module;
 	Numofsamples1 = Numofsamples;
@@ -1040,7 +1039,7 @@ Module_Status StreamtoPort(uint8_t module, uint8_t port, All_Data function,	uint
 Module_Status StreamToTerminal(uint8_t port, All_Data function, uint32_t Numofsamples, uint32_t timeout) {
 	Module_Status status = H2AR3_OK;
 
-	tofMode = STREAM_TO_Terminal;
+	StreamingDataMode = STREAM_TO_Terminal;
 	port3 = port;
 	Numofsamples3 = Numofsamples;
 	timeout3 = timeout;
@@ -1053,7 +1052,7 @@ Module_Status StreamToTerminal(uint8_t port, All_Data function, uint32_t Numofsa
 Module_Status SampletoPort(uint8_t module, uint8_t port, All_Data function) {
 	Module_Status status = H2AR3_OK;
 
-	tofMode = SAMPLE_TO_PORT;
+	StreamingDataMode = SAMPLE_TO_PORT;
 	port2 = port;
 	module2 = module;
 	mode2 = function;
