@@ -34,8 +34,8 @@ ADC_HandleTypeDef hadc1;
 
 /* Private Variables *******************************************************/
 uint32_t adcRawData =0;
-float voltage;
-float current;
+float voltage =0.0f;
+float current =0.0f;
 
 /* Streaming variables */
 static bool stopStream = false;
