@@ -1,62 +1,136 @@
 /*
- BitzOS (BOS) V0.2.9 - Copyright (C) 2017-2023 Hexabitz
+ BitzOS (BOS) V0.4.0 - Copyright (C) 2017-2025 Hexabitz
  All rights reserved
 
  File Name     : H2AR3_adc.c
  Description   : source file Contains Peripheral ADC setup .
  */
-/* Includes ------------------------------------------------------------------*/
+
+/* Includes ****************************************************************/
 #include "H2AR3_adc.h"
 
+/***************************************************************************/
+/* Configure I2C ***********************************************************/
+/***************************************************************************/
+void MX_ADC_Init(void) {
+	hadc1.Instance = ADC1;
+	hadc1.Init.ClockPrescaler = ADC_CLOCK_SYNC_PCLK_DIV2;
+	hadc1.Init.Resolution = ADC_RESOLUTION_12B;
+	hadc1.Init.DataAlign = ADC_DATAALIGN_RIGHT;
+	hadc1.Init.ScanConvMode = ADC_SCAN_SEQ_FIXED;
+	hadc1.Init.EOCSelection = ADC_EOC_SINGLE_CONV;
+	hadc1.Init.LowPowerAutoWait = DISABLE;
+	hadc1.Init.LowPowerAutoPowerOff = DISABLE;
+	hadc1.Init.ContinuousConvMode = DISABLE;
+	hadc1.Init.NbrOfConversion = 1;
+	hadc1.Init.ExternalTrigConv = ADC_SOFTWARE_START;
+	hadc1.Init.ExternalTrigConvEdge = ADC_EXTERNALTRIGCONVEDGE_NONE;
+	hadc1.Init.DMAContinuousRequests = DISABLE;
+	hadc1.Init.Overrun = ADC_OVR_DATA_PRESERVED;
+	hadc1.Init.SamplingTimeCommon1 = ADC_SAMPLETIME_39CYCLES_5;
+	hadc1.Init.OversamplingMode = DISABLE;
+	hadc1.Init.TriggerFrequencyMode = ADC_TRIGGER_FREQ_HIGH;
+
+	HAL_ADC_Init(&hadc1);
+
+}
+
+/***************************************************************************/
+void HAL_ADC_MspInit(ADC_HandleTypeDef *adcHandle) {
+
+	GPIO_InitTypeDef GPIO_InitStruct = { 0 };
+	RCC_PeriphCLKInitTypeDef PeriphClkInit = { 0 };
+	if (adcHandle->Instance == ADC1) {
+
+		/** Initializes the peripherals clocks
+		 */
+		PeriphClkInit.PeriphClockSelection = RCC_PERIPHCLK_ADC;
+		PeriphClkInit.AdcClockSelection = RCC_ADCCLKSOURCE_SYSCLK;
+		HAL_RCCEx_PeriphCLKConfig(&PeriphClkInit);
+
+		/* ADC1 clock enable */
+		__HAL_RCC_ADC_CLK_ENABLE();
+		__HAL_RCC_GPIOA_CLK_ENABLE();
+		__HAL_RCC_GPIOB_CLK_ENABLE();
+
+		/**ADC1 GPIO Configuration
+		 PA6     ------> ADC1_IN6
+		 PB12     ------> ADC1_IN16
+		 */
+		GPIO_InitStruct.Pin = GPIO_PIN_6;
+		GPIO_InitStruct.Mode = GPIO_MODE_ANALOG;
+		GPIO_InitStruct.Pull = GPIO_NOPULL;
+		HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
+
+		GPIO_InitStruct.Pin = GPIO_PIN_12;
+		GPIO_InitStruct.Mode = GPIO_MODE_ANALOG;
+		GPIO_InitStruct.Pull = GPIO_NOPULL;
+		HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
+
+	}
+}
+
+/***************************************************************************/
+void HAL_ADC_MspDeInit(ADC_HandleTypeDef *adcHandle) {
+
+	if (adcHandle->Instance == ADC1) {
+
+		/* Peripheral clock disable */
+		__HAL_RCC_ADC_CLK_DISABLE();
+
+		/**ADC1 GPIO Configuration
+		 PA6     ------> ADC1_IN6
+		 PB12     ------> ADC1_IN16
+		 */
+		HAL_GPIO_DeInit(GPIOA, GPIO_PIN_6);
+
+		HAL_GPIO_DeInit(GPIOB, GPIO_PIN_12);
+	}
+}
+
+/***************************************************************************/
 void ADC_Select_CH6(void) {
 	ADC_ChannelConfTypeDef sConfig = { 0 };
-	/** Configure for the selected ADC regular channel its corresponding rank in the sequencer and its sample time.
-	 */
+
 	sConfig.Channel = ADC_CHANNEL_6;
 	sConfig.Rank = ADC_RANK_CHANNEL_NUMBER;
 	sConfig.SamplingTime = ADC_SAMPLETIME_39CYCLES_5;
-	if (HAL_ADC_ConfigChannel(&hadc1, &sConfig) != HAL_OK) {
 
-	}
-
+	HAL_ADC_ConfigChannel(&hadc1, &sConfig);
 }
-/*-----------------------------------------------------------*/
 
+/***************************************************************************/
 void ADC_Deselect_CH6(void) {
 	ADC_ChannelConfTypeDef sConfig = { 0 };
-	/** Configure for the selected ADC regular channel its corresponding rank in the sequencer and its sample time.
-	 */
+
 	sConfig.Channel = ADC_CHANNEL_6;
 	sConfig.Rank = ADC_RANK_NONE;
 	sConfig.SamplingTime = ADC_SAMPLETIME_39CYCLES_5;
-	if (HAL_ADC_ConfigChannel(&hadc1, &sConfig) != HAL_OK) {
 
-	}
+	HAL_ADC_ConfigChannel(&hadc1, &sConfig);
 }
 
-
+/***************************************************************************/
 void ADC_Select_CH16(void) {
 	ADC_ChannelConfTypeDef sConfig = { 0 };
-	/** Configure for the selected ADC regular channel its corresponding rank in the sequencer and its sample time.
-	 */
+
 	sConfig.Channel = ADC_CHANNEL_16;
 	sConfig.Rank = ADC_RANK_CHANNEL_NUMBER;
 	sConfig.SamplingTime = ADC_SAMPLETIME_39CYCLES_5;
-	if (HAL_ADC_ConfigChannel(&hadc1, &sConfig) != HAL_OK) {
 
-	}
-
+	HAL_ADC_ConfigChannel(&hadc1, &sConfig);
 }
-/*-----------------------------------------------------------*/
 
+/***************************************************************************/
 void ADC_Deselect_CH16(void) {
 	ADC_ChannelConfTypeDef sConfig = { 0 };
-	/** Configure for the selected ADC regular channel its corresponding rank in the sequencer and its sample time.
-	 */
+
 	sConfig.Channel = ADC_CHANNEL_16;
 	sConfig.Rank = ADC_RANK_NONE;
 	sConfig.SamplingTime = ADC_SAMPLETIME_39CYCLES_5;
-	if (HAL_ADC_ConfigChannel(&hadc1, &sConfig) != HAL_OK) {
 
-	}
+	HAL_ADC_ConfigChannel(&hadc1, &sConfig);
 }
+
+/***************************************************************************/
+/***************** (C) COPYRIGHT HEXABITZ ***** END OF FILE ****************/

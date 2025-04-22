@@ -1,0 +1,8 @@
+..\syscalls.c:28:27:_write	1
+..\syscalls.c:46:27:_read	1
+..\syscalls.c:63:27:_lseek	1
+..\syscalls.c:79:27:_kill	1
+..\syscalls.c:94:27:_isatty	1
+..\syscalls.c:106:27:_getpid	1
+..\syscalls.c:119:27:_fstat	1
+..\syscalls.c:133:27:_close	1
