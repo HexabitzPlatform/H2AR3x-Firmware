@@ -28,36 +28,26 @@
 #include "H2AR3_adc.h"
 /* Exported definitions -------------------------------------------------------*/
 
-#define	modulePN		_H2AR3
+#define	MODULE_PN		_H2AR3
 
-/* Port-related definitions */
-#define	NumOfPorts			3
+/* Port-related Definitions */
+#define	NUM_OF_PORTS	3
+#define P_PROG 			P2		/* ST factory bootloader UART */
 
-#define P_PROG 				P2						/* ST factory bootloader UART */
 /* Define available ports */
 #define _P1
-#define _P2 
-#define _P3 
-//#define _P4
-//#define _P5
-//#define _P6
+#define _P2
+#define _P3
 
 /* Define available USARTs */
-#define _Usart1 1
-#define _Usart2 1
-//#define _Usart3 0
-//#define _Usart4 0
-//#define _Usart5 0
-#define _Usart6	1
+#define _USART1
+#define _USART2
+#define _USART6
 
 /* Port-UART mapping */
-
-#define P1uart &huart2
-#define P2uart &huart6
-#define P3uart &huart1
-//#define P4uart &huart1
-//#define P5uart &huart5
-//#define P6uart &huart3
+#define UART_P1 &huart2
+#define UART_P2 &huart6
+#define UART_P3 &huart1
 
 /* Port Definitions */
 #define	USART1_TX_PIN		GPIO_PIN_9
@@ -98,8 +88,8 @@
 
 /* Module EEPROM Variables */
 #define NUM_MODULE_PARAMS					2
-// Module Addressing Space 500 - 599
-#define _EE_MODULE							500		
+
+
 /* Module special parameters */
 #define MIN_PERIOD_MS				    100
 #define UNSNGD_HALF_WORD_MAX_VAL        0xFFFF
@@ -112,6 +102,7 @@
 #define STREAM_TO_PORT          2
 #define STREAM_TO_Terminal      3
 #define DEFAULT                 4
+
 /* ADC special parameters */
 #define VBAIS                    1.5            // VBAIS = 1.5 from Schematics
 #define VREF                     3              // VREF  = 3  from Schematics
@@ -154,8 +145,6 @@ typedef struct
     float* Filter_Coeffecients;
 }FIR_Filter_cfg;
 
-
-
 /* Export UART variables */
 extern UART_HandleTypeDef huart1;
 extern UART_HandleTypeDef huart2;
@@ -172,7 +161,6 @@ extern void MX_USART4_UART_Init(void);
 extern void MX_USART5_UART_Init(void);
 extern void MX_USART6_UART_Init(void);
 extern void SystemClock_Config(void);
-extern void ExecuteMonitor(void);
 
 /* -----------------------------------------------------------------------
  |								  APIs							          |  																 	|
@@ -183,15 +171,6 @@ Module_Status SampleCurrent(float *curr);
 Module_Status SampletoPort(uint8_t module,uint8_t port,All_Data function);
 Module_Status StreamToTerminal(uint8_t port,All_Data function,uint32_t Numofsamples,uint32_t timeout);
 Module_Status StreamtoPort(uint8_t module,uint8_t port,All_Data function,uint32_t Numofsamples,uint32_t timeout);
-
-void SetupPortForRemoteBootloaderUpdate(uint8_t port);
-void remoteBootloaderUpdate(uint8_t src, uint8_t dst, uint8_t inport,
-		uint8_t outport);
-
-/* -----------------------------------------------------------------------
- |								Commands							      |															 	|
- /* -----------------------------------------------------------------------
- */
 
 #endif /* H2AR3_H */
 

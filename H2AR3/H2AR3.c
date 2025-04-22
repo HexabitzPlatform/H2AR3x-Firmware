@@ -31,10 +31,10 @@ extern uint8_t numOfRecordedSnippets;
 float H2AR3_voltage = 0.0f;
 float H2AR3_current = 0.0f;
 
-/* Exported Typedef */
-module_param_t modParam[NUM_MODULE_PARAMS] = {
-    {.paramPtr = &H2AR3_voltage, .paramFormat = FMT_FLOAT, .paramName = "voltage"},
-    {.paramPtr = &H2AR3_current, .paramFormat = FMT_FLOAT, .paramName = "current"}
+/* Module Parameters */
+ModuleParam_t ModuleParam[NUM_MODULE_PARAMS] ={
+    {.ParamPtr = &H2AR3_voltage, .ParamFormat = FMT_FLOAT, .ParamName = "voltage"},
+    {.ParamPtr = &H2AR3_current, .ParamFormat = FMT_FLOAT, .ParamName = "current"}
 };
 
 /* Local functions */
@@ -654,15 +654,15 @@ switch (Mode) {
 			writePxITMutex(port, (char*) &temp[0], 4 * sizeof(uint8_t), 10);
 		} else {
 			if (H2AR3_OK == status)
-				messageParams[1] = BOS_OK;
+				MessageParams[1] = BOS_OK;
 			else
-				messageParams[1] = BOS_ERROR;
-			messageParams[0] = FMT_FLOAT;
-			messageParams[2] = 1;
-			messageParams[3] = (uint8_t) ((*(uint32_t*) &floatData) >> 0);
-			messageParams[4] = (uint8_t) ((*(uint32_t*) &floatData) >> 8);
-			messageParams[5] = (uint8_t) ((*(uint32_t*) &floatData) >> 16);
-			messageParams[6] = (uint8_t) ((*(uint32_t*) &floatData) >> 24);
+				MessageParams[1] = BOS_ERROR;
+			MessageParams[0] = FMT_FLOAT;
+			MessageParams[2] = 1;
+			MessageParams[3] = (uint8_t) ((*(uint32_t*) &floatData) >> 0);
+			MessageParams[4] = (uint8_t) ((*(uint32_t*) &floatData) >> 8);
+			MessageParams[5] = (uint8_t) ((*(uint32_t*) &floatData) >> 16);
+			MessageParams[6] = (uint8_t) ((*(uint32_t*) &floatData) >> 24);
 			SendMessageToModule(module, CODE_READ_RESPONSE, sizeof(float) + 3);
 		}
 		break;
@@ -676,15 +676,16 @@ switch (Mode) {
 			writePxITMutex(port, (char*) &temp[0], 4 * sizeof(uint8_t), 10);
 		} else {
 			if (H2AR3_OK == status)
-				messageParams[1] = BOS_OK;
+				MessageParams[1] = BOS_OK;
 			else
-				messageParams[1] = BOS_ERROR;
-			messageParams[0] = FMT_FLOAT;
-			messageParams[2] = 1;
-			messageParams[3] = (uint8_t) ((*(uint32_t*) &floatData) >> 0);
-			messageParams[4] = (uint8_t) ((*(uint32_t*) &floatData) >> 8);
-			messageParams[5] = (uint8_t) ((*(uint32_t*) &floatData) >> 16);
-			messageParams[6] = (uint8_t) ((*(uint32_t*) &floatData) >> 24);
+				MessageParams[1] = BOS_ERROR;
+
+			MessageParams[0] = FMT_FLOAT;
+			MessageParams[2] = 1;
+			MessageParams[3] = (uint8_t) ((*(uint32_t*) &floatData) >> 0);
+			MessageParams[4] = (uint8_t) ((*(uint32_t*) &floatData) >> 8);
+			MessageParams[5] = (uint8_t) ((*(uint32_t*) &floatData) >> 16);
+			MessageParams[6] = (uint8_t) ((*(uint32_t*) &floatData) >> 24);
 			SendMessageToModule(module, CODE_READ_RESPONSE, sizeof(float) + 3);
 	default:
 		break;
@@ -708,8 +709,8 @@ static Module_Status PollingSleepCLISafe(uint32_t period, long Numofsamples)
 
 		// Look for ENTER key to stop the stream
 		for (uint8_t chr = 0; chr < MSG_RX_BUF_SIZE; chr++) {
-			if (UARTRxBuf[PcPort - 1][chr] == '\r' && Numofsamples > 0) {
-				UARTRxBuf[PcPort - 1][chr] = 0;
+			if (UARTRxBuf[pcPort - 1][chr] == '\r' && Numofsamples > 0) {
+				UARTRxBuf[pcPort - 1][chr] = 0;
 				flag=1;
 				return H2AR3_ERR_TERMINATED;
 			}
@@ -808,14 +809,14 @@ static Module_Status StreamToCLI(uint32_t Numofsamples, uint32_t timeout, Sample
 
 	// TODO: Check if CLI is enable or not
 	for(uint8_t chr =0; chr < MSG_RX_BUF_SIZE; chr++){
-		if(UARTRxBuf[PcPort - 1][chr] == '\r'){
-			UARTRxBuf[PcPort - 1][chr] =0;
+		if(UARTRxBuf[pcPort - 1][chr] == '\r'){
+			UARTRxBuf[pcPort - 1][chr] =0;
 		}
 	}
 	if(1 == flag){
 		flag =0;
 		static char *pcOKMessage =(int8_t* )"Stop stream !\n\r";
-		writePxITMutex(PcPort,pcOKMessage,strlen(pcOKMessage),10);
+		writePxITMutex(pcPort,pcOKMessage,strlen(pcOKMessage),10);
 		return status;
 	}
 	if(period > timeout)
@@ -828,7 +829,7 @@ static Module_Status StreamToCLI(uint32_t Numofsamples, uint32_t timeout, Sample
 		pcOutputString =FreeRTOS_CLIGetOutputBuffer();
 		function((char* )pcOutputString,100);
 
-		writePxMutex(PcPort,(char* )pcOutputString,strlen((char* )pcOutputString),cmd500ms,HAL_MAX_DELAY);
+		writePxMutex(pcPort,(char* )pcOutputString,strlen((char* )pcOutputString),cmd500ms,HAL_MAX_DELAY);
 		if(PollingSleepCLISafe(period,Numofsamples) != H2AR3_OK)
 			break;
 	}
