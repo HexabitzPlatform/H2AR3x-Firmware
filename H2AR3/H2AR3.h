@@ -34,7 +34,7 @@
 #define P_PROG 			P2		/* ST factory bootloader UART */
 
 /* Define available ports */
-#define _P1
+//#define _P1
 #define _P2
 #define _P3
 
@@ -44,7 +44,7 @@
 #define _USART6
 
 /* Port-UART mapping */
-#define UART_P1 &huart2
+//#define UART_P1 &huart2
 #define UART_P2 &huart6
 #define UART_P3 &huart1
 
@@ -101,11 +101,11 @@
 
 /* Module-specific Macro Definitions ***************************************/
 /* ADC special parameters */
-#define VBAIS                    1.5            // VBAIS = 1.5 from Schematics
-#define VREF                     3              // VREF  = 3  from Schematics
-#define ADC_RESOLUTION_12_BIT    4095           //  ADC Resolution
-#define VOLTAGE_OFFSET           0.09633899     // Calculation Offsite (Offsite= volt - VREF) in case no inpout voltag
-#define VOLT_RATIO               533.33333      // Amplifier ratio ( 150 R / 4M ) * 50
+//#define VBAIS                    1.5            // VBAIS = 1.5 from Schematics
+//#define VREF                     3              // VREF  = 3  from Schematics
+//#define ADC_RESOLUTION_12_BIT    4095           //  ADC Resolution
+//#define VOLTAGE_OFFSET           0.09633899     // Calculation Offsite (Offsite= volt - VREF) in case no inpout voltag
+//#define VOLT_RATIO               533.33333      // Amplifier ratio ( 150 R / 4M ) * 50
 
 /* LPF special parameters */
 #define AVG_FILTER_ORDER_A       3
@@ -121,6 +121,7 @@
 #define STREAM_TO_PORT           2
 #define STREAM_TO_Terminal       3
 #define DEFAULT                  4
+
 
 /* Module-specific Type Definition *****************************************/
 /* Module-status Type Definition */
@@ -145,6 +146,7 @@ typedef struct {
 	float *FilterCoeffecients;
 } Filter_t;
 
+
 /* Export UART variables */
 extern UART_HandleTypeDef huart1;
 extern UART_HandleTypeDef huart2;
@@ -165,8 +167,92 @@ extern void SystemClock_Config(void);
 /***************************************************************************/
 /***************************** General Functions ***************************/
 /***************************************************************************/
+
+
+/*********************
+ * **************
+ * **********************
+ * *****************************
+ * ***********************************
+ * ************************************
+ *
+ *
+ *
+/* AC monitor status type definitions */
+typedef enum {
+    CR8450_1000 = 0, // CR8450-1000 transformer
+    CR8401_1000      // CR8401-1000 transformer
+} AC_Monitor_Status;
+
+typedef struct
+{
+	float cur;
+	float volt;
+
+}AC;
+
+/* Macros for ADC and calculations */
+// Common ADC macros
+#define VREF 3.0f          // Reference voltage for ADC conversion (3V)
+#define ADC_MAX 4095.0f    // Maximum ADC value for 12-bit resolution
+#define SAMPLE_COUNT 200   // Number of samples to collect
+
+// Macros for current calculation
+#define CURRENT_VBIAS 1.57728934f  // Bias voltage for current (Vbias)
+#define CURRENT_GAIN 100.0f        // Gain value for current (gain)
+#define TE_CR8450_1000 1021.0f     // Te value for CR8450-1000
+#define TE_CR8401_1000 1005.0f     // Te value for CR8401-1000
+#define CURRENT_R 1.0f             // R value for all cases
+
+// Macros for voltage calculation
+#define VOLTAGE_VBIAS 1.57728934f         // Bias voltage for voltage (Vbias)
+#define VOLTAGE_GAIN 50.0f         // Gain value for voltage (gainv)
+#define VOLTAGE_SUMR 4000150.0f    // Sum of resistors (sumR)
+#define VOLTAGE_RV 150.0f          // Voltage divider resistor (Rv)
+
+/* External variable declarations */
+
+extern volatile uint8_t is_sampling_current; // Flag to indicate current or voltage sampling
+extern volatile uint16_t sample_index;      // Sample index for continuous sampling
+extern float rms_buffer[SAMPLE_COUNT];      // Buffer to store squared values for RMS calculation
+extern float current_rms;                   // RMS value for current
+extern float voltage_rms;                   // RMS value for voltage
+
+/*
+ * @brief: Initiates sampling of voltage using ADC channel 16.
+ * @param volt: Pointer to store the calculated voltage (in volts).
+ * @retval: Module status indicating success or error.
+ */
 Module_Status SampleVoltage(float *volt);
-Module_Status SampleCurrent(float *curr);
+
+/*
+ * @brief: Initiates sampling of current using ADC channel 6.
+ * @param curr: Pointer to store the calculated current (in amps).
+ * @param monitor_type: Enum defining the AC monitor type (CR8450_1000 or CR8401_1000).
+ * @retval: Module status indicating success or error.
+ */
+Module_Status SampleCurrent(float *curr, AC_Monitor_Status monitor_type);
+
+/*
+ * @brief: Calculates the voltage based on ADC reading.
+ * @param adc_value: Raw ADC value to calculate voltage.
+ * @retval: Calculated voltage (in volts), or -1.0f if error.
+ */
+float CalculateVoltage(uint16_t adc_value);
+
+/*
+ * @brief: Calculates the current based on ADC reading.
+ * @param adc_value: Raw ADC value to calculate current.
+ * @retval: Calculated current (in amps), or -1.0f if error.
+ */
+float CalculateCurrent(uint16_t adc_value);
+
+/*
+ * @brief: Calculates the RMS value of samples.
+ * @param value: Latest calculated value (current or voltage).
+ * @retval: Calculated RMS value, or -1.0f if error.
+ */
+float CalculateRMS(float value);
 
 Module_Status SampletoPort(uint8_t module,uint8_t port,All_Data function);
 Module_Status StreamToTerminal(uint8_t port,All_Data function,uint32_t Numofsamples,uint32_t timeout);

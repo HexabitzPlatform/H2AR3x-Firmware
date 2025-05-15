@@ -12,7 +12,27 @@
 /***************************************************************************/
 /* Configure I2C ***********************************************************/
 /***************************************************************************/
-void MX_ADC_Init(void) {
+
+/**
+  * @brief ADC1 Initialization Function
+  * @param None
+  * @retval None
+  */
+ void MX_ADC1_Init(void)
+ {
+
+	/* USER CODE BEGIN ADC1_Init 0 */
+
+	/* USER CODE END ADC1_Init 0 */
+
+	ADC_ChannelConfTypeDef sConfig = { 0 };
+
+	/* USER CODE BEGIN ADC1_Init 1 */
+
+	/* USER CODE END ADC1_Init 1 */
+
+	/** Configure the global features of the ADC (Clock, Resolution, Data Alignment and number of conversion)
+	 */
 	hadc1.Instance = ADC1;
 	hadc1.Init.ClockPrescaler = ADC_CLOCK_SYNC_PCLK_DIV2;
 	hadc1.Init.Resolution = ADC_RESOLUTION_12B;
@@ -23,15 +43,28 @@ void MX_ADC_Init(void) {
 	hadc1.Init.LowPowerAutoPowerOff = DISABLE;
 	hadc1.Init.ContinuousConvMode = DISABLE;
 	hadc1.Init.NbrOfConversion = 1;
+	hadc1.Init.DiscontinuousConvMode = ENABLE;
 	hadc1.Init.ExternalTrigConv = ADC_SOFTWARE_START;
 	hadc1.Init.ExternalTrigConvEdge = ADC_EXTERNALTRIGCONVEDGE_NONE;
 	hadc1.Init.DMAContinuousRequests = DISABLE;
 	hadc1.Init.Overrun = ADC_OVR_DATA_PRESERVED;
-	hadc1.Init.SamplingTimeCommon1 = ADC_SAMPLETIME_39CYCLES_5;
+	hadc1.Init.SamplingTimeCommon1 = ADC_SAMPLETIME_3CYCLES_5;
 	hadc1.Init.OversamplingMode = DISABLE;
 	hadc1.Init.TriggerFrequencyMode = ADC_TRIGGER_FREQ_HIGH;
-
 	HAL_ADC_Init(&hadc1);
+	/** Configure Regular Channel
+	 */
+	sConfig.Channel = ADC_CHANNEL_6;
+	sConfig.Rank = ADC_RANK_CHANNEL_NUMBER;
+	HAL_ADC_ConfigChannel(&hadc1, &sConfig);
+
+	/** Configure Regular Channel
+	 */
+	sConfig.Channel = ADC_CHANNEL_16;
+	HAL_ADC_ConfigChannel(&hadc1, &sConfig);
+	/* USER CODE BEGIN ADC1_Init 2 */
+
+	/* USER CODE END ADC1_Init 2 */
 
 }
 

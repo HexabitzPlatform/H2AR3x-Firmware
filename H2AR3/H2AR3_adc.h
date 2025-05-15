@@ -22,7 +22,7 @@ extern ADC_HandleTypeDef hadc1;
 extern DMA_HandleTypeDef hdma_adc;
 
 /* Exported Functions ******************************************************/
-void MX_ADC_Init(void);
+//void MX_ADC_Init(void);
 void SelectAmpereADCChannel(void);
 void DeselectAmpereADCChannel(void);
 void SelectVoltADCChannel(void);

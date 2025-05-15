@@ -10,6 +10,8 @@
 /* Includes ****************************************************************/
 #include "BOS.h"
 
+/* External variables --------------------------------------------------------*/
+extern TIM_HandleTypeDef htim1;
 /* Local Variables *********************************************************/
 uint8_t *error_restart_message ="Restarting...\r\n";
 
@@ -96,6 +98,19 @@ void USART1_IRQHandler(void){
 	portEND_SWITCHING_ISR(xHigherPriorityTaskWoken);
 }
 
+/**
+  * @brief This function handles TIM1 break, update, trigger and commutation interrupts.
+  */
+void TIM1_BRK_UP_TRG_COM_IRQHandler(void)
+{
+  /* USER CODE BEGIN TIM1_BRK_UP_TRG_COM_IRQn 0 */
+
+  /* USER CODE END TIM1_BRK_UP_TRG_COM_IRQn 0 */
+  HAL_TIM_IRQHandler(&htim1);
+  /* USER CODE BEGIN TIM1_BRK_UP_TRG_COM_IRQn 1 */
+
+  /* USER CODE END TIM1_BRK_UP_TRG_COM_IRQn 1 */
+}
 /***************************************************************************/
 /* This function handles USART2 global interrupt */
 void USART2_LPUART2_IRQHandler(void){

@@ -28,7 +28,7 @@ UART_HandleTypeDef huart6;
 Filter_t AMPFilter;
 Filter_t VoltFilter;
 
-TaskHandle_t ACMonitorTaskHandle = NULL;
+//TaskHandle_t ACMonitorTaskHandle = NULL;
 
 ADC_HandleTypeDef hadc1;
 
@@ -107,7 +107,8 @@ const CLI_Command_Definition_t StreamCommandDefinition = {
 	StreamSensorCommand,
 	-1
 };
-
+void MX_TIM1_Init(void) ;
+void MX_ADC1_Init(void);
 /***************************************************************************/
 /************************ Private function Definitions *********************/
 /***************************************************************************/
@@ -517,7 +518,8 @@ void Module_Peripheral_Init(void) {
 	MX_USART2_UART_Init();
 	MX_USART1_UART_Init();
 	MX_USART6_UART_Init();
-	MX_ADC_Init();
+	MX_ADC1_Init();
+	MX_TIM1_Init();
 
 	/* Circulating DMA Channels ON All Module */
 	for (int i = 1; i <= NUM_OF_PORTS; i++) {
@@ -537,9 +539,9 @@ void Module_Peripheral_Init(void) {
 	}
 
 	/* Create module special task (if needed) */
-	if (ACMonitorTaskHandle == NULL)
-		xTaskCreate(ACMonitorTask, (const char*) "ACMonitorTask",
-		configMINIMAL_STACK_SIZE, NULL, osPriorityNormal - osPriorityIdle, &ACMonitorTaskHandle);
+//	if (ACMonitorTaskHandle == NULL)
+//		xTaskCreate(ACMonitorTask, (const char*) "ACMonitorTask",
+//		configMINIMAL_STACK_SIZE, NULL, osPriorityNormal - osPriorityIdle, &ACMonitorTaskHandle);
 }
 
 /***************************************************************************/
@@ -634,7 +636,7 @@ Module_Status GetModuleParameter(uint8_t paramIndex, float *value) {
 
         /* Sample Current */
         case 2:
-            status = SampleCurrent(value);
+//            status = SampleCurrent(value);
             break;
 
         /* Invalid parameter index */
@@ -650,35 +652,35 @@ Module_Status GetModuleParameter(uint8_t paramIndex, float *value) {
 /****************************** Local Functions ****************************/
 /***************************************************************************/
 /* AC Monitor Task function */
-void ACMonitorTask(void *argument) {
-
-	/* Infinite loop */
-	for (;;) {
-		CalculationVolt(&voltage);
-		CalculationAmp(&current);
-		/*  */
-		switch (StreamingDataMode) {
-
-		case STREAM_TO_PORT:
-			Exportstreamtoport(module1, port1, mode1, Numofsamples1, timeout1);
-			break;
-
-		case SAMPLE_TO_PORT:
-			Exporttoport(module2, port2, mode2);
-			break;
-
-		case STREAM_TO_Terminal:
-			Exportstreamtoterminal(Numofsamples3, timeout3, port3, mode3);
-			break;
-
-		default:
-			osDelay(10);
-			break;
-		}
-
-		taskYIELD();
-	}
-}
+//void ACMonitorTask(void *argument) {
+//
+//	/* Infinite loop */
+//	for (;;) {
+//		CalculationVolt(&voltage);
+//		CalculationAmp(&current);
+//		/*  */
+//		switch (StreamingDataMode) {
+//
+//		case STREAM_TO_PORT:
+//			Exportstreamtoport(module1, port1, mode1, Numofsamples1, timeout1);
+//			break;
+//
+//		case SAMPLE_TO_PORT:
+//			Exporttoport(module2, port2, mode2);
+//			break;
+//
+//		case STREAM_TO_Terminal:
+//			Exportstreamtoterminal(Numofsamples3, timeout3, port3, mode3);
+//			break;
+//
+//		default:
+//			osDelay(10);
+//			break;
+//		}
+//
+//		taskYIELD();
+//	}
+//}
 
 /***************************************************************************/
 uint32_t ADCCalculation(uint8_t selected) {
@@ -742,32 +744,32 @@ void AvarageLPF(uint32_t IN, uint32_t *OUT, Filter_t *FILTER_OBJ) {
 
 /***************************************************************************/
 Module_Status CalculationVolt(float *measured_volt) {
-	Module_Status status = H2AR3_OK;
-	float _volt;
-
-	adcRawData = ADCCalculation(VOLT);
-
-	_volt = (float) (adcRawData * VREF) / ADC_RESOLUTION_12_BIT; /* 12 bit resolution */
-	_volt = (_volt - (VBAIS + VOLTAGE_OFFSET));
-	*measured_volt = _volt * VOLT_RATIO;              /* measured_volt =0;533.3533 */
-
-	return status;
+//	Module_Status status = H2AR3_OK;
+//	float _volt;
+//
+//	adcRawData = ADCCalculation(VOLT);
+//
+//	_volt = (float) (adcRawData * VREF) / ADC_RESOLUTION_12_BIT; /* 12 bit resolution */
+//	_volt = (_volt - (VBAIS + VOLTAGE_OFFSET));
+//	*measured_volt = _volt * VOLT_RATIO;              /* measured_volt =0;533.3533 */
+//
+//	return status;
 }
 
 /***************************************************************************/
 Module_Status CalculationAmp(float *measured_amp) {
-	Module_Status status = H2AR3_OK;
-	float _volt;
-
-	adcRawData = ADCCalculation(AMP);
-
-	_volt = (float) (adcRawData * VREF) / 4095;
-	_volt = (_volt - (VBAIS + VOLTAGE_OFFSET));
-
-	/* 2.5 we have to make average error of vref before load is switched on */
-	*measured_amp = (_volt / 0.009795);
-
-	return status;
+//	Module_Status status = H2AR3_OK;
+//	float _volt;
+//
+//	adcRawData = ADCCalculation(AMP);
+//
+//	_volt = (float) (adcRawData * VREF) / 4095;
+//	_volt = (_volt - (VBAIS + VOLTAGE_OFFSET));
+//
+//	/* 2.5 we have to make average error of vref before load is switched on */
+//	*measured_amp = (_volt / 0.009795);
+//
+//	return status;
 }
 
 /***************************************************************************/
@@ -956,7 +958,7 @@ void SampleVToString(char *cstring, size_t maxLen) {
 void SampleAToString(char *cstring, size_t maxLen) {
 	float AMP = 0;
 
-	SampleCurrent(&AMP);;
+//	SampleCurrent(&AMP);;
 	snprintf(cstring, maxLen, "AMP: %.2f \r\n", AMP);
 }
 
@@ -1006,22 +1008,22 @@ static Module_Status StreamToCLI(uint32_t Numofsamples, uint32_t timeout, Sample
 /***************************************************************************/
 /***************************** General Functions ***************************/
 /***************************************************************************/
-Module_Status SampleVoltage(float *volt) {
-	Module_Status status = H2AR3_OK;
-
-	*volt = voltage;
-
-	return status;
-}
+//Module_Status SampleVoltage(float *volt) {
+//	Module_Status status = H2AR3_OK;
+//
+//	*volt = voltage;
+//
+//	return status;
+//}
 
 /***************************************************************************/
-Module_Status SampleCurrent(float *curr) {
-	Module_Status status = H2AR3_OK;
-
-	*curr = current;
-
-	return status;
-}
+//Module_Status SampleCurrent(float *curr) {
+//	Module_Status status = H2AR3_OK;
+//
+//	*curr = current;
+//
+//	return status;
+//}
 
 /***************************************************************************/
 Module_Status StreamtoPort(uint8_t module, uint8_t port, All_Data function,	uint32_t Numofsamples, uint32_t timeout) {
@@ -1062,6 +1064,321 @@ Module_Status SampletoPort(uint8_t module, uint8_t port, All_Data function) {
 
 	return status;
 }
+
+/*********************************************************
+ * *******************************************************
+ * ************************************************************
+ * **************************************************************
+ *****************************************************************************
+ **************************************************************************************************
+ ***********************************************************************************************************
+ *****************************************************************************************************************
+ ******************************************************************************************************************
+ *******************************************************************************************************************
+ *******************************************************************************************************************
+ *******************************************************************************************************************
+ *******************************************************************************************************************
+ *******************************************************************************************************************/
+//float st,et,tt ;
+//
+//extern ADC_HandleTypeDef hadc1; // ADC1 instance for current sense
+//extern TIM_HandleTypeDef htim1; // TIM1 instance for 10 kHz sampling rate
+//
+//// Global variables for sampling and processing
+//float vr_buffer[SAMPLE_COUNT];  // Array to store calculated Vr values (in volts)
+//float ir_buffer[SAMPLE_COUNT];  // Array to store calculated Ir values (in amps)
+//float vadc_buffer[SAMPLE_COUNT];  // Array to store calculated Ir values (in amps)
+//
+//volatile uint16_t sample_count = 0; // Counter for number of samples collected
+//volatile uint8_t reading_complete = 0; // Flag to indicate sampling completion
+//static float gain_factor = 1.0f / GAIN; // Pre-calculated 1/GAIN to reduce division
+//static float te_by_r; // Pre-calculated Te/R to reduce division
+//extern uint8_t f;
+//    /*
+//     * @brief: Samples current (Ir) data from AC monitor.
+//     * @param ir_buffer: Pointer to store calculated Ir values (in amps).
+//     * @param monitor_type: Enum defining the AC monitor type (CR8450_1000 or CR8401_1000).
+//     * @retval: Module status indicating success or error.
+//     */
+//Module_Status SampleVrIr(float *vr_buffer, float *ir_buffer, AC_Monitor_Status monitor_type)
+//{
+//
+//    Module_Status status = H2AR3_OK;
+//    float te, r;           // Variables for Te and R based on monitor type
+//    float gain_factor = 1.0f / GAIN; // Pre-calculate 1/GAIN to reduce division
+//   volatile uint16_t sample_count = 0; // Sample counter
+//
+//    // Select Te and R based on monitor type
+//    if (monitor_type == CR8450_1000) {
+//        te = TE_CR8450_1000;
+//        r = R_CR8450_1000;
+//    } else if (monitor_type == CR8401_1000) {
+//        te = TE_CR8401_1000;
+//        r = R_CR8401_1000;
+//    } else {
+//        return status = H2AR3_ERROR; // Invalid monitor type
+//    }
+//    te_by_r = te / r; // Calculate Te/R once
+//
+//    // Start the timer with interrupt
+//    HAL_TIM_Base_Start_IT(&htim1);
+//    st=HAL_GetTick();
+//    // Timer interrupt callback will handle sampling
+////    while (!reading_complete) {
+////        // Wait for completion (non-blocking in real application, just for demo)
+////    }
+//
+//    // Stop the timer after sampling
+//
+//    // Check if sampling was successful
+////    if (sample_count != SAMPLE_COUNT) {
+////        return status = H2AR3_ERROR;
+////    }
+//
+//    // Reset reading_complete flag
+////    reading_complete = 0;
+//
+//    return status;
+//}
+//char data[100];
+//float ff;
+//void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
+// {
+//
+//	if (htim->Instance == TIM1) {
+//		if (sample_count < SAMPLE_COUNT) {
+//			HAL_ADC_Start(&hadc1); // Start ADC manually
+//			if (HAL_ADC_PollForConversion(&hadc1, HAL_MAX_DELAY) == HAL_OK) {
+//				uint16_t adc_value = HAL_ADC_GetValue(&hadc1); // Get raw ADC value
+//				float vadc = (adc_value * VREF) / ADC_MAX; // Convert to voltage (0-3V)
+//				float vr = (vadc - VBIAS) * gain_factor; // Calculate Vr = (Vadc - Vbias) / Gain
+//				vr_buffer[sample_count] = vr; // Store Vr
+//				vadc_buffer[sample_count] = vadc;
+//				ir_buffer[sample_count] = vr * te_by_r; // Calculate Ir = Vr * (Te/R)
+//				//  sprintf(gu8_MSG, "%d\t%.2f\t%.2f\t\n",uwTick,VoltRtest speed motoreeeeequest,OldFreq);
+//
+//				sample_count++; // Increment sample counter
+//
+//			}
+//			HAL_ADC_Stop(&hadc1); // Stop ADC manually
+//		} else {
+//			et = HAL_GetTick();
+//			tt = et - st;
+////            reading_complete = 1; // Set completion flag
+//			HAL_TIM_Base_Stop_IT(&htim1);
+//			sample_count = 0;
+//			f++;
+////              sprintf(data, "2f\t%.\t\n",ir_buffer);
+////
+////            HAL_UART_Transmit(&huart2,data, sizeof(data), 100);
+////            char buffer[200];
+////            sprintf(buffer, "%.2f", ir_buffer[sample_count]);
+////            HAL_UART_Transmit(&huart2, (uint8_t*)buffer, strlen(buffer), HAL_MAX_DELAY);
+//		}
+//	}
+//}
+
+#include <math.h> // For sqrtf
+
+
+extern ADC_HandleTypeDef hadc1; // ADC1 instance
+extern TIM_HandleTypeDef htim1; // TIM1 instance for 10 kHz sampling rate
+// Global variables for sampling
+volatile uint8_t is_sampling_volt = 0;
+volatile uint8_t is_sampling_current = 0; // Flag to indicate current or voltage sampling (0 for voltage, 1 for current)
+volatile uint16_t sample_index = 0;  // Sample index for continuous sampling
+static float current_te_by_r = 1.0f; // Pre-calculated Te/R for current
+float rms_buffer[SAMPLE_COUNT] = {0}; // Buffer to store squared values for RMS calculation
+float current_rms = 0.0f;            // RMS value for current
+float voltage_rms = 0.0f;            // RMS value for voltage
+static float rms_sum = 0.0f;         // Sum of squared values for RMS calculation
+static uint8_t initial_samples_collected = 0; // Flag to indicate if 200 samples are collected
+static uint8_t voltage_sampling_started = 0;
+static uint8_t current_sampling_started = 0;
+uint16_t adc_val[2] = {0};
+AC ACC;
+/*
+ * @brief: Initiates sampling of voltage using ADC channel 16.
+ * @param volt: Pointer to store the calculated voltage (in volts).
+ * @retval: Module status indicating success or error.
+ */
+Module_Status SampleVoltage(float *volt) {
+    Module_Status status = H2AR3_OK;
+
+    if (!voltage_sampling_started) {
+
+        // Set sampling mode to voltage
+        is_sampling_volt = 1;
+
+        // Reset RMS variables
+        sample_index = 0;
+        rms_sum = 0.0f;
+        initial_samples_collected = 0;
+        voltage_rms = 0.0f;
+
+        // Start the timer only once
+        if ((htim1.Instance->CR1 & TIM_CR1_CEN) == 0) {
+            HAL_TIM_Base_Start_IT(&htim1);
+        }
+
+        voltage_sampling_started = 1;
+    }
+
+    // Always return latest RMS value
+//    *volt = voltage_rms;
+    *volt=ACC.cur;
+    return status;
+}
+
+
+/*
+ * @brief: Initiates sampling of current using ADC channel 6.
+ * @param curr: Pointer to store the calculated current (in amps).
+ * @param monitor_type: Enum defining the AC monitor type (CR8450_1000 or CR8401_1000).
+ * @retval: Module status indicating success or error.
+ */
+Module_Status SampleCurrent(float *curr, AC_Monitor_Status monitor_type) {
+	Module_Status status = H2AR3_OK;
+
+	if (!current_sampling_started) {
+		ADC_ChannelConfTypeDef sConfig = { 0 };
+		float te = 0.0f;
+
+		switch (monitor_type) {
+		case CR8450_1000:
+			te = TE_CR8450_1000;
+			break;
+		case CR8401_1000:
+			te = TE_CR8401_1000;
+			break;
+		default:
+			return H2AR3_ERROR;
+		}
+
+		current_te_by_r = te / CURRENT_R;
+
+		is_sampling_current = 1;
+		sample_index = 0;
+		rms_sum = 0.0f;
+		initial_samples_collected = 0;
+		current_rms = 0.0f;
+
+		if ((htim1.Instance->CR1 & TIM_CR1_CEN) == 0) {
+			HAL_TIM_Base_Start_IT(&htim1);
+		}
+
+		current_sampling_started = 1;
+	}
+
+	*curr = ACC.cur;
+	return status;
+}
+
+/*
+ * @brief: Timer ISR callback to read ADC and update sample.
+ */
+void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim) {
+    if (htim->Instance == TIM1) {
+    	for (int i = 0; i < 2; ++i) {
+    		 HAL_ADC_Start(&hadc1);
+    		  HAL_ADC_PollForConversion(&hadc1, HAL_MAX_DELAY);
+    		  adc_val[i] = HAL_ADC_GetValue(&hadc1);
+    	}
+            float temp_value = 0.0f;
+
+            if (is_sampling_current) {
+                temp_value = CalculateCurrent(adc_val[0]);
+                current_rms = CalculateRMS(temp_value); // Update RMS for current
+            }
+            if (is_sampling_volt) {
+                temp_value = CalculateVoltage(adc_val[1]);
+                voltage_rms = CalculateRMS(temp_value); // Update RMS for voltage
+            }
+            if (++sample_index >= 1000) {
+                sample_index = 0;
+                initial_samples_collected = 1;
+            }
+
+        }
+        HAL_ADC_Stop(&hadc1);
+
+}
+
+/*
+ * @brief: Calculates the voltage based on ADC reading.
+ * @param adc_value: Raw ADC value to calculate voltage.
+ * @retval: Calculated voltage (in volts), or -1.0f if error.
+ */
+float CalculateVoltage(uint16_t adc_value) {
+    // Convert ADC value to voltage (Vadc = (ADC_value / 4095) * 3.0)
+    float vadc = (adc_value * VREF) / ADC_MAX;
+
+    // Calculate Vrv = (Vadc - Vbias) / gain_v
+//    float vrv = (vadc - VOLTAGE_VBIAS) / VOLTAGE_GAIN;
+    float vr = (vadc - VOLTAGE_VBIAS) ;
+    float ff=roundf(vr*100)/100;
+
+    float e= ff/VOLTAGE_GAIN;
+    // Calculate Vin = Vrv * (sumR / Rv)
+    float vin = (e * (VOLTAGE_SUMR / VOLTAGE_RV)) ;
+
+    // Return the calculated voltage
+    return vin;
+}
+int o ;
+/*
+ * @brief: Calculates the current based on ADC reading.
+ * @param adc_value: Raw ADC value to calculate current.
+ * @retval: Calculated current (in amps), or -1.0f if error.
+ */
+float CalculateCurrent(uint16_t adc_value) {
+    // Convert ADC value to voltage (Vadc = (ADC_value / 4095) * 3.0)
+    float vadc = (adc_value * VREF) / ADC_MAX;
+if (vadc <1.5){
+	o++;
+}
+//vadc =0.12345;
+    // Calculate Vr = (Vadc - Vbias) / Gain
+    float vr = (vadc - CURRENT_VBIAS) ;
+    float ff=roundf(vr*100)/100;
+
+    float e= ff/CURRENT_GAIN;
+
+    // Calculate Ir = Vr * (Te / R), where Te/R is pre-calculated as current_te_by_r
+    float ir = e * current_te_by_r;
+
+    // Return the calculated current
+    return ir;
+}
+
+/*
+ * @brief: Calculates the RMS value of samples.
+ * @param new_ir: Latest Ir value.
+ */
+float CalculateRMS(float new_ir) {
+    uint16_t idx = sample_index % SAMPLE_COUNT;
+
+    if (sample_index < SAMPLE_COUNT) {
+
+        if (sample_index == SAMPLE_COUNT - 1 && initial_samples_collected == 0) {
+        	rms_sum += new_ir * new_ir;
+
+			float rms = sqrtf(rms_sum / SAMPLE_COUNT);
+			ACC.cur = rms;
+			return rms;
+		}
+    } else if (initial_samples_collected) {
+        float old_ir = rms_buffer[idx];
+        rms_buffer[idx] = new_ir * new_ir; // Store the new squared value
+        rms_sum += rms_buffer[idx] ;
+        rms_sum -=old_ir ;// Updatold_ire sum with new and old squared values
+        float rms = sqrtf(rms_sum / SAMPLE_COUNT);
+    	ACC.cur = rms;
+        return rms;
+    }
+    return -1.0f; // Return -1.0f until 200 samples are collected
+}
+
 
 /***************************************************************************/
 /********************************* Commands ********************************/
