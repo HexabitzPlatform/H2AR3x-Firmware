@@ -8,8 +8,6 @@
 /* Includes ------------------------------------------------------------------*/
 #include "BOS.h"
 
-/* Private variables ---------------------------------------------------------*/
-
 /* Private function prototypes -----------------------------------------------*/
 
 /* Main function ------------------------------------------------------------*/
@@ -27,13 +25,11 @@ int main(void) {
 
 /* User Task */
 void UserTask(void *argument) {
-	AddButton(P1, MOMENTARY_NO, CLICKED);
+
 	// put your code here, to run repeatedly.
 	while (1) {
 
 	}
 }
-void buttonClickedCallback(uint8_t port) {
-	IND_blink(100);
-}
+
 /*-----------------------------------------------------------*/
