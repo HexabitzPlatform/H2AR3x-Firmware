@@ -15,6 +15,7 @@
 /* Includes ****************************************************************/
 #include "BOS.h"
 #include "H2AR3_inputs.h"
+#include <math.h>
 
 /* Exported Typedef ******************************************************/
 /* Define UART variables */
@@ -24,13 +25,27 @@ UART_HandleTypeDef huart3;
 UART_HandleTypeDef huart4;
 UART_HandleTypeDef huart5;
 UART_HandleTypeDef huart6;
-
-//TaskHandle_t ACMonitorTaskHandle = NULL;
-
 ADC_HandleTypeDef hadc1;
 
+extern TIM_HandleTypeDef htim1; // TIM1 instance for 10 kHz sampling rate
 /* Private Variables *******************************************************/
-
+volatile uint8_t is_sampling_volt = 0;              /* Flag to indicate voltage sampling */
+volatile uint8_t is_sampling_current = 0;           /* Flag to indicate current sampling (0 for voltage, 1 for current) */
+volatile uint16_t sample_index_I = 0;               /* Sample index for current sampling */
+volatile uint16_t sample_index_V = 0;               /* Sample index for voltage sampling */
+static float current_te_by_r = 1.0f;                /* Pre-calculated Te/R for current */
+float rms_buffer_I[SAMPLE_COUNT] = {0};             /* Buffer to store squared values for current RMS calculation */
+float rms_buffer_V[SAMPLE_COUNT] = {0};             /* Buffer to store squared values for voltage RMS calculation */
+float current_rms = 0.0f;                           /* RMS value for current */
+float voltage_rms = 0.0f;                           /* RMS value for voltage */
+static float rms_sum_I = 0.0f;                      /* Sum of squared values for current RMS calculation */
+static float rms_sum_V = 0.0f;                      /* Sum of squared values for voltage RMS calculation */
+static uint8_t initial_samples_collected_I = 0;      /* Flag to indicate if 200 current samples are collected */
+static uint8_t initial_samples_collected_V = 0;      /* Flag to indicate if 200 voltage samples are collected */
+static uint8_t voltage_sampling_started = 0;         /* Flag to indicate if voltage sampling has started */
+static uint8_t current_sampling_started = 0;         /* Flag to indicate if current sampling has started */
+uint16_t adc_val[2] = {0};                          /* Buffer to store ADC values */
+AC ACC;                                             /* Structure to hold current and voltage data */
 
 /* Global variables for sensor data used in ModuleParam */
 float H2AR3_voltage = 0.0f;
@@ -55,6 +70,10 @@ void RemoteBootloaderUpdate(uint8_t src,uint8_t dst,uint8_t inport,uint8_t outpo
 Module_Status Module_MessagingTask(uint16_t code,uint8_t port,uint8_t src,uint8_t dst,uint8_t shift);
 
 /* Local function prototypes ***********************************************/
+static float CalculateVoltageVolts(uint16_t adc_value); /* Calculates voltage from ADC reading */
+static float CalculateCurrentAmps(uint16_t adc_value);  /* Calculates current from ADC reading */
+static float CalculateCurrentRMS(float new_current);    /* Calculates RMS value for current */
+static float CalculateVoltageRMS(float new_voltage);    /* Calculates RMS value for voltage */
 /* Stream Functions */
 
 
@@ -562,6 +581,260 @@ Module_Status GetModuleParameter(uint8_t paramIndex, float *value) {
 /***************************************************************************/
 /****************************** Local Functions ****************************/
 /***************************************************************************/
+
+/*
+ * @brief: Timer ISR callback to read ADC channel and update sample.
+ */
+void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim) {
+	uint8_t channel_index = 0; /* Index for ADC channel iteration */
+	float processed_value = 0.0f; /* Temporary value for calculated current or voltage */
+
+	if (htim->Instance == TIM1) { /* Check if the interrupt is from TIM1 */
+		/* Read ADC values for both channels */
+		for (channel_index = 0; channel_index < 2; ++channel_index) { /* Iterate over two ADC channels */
+			HAL_ADC_Start(&hadc1); /* Start ADC conversion */
+			HAL_ADC_PollForConversion(&hadc1, HAL_MAX_DELAY); /* Wait for conversion to complete */
+			adc_val[channel_index] = HAL_ADC_GetValue(&hadc1); /* Store ADC value */
+		}
+
+		/* Process current sampling */
+		if (is_sampling_current) { /* Check if current sampling is active */
+			processed_value = CalculateCurrentAmps(adc_val[0]); /* Calculate current from ADC value */
+			current_rms = CalculateCurrentRMS(processed_value); /* Update RMS for current */
+			if (++sample_index_I >= 1000) { /* Increment and check sample index */
+				sample_index_I = 0; /* Reset index after 1000 samples */
+				initial_samples_collected_I = 1; /* Mark initial samples as collected */
+			}
+		}
+
+		/* Process voltage sampling */
+		if (is_sampling_volt) { /* Check if voltage sampling is active */
+			processed_value = CalculateVoltageVolts(adc_val[1]); /* Calculate voltage from ADC value */
+			voltage_rms = CalculateVoltageRMS(processed_value); /* Update RMS for voltage */
+			if (++sample_index_V >= 1000) { /* Increment and check sample index */
+				sample_index_V = 0; /* Reset index after 1000 samples */
+				initial_samples_collected_V = 1; /* Mark initial samples as collected */
+			}
+		}
+	}
+
+	HAL_ADC_Stop(&hadc1); /* Stop ADC */
+}
+
+/***************************************************************************/
+/*
+ * @brief: Calculates the voltage based on ADC reading.
+ * @param adc_value: Raw ADC value to calculate voltage.
+ * @retval: Calculated voltage (in volts), or -1.0f if error.
+ */
+static float CalculateVoltageVolts(uint16_t adc_value) {
+	float adc_voltage = 0.0f; /* Voltage converted from ADC value */
+	float resistor_voltage = 0.0f; /* Voltage after bias subtraction */
+	float rounded_voltage = 0.0f; /* Rounded voltage value */
+	float gain_adjusted_voltage = 0.0f; /* Voltage after gain adjustment */
+	float input_voltage = 0.0f; /* Final input voltage */
+
+	/* Convert ADC value to voltage (Vadc = (ADC_value / 4095) * 3.0) */
+	adc_voltage = (adc_value * VREF) / ADC_MAX; /* Calculate ADC voltage using reference and max ADC value */
+
+	/* Calculate resistor_voltage = (Vadc - Vbias) */
+	resistor_voltage = (adc_voltage - VOLTAGE_VBIAS); /* Subtract bias voltage from ADC voltage */
+	rounded_voltage = roundf(resistor_voltage * 100) / 100; /* Round to two decimal places */
+
+	/* Calculate gain_adjusted_voltage = rounded_voltage / VOLTAGE_GAIN */
+	gain_adjusted_voltage = rounded_voltage / VOLTAGE_GAIN; /* Divide by voltage gain */
+
+	/* Calculate Vin = gain_adjusted_voltage * (sumR / Rv) */
+	input_voltage = (gain_adjusted_voltage * (VOLTAGE_SUMR / VOLTAGE_RV)); /* Compute final voltage using resistor ratio */
+
+	/* Return the calculated voltage */
+	return input_voltage; /* Return the final voltage value */
+}
+
+/***************************************************************************/
+/*
+ * @brief: Calculates the current based on ADC reading.
+ soluciones * @param adc_value: Raw ADC value to calculate current.
+ * @retval: Calculated current (in amps), or -1.0f if error.
+ */
+static float CalculateCurrentAmps(uint16_t adc_value) {
+	float adc_voltage = 0.0f; /* Voltage converted from ADC value */
+	float resistor_voltage = 0.0f; /* Voltage after bias subtraction */
+	float rounded_voltage = 0.0f; /* Rounded voltage value */
+	float gain_adjusted_voltage = 0.0f; /* Voltage after gain adjustment */
+	float input_current = 0.0f; /* Final input current */
+
+	/* Convert ADC value to voltage (Vadc = (ADC_value / 4095) * 3.0) */
+	adc_voltage = (adc_value * VREF) / ADC_MAX; /* Calculate ADC voltage using reference and max ADC value */
+
+	/* Calculate resistor_voltage = (Vadc - CURRENT_VBIAS) */
+	resistor_voltage = (adc_voltage - CURRENT_VBIAS); /* Subtract bias voltage from ADC voltage */
+	rounded_voltage = roundf(resistor_voltage * 100) / 100; /* Round to two decimal places */
+
+	/* Calculate gain_adjusted_voltage = rounded_voltage / CURRENT_GAIN */
+	gain_adjusted_voltage = rounded_voltage / CURRENT_GAIN; /* Divide by current gain */
+
+	/* Calculate Ir = gain_adjusted_voltage * (Te / R), where Te/R is pre-calculated as current_te_by_r */
+	input_current = gain_adjusted_voltage * current_te_by_r; /* Compute final current using Te/R ratio */
+
+	/* Return the calculated current */
+	return input_current; /* Return the final current value */
+}
+
+/***************************************************************************/
+/*
+ * @brief: Calculates the RMS value of current samples.
+ * @param new_current: Latest current value.
+ * @retval: Calculated RMS value, or -1.0f if not enough samples.
+ */
+static float CalculateCurrentRMS(float new_current) {
+	uint16_t buffer_index = sample_index_I % SAMPLE_COUNT; /* Calculate buffer index for current */
+	float previous_current = 0.0f; /* Previous squared current value */
+	float rms_value = 0.0f; /* Calculated RMS value */
+
+	if (sample_index_I < SAMPLE_COUNT) { /* Check if fewer than 200 samples are collected */
+		if (sample_index_I == SAMPLE_COUNT - 1
+				&& initial_samples_collected_I == 0) { /* Check if 200th sample is reached */
+			rms_sum_I += new_current * new_current; /* Add squared current to sum */
+
+			/* Calculate RMS when 200 samples are collected */
+			rms_value = sqrtf(rms_sum_I / SAMPLE_COUNT); /* Compute RMS using square root of average */
+			ACC.cur = rms_value; /* Store RMS value in AC structure */
+			return rms_value; /* Return calculated RMS */
+		}
+	} else if (initial_samples_collected_I) { /* Check if initial samples are collected */
+		previous_current = rms_buffer_I[buffer_index]; /* Get previous squared value from buffer */
+		rms_buffer_I[buffer_index] = new_current * new_current; /* Store new squared current value */
+		rms_sum_I += rms_buffer_I[buffer_index]; /* Add new squared value to sum */
+		rms_sum_I -= previous_current; /* Subtract previous squared value from sum */
+
+		/* Calculate RMS */
+		rms_value = sqrtf(rms_sum_I / SAMPLE_COUNT); /* Compute RMS using square root of average */
+		ACC.cur = rms_value; /* Store RMS value in AC structure */
+		return rms_value; /* Return calculated RMS */
+	}
+
+	return -1.0f; /* Return -1.0f until 200 samples are collected */
+}
+
+/***************************************************************************/
+/*
+ * @brief: Calculates the RMS value of voltage samples.
+ * @param new_voltage: Latest voltage value.
+ * @retval: Calculated RMS value, or -1.0f if not enough samples.
+ */
+static float CalculateVoltageRMS(float new_voltage) {
+	uint16_t buffer_index = sample_index_V % SAMPLE_COUNT; /* Calculate buffer index for voltage */
+	float previous_voltage = 0.0f; /* Previous squared voltage value */
+	float rms_value = 0.0f; /* Calculated RMS value */
+
+	if (sample_index_V < SAMPLE_COUNT) { /* Check if fewer than 200 samples are collected */
+		if (sample_index_V == SAMPLE_COUNT - 1
+				&& initial_samples_collected_V == 0) { /* Check if 200th sample is reached */
+			rms_sum_V += new_voltage * new_voltage; /* Add squared voltage to sum */
+
+			/* Calculate RMS when 200 samples are collected */
+			rms_value = sqrtf(rms_sum_V / SAMPLE_COUNT); /* Compute RMS using square root of average */
+			ACC.volt = rms_value; /* Store RMS value in AC structure */
+			return rms_value; /* Return calculated RMS */
+		}
+	} else if (initial_samples_collected_V) { /* Check if initial samples are collected */
+		previous_voltage = rms_buffer_V[buffer_index]; /* Get previous squared value from buffer */
+		rms_buffer_V[buffer_index] = new_voltage * new_voltage; /* Store new squared voltage value */
+		rms_sum_V += rms_buffer_V[buffer_index]; /* Add new squared value to sum */
+		rms_sum_V -= previous_voltage; /* Subtract previous squared value from sum */
+
+		/* Calculate RMS */
+		rms_value = sqrtf(rms_sum_V / SAMPLE_COUNT); /* Compute RMS using square root of average */
+		ACC.volt = rms_value; /* Store RMS value in AC structure */
+		return rms_value; /* Return calculated RMS */
+	}
+
+	return -1.0f; /* Return -1.0f until 200 samples are collected */
+}
+
+/***************************************************************************/
+/***************************** General Functions ***************************/
+/***************************************************************************/
+/*
+ * @brief: Initiates sampling of voltage using ADC channel 16.
+ * @param volt: Pointer to store the calculated voltage (in volts).
+ * @retval: Module status indicating success or error.
+ */
+Module_Status SampleVoltage(float *volt) {
+	Module_Status status = H2AR3_OK; /* Initialize status to success */
+
+	if (!voltage_sampling_started) { /* Check if voltage sampling has not started */
+		/* Set sampling mode to voltage */
+		is_sampling_volt = 1; /* Enable voltage sampling flag */
+
+		/* Reset RMS variables */
+		sample_index_V = 0; /* Reset voltage sample index */
+		rms_sum_V = 0.0f; /* Clear sum of squared values for voltage */
+		initial_samples_collected_V = 0; /* Reset flag for initial samples */
+		voltage_rms = 0.0f; /* Reset voltage RMS value */
+
+		/* Start the timer only once */
+		if ((htim1.Instance->CR1 & TIM_CR1_CEN) == 0) { /* Check if timer is not running */
+			HAL_TIM_Base_Start_IT(&htim1); /* Start timer with interrupt */
+		}
+
+		voltage_sampling_started = 1; /* Mark voltage sampling as started */
+	}
+
+	/* Return latest RMS value */
+	*volt = ACC.volt; /* Store the latest voltage RMS value in the provided pointer */
+	return status; /* Return success status */
+}
+
+/***************************************************************************/
+/*
+ * @brief: Initiates sampling of current using ADC channel 6.
+ * @param curr: Pointer to store the calculated current (in amps).
+ * @param monitor_type: Enum defining the AC monitor type (CR8450_1000 or CR8401_1000).
+ * @retval: Module status indicating success or error.
+ */
+Module_Status SampleCurrent(float *curr, AC_Monitor_Status monitor_type) {
+	Module_Status status = H2AR3_OK; /* Initialize status to success */
+	ADC_ChannelConfTypeDef channel_config = { 0 }; /* Initialize ADC channel configuration structure */
+	float transformer_te = 0.0f; /* Variable to store transformer Te value */
+
+	if (!current_sampling_started) { /* Check if current sampling has not started */
+		/* Select Te value based on monitor type */
+		switch (monitor_type) { /* Evaluate the monitor type */
+		case CR8450_1000: /* CR8450-1000 transformer */
+			transformer_te = TE_CR8450_1000; /* Set Te for CR8450-1000 */
+			break;
+		case CR8401_1000: /* CR8401-1000 transformer */
+			transformer_te = TE_CR8401_1000; /* Set Te for CR8401-1000 */
+			break;
+		default: /* Invalid monitor type */
+			return H2AR3_ERROR; /* Return error status for invalid type */
+		}
+
+		/* Calculate Te/R for current */
+		current_te_by_r = transformer_te / CURRENT_R; /* Compute Te/R ratio for current calculation */
+
+		/* Initialize sampling variables */
+		is_sampling_current = 1; /* Enable current sampling flag */
+		sample_index_I = 0; /* Reset current sample index */
+		rms_sum_I = 0.0f; /* Clear sum of squared values for current */
+		initial_samples_collected_I = 0; /* Reset flag for initial samples */
+		current_rms = 0.0f; /* Reset current RMS value */
+
+		/* Start the timer only once */
+		if ((htim1.Instance->CR1 & TIM_CR1_CEN) == 0) { /* Check if timer is not running */
+			HAL_TIM_Base_Start_IT(&htim1); /* Start timer with interrupt */
+		}
+
+		current_sampling_started = 1; /* Mark current sampling as started */
+	}
+
+	/* Return latest RMS value */
+	*curr = ACC.cur; /* Store the latest current RMS value in the provided pointer */
+	return status; /* Return success status */
+}
+
 
 /***************************************************************************/
 /********************************* Commands ********************************/

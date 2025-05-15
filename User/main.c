@@ -22,12 +22,14 @@ int main(void) {
 }
 
 /*-----------------------------------------------------------*/
-
+float v,i ;
 /* User Task */
 void UserTask(void *argument) {
 
 	// put your code here, to run repeatedly.
 	while (1) {
+		SampleVoltage(&v);
+		SampleCurrent(&i, CR8401_1000) ;
 
 	}
 }

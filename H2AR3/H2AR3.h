@@ -100,12 +100,31 @@
 #define _IND_LED_PIN		GPIO_PIN_15
 
 /* Module-specific Macro Definitions ***************************************/
+/* Common ADC macros */
+#define VREF                3.0f        /* Reference voltage for ADC conversion (3V) */
+#define ADC_MAX             4095.0f     /* Maximum ADC value for 12-bit resolution */
+#define SAMPLE_COUNT        200         /* Number of samples to collect */
 
+/* Macros for current calculation */
+#define CURRENT_VBIAS       1.57728934f /* Bias voltage for current (Vbias) */
+#define CURRENT_GAIN        100.0f      /* Gain value for current (gain) */
+#define TE_CR8450_1000      1021.0f     /* Te value for CR8450-1000 */
+#define TE_CR8401_1000      1005.0f     /* Te value for CR8401-1000 */
+#define CURRENT_R           1.0f        /* R value for all cases */
+
+/* Macros for voltage calculation */
+#define VOLTAGE_VBIAS       1.57728934f /* Bias voltage for voltage (Vbias) */
+#define VOLTAGE_GAIN        50.0f       /* Gain value for voltage (gainv) */
+#define VOLTAGE_SUMR        4000150.0f  /* Sum of resistors (sumR) */
+#define VOLTAGE_RV          150.0f      /* Voltage divider resistor (Rv) */
+
+#define MIN_PERIOD_MS		     100
+#define MAX_TIMEOUT_MS		     0xFFFFFFFF
 #define NUM_MODULE_PARAMS		 2
 
-/* Streaming parameters */
-
-
+/* Macros definitions */
+#define STREAM_MODE_TO_PORT      1
+#define STREAM_MODE_TO_TERMINAL  2
 
 /* Module-specific Type Definition *****************************************/
 /* Module-status Type Definition */
@@ -122,13 +141,17 @@ typedef enum {
 	AMP
 } All_Data;
 
-/* Filter type definitions */
+/* AC monitor status type definitions */
+typedef enum {
+    CR8450_1000 = 0, // CR8450-1000 transformer
+    CR8401_1000      // CR8401-1000 transformer
+} AC_Monitor_Status;
+
+/* Structure to hold AC current and voltage data */
 typedef struct {
-	uint16_t FilterOrder;
-	uint16_t BufferIndex;
-	uint32_t DataBuffer[512];
-	float *FilterCoeffecients;
-} Filter_t;
+    float cur;          /* Measured current in amps */
+    float volt;         /* Measured voltage in volts */
+} AC;
 
 
 /* Export UART variables */
@@ -151,6 +174,20 @@ extern void SystemClock_Config(void);
 /***************************************************************************/
 /***************************** General Functions ***************************/
 /***************************************************************************/
+/*
+ * @brief: Initiates sampling of voltage using ADC channel 16.
+ * @param volt: Pointer to store the calculated voltage (in volts).
+ * @retval: Module status indicating success or error.
+ */
+Module_Status SampleVoltage(float *volt);
+
+/*
+ * @brief: Initiates sampling of current using ADC channel 6.
+ * @param curr: Pointer to store the calculated current (in amps).
+ * @param monitor_type: Enum defining the AC monitor type (CR8450_1000 or CR8401_1000).
+ * @retval: Module status indicating success or error.
+ */
+Module_Status SampleCurrent(float *curr, AC_Monitor_Status monitor_type);
 
 
 Module_Status SampletoPort(uint8_t module,uint8_t port,All_Data function);
