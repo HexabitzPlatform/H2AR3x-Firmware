@@ -1186,13 +1186,13 @@ extern TIM_HandleTypeDef htim1; // TIM1 instance for 10 kHz sampling rate
 // Global variables for sampling
 volatile uint8_t is_sampling_volt = 0;
 volatile uint8_t is_sampling_current = 0; // Flag to indicate current or voltage sampling (0 for voltage, 1 for current)
-volatile uint16_t sample_index = 0;  // Sample index for continuous sampling
+volatile uint16_t sample_index_I,sample_index_V = 0;  // Sample index for continuous sampling
 static float current_te_by_r = 1.0f; // Pre-calculated Te/R for current
-float rms_buffer[SAMPLE_COUNT] = {0}; // Buffer to store squared values for RMS calculation
+float rms_buffer_I[SAMPLE_COUNT] ,rms_buffer_V[SAMPLE_COUNT] = {0}; // Buffer to store squared values for RMS calculation
 float current_rms = 0.0f;            // RMS value for current
 float voltage_rms = 0.0f;            // RMS value for voltage
-static float rms_sum = 0.0f;         // Sum of squared values for RMS calculation
-static uint8_t initial_samples_collected = 0; // Flag to indicate if 200 samples are collected
+static float rms_sum_I,rms_sum_V = 0.0f;         // Sum of squared values for RMS calculation
+static uint8_t initial_samples_collected_I, initial_samples_collected_V = 0; // Flag to indicate if 200 samples are collected
 static uint8_t voltage_sampling_started = 0;
 static uint8_t current_sampling_started = 0;
 uint16_t adc_val[2] = {0};
@@ -1211,9 +1211,9 @@ Module_Status SampleVoltage(float *volt) {
         is_sampling_volt = 1;
 
         // Reset RMS variables
-        sample_index = 0;
-        rms_sum = 0.0f;
-        initial_samples_collected = 0;
+        sample_index_V = 0;
+        rms_sum_V = 0.0f;
+        initial_samples_collected_V = 0;
         voltage_rms = 0.0f;
 
         // Start the timer only once
@@ -1226,7 +1226,7 @@ Module_Status SampleVoltage(float *volt) {
 
     // Always return latest RMS value
 //    *volt = voltage_rms;
-    *volt=ACC.cur;
+    *volt=ACC.volt;
     return status;
 }
 
@@ -1258,9 +1258,9 @@ Module_Status SampleCurrent(float *curr, AC_Monitor_Status monitor_type) {
 		current_te_by_r = te / CURRENT_R;
 
 		is_sampling_current = 1;
-		sample_index = 0;
-		rms_sum = 0.0f;
-		initial_samples_collected = 0;
+		sample_index_I = 0;
+		rms_sum_I = 0.0f;
+		initial_samples_collected_I = 0;
 		current_rms = 0.0f;
 
 		if ((htim1.Instance->CR1 & TIM_CR1_CEN) == 0) {
@@ -1278,29 +1278,33 @@ Module_Status SampleCurrent(float *curr, AC_Monitor_Status monitor_type) {
  * @brief: Timer ISR callback to read ADC and update sample.
  */
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim) {
-    if (htim->Instance == TIM1) {
-    	for (int i = 0; i < 2; ++i) {
-    		 HAL_ADC_Start(&hadc1);
-    		  HAL_ADC_PollForConversion(&hadc1, HAL_MAX_DELAY);
-    		  adc_val[i] = HAL_ADC_GetValue(&hadc1);
-    	}
-            float temp_value = 0.0f;
+	if (htim->Instance == TIM1) {
+		for (int i = 0; i < 2; ++i) {
+			HAL_ADC_Start(&hadc1);
+			HAL_ADC_PollForConversion(&hadc1, HAL_MAX_DELAY);
+			adc_val[i] = HAL_ADC_GetValue(&hadc1);
+		}
+		float temp_value = 0.0f;
 
-            if (is_sampling_current) {
-                temp_value = CalculateCurrent(adc_val[0]);
-                current_rms = CalculateRMS(temp_value); // Update RMS for current
-            }
-            if (is_sampling_volt) {
-                temp_value = CalculateVoltage(adc_val[1]);
-                voltage_rms = CalculateRMS(temp_value); // Update RMS for voltage
-            }
-            if (++sample_index >= 1000) {
-                sample_index = 0;
-                initial_samples_collected = 1;
-            }
+		if (is_sampling_current) {
+			temp_value = CalculateCurrent(adc_val[0]);
+			current_rms = CalculateIRMS(temp_value); // Update RMS for current
+			if (++sample_index_I >= 1000) {
+				sample_index_I = 0;
+				initial_samples_collected_I = 1;
+			}
+		}
+		if (is_sampling_volt) {
+			temp_value = CalculateVoltage(adc_val[1]);
+			voltage_rms = CalculateVRMS(temp_value); // Update RMS for voltage
+			if (++sample_index_V >= 1000) {
+				sample_index_V = 0;
+				initial_samples_collected_V = 1;
+			}
+		}
 
-        }
-        HAL_ADC_Stop(&hadc1);
+	}
+	HAL_ADC_Stop(&hadc1);
 
 }
 
@@ -1325,7 +1329,6 @@ float CalculateVoltage(uint16_t adc_value) {
     // Return the calculated voltage
     return vin;
 }
-int o ;
 /*
  * @brief: Calculates the current based on ADC reading.
  * @param adc_value: Raw ADC value to calculate current.
@@ -1334,9 +1337,7 @@ int o ;
 float CalculateCurrent(uint16_t adc_value) {
     // Convert ADC value to voltage (Vadc = (ADC_value / 4095) * 3.0)
     float vadc = (adc_value * VREF) / ADC_MAX;
-if (vadc <1.5){
-	o++;
-}
+
 //vadc =0.12345;
     // Calculate Vr = (Vadc - Vbias) / Gain
     float vr = (vadc - CURRENT_VBIAS) ;
@@ -1355,30 +1356,58 @@ if (vadc <1.5){
  * @brief: Calculates the RMS value of samples.
  * @param new_ir: Latest Ir value.
  */
-float CalculateRMS(float new_ir) {
-    uint16_t idx = sample_index % SAMPLE_COUNT;
+float CalculateIRMS(float new_ir) {
+    uint16_t idx = sample_index_I % SAMPLE_COUNT;
 
-    if (sample_index < SAMPLE_COUNT) {
+    if (sample_index_I < SAMPLE_COUNT) {
 
-        if (sample_index == SAMPLE_COUNT - 1 && initial_samples_collected == 0) {
-        	rms_sum += new_ir * new_ir;
+        if (sample_index_I == SAMPLE_COUNT - 1 && initial_samples_collected_I == 0) {
+        	rms_sum_I += new_ir * new_ir;
 
-			float rms = sqrtf(rms_sum / SAMPLE_COUNT);
+			float rms = sqrtf(rms_sum_I / SAMPLE_COUNT);
 			ACC.cur = rms;
 			return rms;
 		}
-    } else if (initial_samples_collected) {
-        float old_ir = rms_buffer[idx];
-        rms_buffer[idx] = new_ir * new_ir; // Store the new squared value
-        rms_sum += rms_buffer[idx] ;
-        rms_sum -=old_ir ;// Updatold_ire sum with new and old squared values
-        float rms = sqrtf(rms_sum / SAMPLE_COUNT);
+    } else if (initial_samples_collected_I) {
+        float old_ir = rms_buffer_I[idx];
+        rms_buffer_I[idx] = new_ir * new_ir; // Store the new squared value
+        rms_sum_I += rms_buffer_I[idx] ;
+        rms_sum_I -=old_ir ;// Updatold_ire sum with new and old squared values
+        float rms = sqrtf(rms_sum_I / SAMPLE_COUNT);
     	ACC.cur = rms;
         return rms;
     }
     return -1.0f; // Return -1.0f until 200 samples are collected
 }
 
+
+/*
+ * @brief: Calculates the RMS value of samples.
+ * @param new_ir: Latest Ir value.
+ */
+float CalculateVRMS(float new_V) {
+    uint16_t idx = sample_index_V % SAMPLE_COUNT;
+
+    if (sample_index_V < SAMPLE_COUNT) {
+
+        if (sample_index_V == SAMPLE_COUNT - 1 && initial_samples_collected_V == 0) {
+        	rms_sum_V += new_V * new_V;
+
+			float rms = sqrtf(rms_sum_V / SAMPLE_COUNT);
+			ACC.cur = rms;
+			return rms;
+		}
+    } else if (initial_samples_collected_V) {
+        float old_ir = rms_buffer_V[idx];
+        rms_buffer_V[idx] = new_V * new_V; // Store the new squared value
+        rms_sum_V += rms_buffer_V[idx] ;
+        rms_sum_V -=old_ir ;// Updatold_ire sum with new and old squared values
+        float rms = sqrtf(rms_sum_V / SAMPLE_COUNT);
+    	ACC.volt = rms;
+        return rms;
+    }
+    return -1.0f; // Return -1.0f until 200 samples are collected
+}
 
 /***************************************************************************/
 /********************************* Commands ********************************/

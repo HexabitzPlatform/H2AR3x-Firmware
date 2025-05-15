@@ -252,7 +252,8 @@ float CalculateCurrent(uint16_t adc_value);
  * @param value: Latest calculated value (current or voltage).
  * @retval: Calculated RMS value, or -1.0f if error.
  */
-float CalculateRMS(float value);
+float CalculateIRMS(float new_ir) ;
+float CalculateVRMS(float new_V) ;
 
 Module_Status SampletoPort(uint8_t module,uint8_t port,All_Data function);
 Module_Status StreamToTerminal(uint8_t port,All_Data function,uint32_t Numofsamples,uint32_t timeout);
