@@ -34,7 +34,7 @@
 #define P_PROG 			P2		/* ST factory bootloader UART */
 
 /* Define available ports */
-//#define _P1
+#define _P1
 #define _P2
 #define _P3
 
@@ -44,7 +44,7 @@
 #define _USART6
 
 /* Port-UART mapping */
-//#define UART_P1 &huart2
+#define UART_P1 &huart2
 #define UART_P2 &huart6
 #define UART_P3 &huart1
 
@@ -132,13 +132,14 @@ typedef enum {
 	H2AR3_OK = 0,
 	H2AR3_ERR_WRONGPARAMS,
 	H2AR3_ERR_TERMINATED,
+	H2AR3_ERR_UnknownMessage,
 	H2AR3_ERROR = 255
 } Module_Status;
 
 /* AC monitor status type definitions */
 typedef enum {
 	VOLT = 0,
-	AMP
+	CURR
 } All_Data;
 
 /* AC monitor status type definitions */
@@ -151,6 +152,7 @@ typedef enum {
 typedef struct {
     float cur;          /* Measured current in amps */
     float volt;         /* Measured voltage in volts */
+    float power;         /* Measured power */
 } AC;
 
 
@@ -188,11 +190,17 @@ Module_Status SampleVoltage(float *volt);
  * @retval: Module status indicating success or error.
  */
 Module_Status SampleCurrent(float *curr, AC_Monitor_Status monitor_type);
+/*
+ * @brief: Calculates the power based on voltage and current RMS values.
+ * @retval: Calculated power (in watts), or -1.0f if error.
+ */
+Module_Status SamplePower(float *power);
 
 
 Module_Status SampletoPort(uint8_t module,uint8_t port,All_Data function);
 Module_Status StreamToTerminal(uint8_t port,All_Data function,uint32_t Numofsamples,uint32_t timeout);
 Module_Status StreamtoPort(uint8_t module,uint8_t port,All_Data function,uint32_t Numofsamples,uint32_t timeout);
+Module_Status StreamToBuffer(float *buffer,All_Data function, uint32_t Numofsamples, uint32_t timeout);
 
 #endif /* H2AR3_H */
 

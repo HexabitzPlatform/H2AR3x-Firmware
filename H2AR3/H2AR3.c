@@ -47,6 +47,23 @@ static uint8_t current_sampling_started = 0;         /* Flag to indicate if curr
 uint16_t adc_val[2] = {0};                          /* Buffer to store ADC values */
 AC ACC;                                             /* Structure to hold current and voltage data */
 
+/* Streaming variables */
+static bool stopStream = false;         /* Flag to indicate whether to stop streaming process */
+uint8_t PortModule = 0u;                /* Module ID for the destination port */
+uint8_t PortNumber = 0u;                /* Physical port number used for streaming */
+uint8_t StreamMode = 0u;                /* Current active streaming mode (to port, terminal, etc.) */
+uint8_t TerminalPort = 0u;              /* Port number used to output data to a terminal */
+uint8_t StopeCliStreamFlag = 0u;        /* Flag to request stopping a CLI stream operation */
+uint32_t SampleCount = 0u;              /* Counter to track the number of samples streamed */
+uint32_t PortNumOfSamples = 0u;         /* Total number of samples to be sent through the port */
+uint32_t TerminalNumOfSamples = 0u;     /* Total number of samples to be streamed to the terminal */
+All_Data PortFunction;
+All_Data TerminalFunction;
+
+void MX_TIM1_Init(void) ;
+void MX_ADC1_Init(void);
+
+TimerHandle_t xTimerStream = NULL;
 /* Global variables for sensor data used in ModuleParam */
 float H2AR3_voltage = 0.0f;
 float H2AR3_current = 0.0f;
@@ -59,7 +76,6 @@ ModuleParam_t ModuleParam[NUM_MODULE_PARAMS] ={
 
 /* Local Typedef related to stream functions */
 typedef void (*SampleToString)(char *, size_t);
-typedef void (*SampleToPort)(uint8_t, uint8_t);
 typedef void (*SampleToBuffer)(float *buffer);
 
 /* Private function prototypes *********************************************/
@@ -74,11 +90,41 @@ static float CalculateVoltageVolts(uint16_t adc_value); /* Calculates voltage fr
 static float CalculateCurrentAmps(uint16_t adc_value);  /* Calculates current from ADC reading */
 static float CalculateCurrentRMS(float new_current);    /* Calculates RMS value for current */
 static float CalculateVoltageRMS(float new_voltage);    /* Calculates RMS value for voltage */
+static bool StreamCommandParser(const int8_t *pcCommandString, const char **ppSensName, portBASE_TYPE *pSensNameLen,
+                               bool *pPortOrCLI, uint32_t *pPeriod, uint32_t *pTimeout, uint8_t *pPort, uint8_t *pModule);
+static Module_Status StreamToCLI(uint32_t Numofsamples, uint32_t timeout, SampleToString function);
+static Module_Status StreamToBuf(float *buffer, uint32_t Numofsamples, uint32_t timeout, SampleToBuffer function);
+Module_Status StreamToBuffer(float *buffer, All_Data function, uint32_t Numofsamples, uint32_t timeout);
+Module_Status SampleToTerminal(uint8_t dstPort, All_Data dataFunction);
+Module_Status SampleToPort(uint8_t dstModule, uint8_t dstPort, All_Data dataFunction);
+Module_Status StreamtoPort(uint8_t dstModule, uint8_t dstPort, All_Data dataFunction, uint32_t numOfSamples, uint32_t streamTimeout);
+Module_Status StreamToTerminal(uint8_t dstPort, All_Data dataFunction, uint32_t numOfSamples, uint32_t streamTimeout);
+static Module_Status PollingSleepCLISafe(uint32_t period, long Numofsamples);
+void StreamTimeCallback(TimerHandle_t xTimerStream);
+
 /* Stream Functions */
 
+/* Create CLI commands *****************************************************/
+static portBASE_TYPE SampleSensorCommand(int8_t *pcWriteBuffer, size_t xWriteBufferLen, const int8_t *pcCommandString);
+static portBASE_TYPE StreamSensorCommand(int8_t *pcWriteBuffer, size_t xWriteBufferLen, const int8_t *pcCommandString);
 
-void MX_TIM1_Init(void) ;
-void MX_ADC1_Init(void);
+/* CLI command structure ***************************************************/
+const CLI_Command_Definition_t SampleCommandDefinition = {
+    (const int8_t*)"sample",
+    (const int8_t*)"sample:\r\n Syntax: sample [volt]/[curr].\r\n\r\n",
+    SampleSensorCommand,
+    1
+};
+
+/***************************************************************************/
+const CLI_Command_Definition_t StreamCommandDefinition = {
+    (const int8_t*)"stream",
+    (const int8_t*)"stream:\r\n Syntax: stream [volt]/[curr] (Numofsamples) (timeout) [port] [module].\r\n\r\n",
+    StreamSensorCommand,
+    -1
+};
+
+
 /***************************************************************************/
 /************************ Private function Definitions *********************/
 /***************************************************************************/
@@ -507,21 +553,41 @@ void Module_Peripheral_Init(void) {
 			dmaIndex[i - 1] = &(DMA1_Channel6->CNDTR);
 		}
 	}
+	/* Create a timeout software timer StreamSamplsToPort() API */
+		xTimerStream =xTimerCreate("StreamTimer",pdMS_TO_TICKS(1000),pdTRUE,(void* )1,StreamTimeCallback);
+
 }
 
 /***************************************************************************/
-/* H2AR3 message processing task */
-Module_Status Module_MessagingTask(uint16_t code, uint8_t port, uint8_t src, uint8_t dst, uint8_t shift) {
+/*
+ * @brief: Processes incoming messages to sample voltage or current and export to a port.
+ * @param code: Message code indicating the type of sensor data to sample (e.g., CODE_H2AR3_SAMPLE_VOLT, CODE_H2AR3_SAMPLE_CURR).
+ * @param port: Port index for accessing the message buffer.
+ * @param shift: Offset in the message buffer for accessing module and port numbers.
+ * @retval: Module status indicating success or error.
+ */
+Module_Status Module_MessagingTask(uint16_t code, uint8_t port, uint8_t src,
+		uint8_t dst, uint8_t shift) {
 	Module_Status result = H2AR3_OK;
-	uint32_t Numofsamples;
-	uint32_t timeout;
+	uint32_t period = 0, timeout = 0;
 
 	switch (code) {
+	case CODE_H2AR3_SAMPLE_VOLT:
+		SampleToPort(cMessage[port - 1][shift], cMessage[port - 1][1 + shift],
+				VOLT);
+		break;
 
+	case CODE_H2AR3_SAMPLE_CURR:
+		SampleToPort(cMessage[port - 1][shift], cMessage[port - 1][1 + shift],
+				CURR);
+		break;
+
+	default:
+		result = H2AR3_ERR_UnknownMessage;
+		break;
 	}
 
-	return result;
-}
+	return result;}
 
 /***************************************************************************/
 /* Get the port for a given UART */
@@ -545,7 +611,9 @@ uint8_t GetPort(UART_HandleTypeDef *huart) {
 
 /***************************************************************************/
 /* Register this module CLI Commands */
-void RegisterModuleCLICommands(void){
+void RegisterModuleCLICommands(void) {
+	FreeRTOS_CLIRegisterCommand(&SampleCommandDefinition);
+	FreeRTOS_CLIRegisterCommand(&StreamCommandDefinition);
 
 }
 
@@ -556,22 +624,17 @@ void RegisterModuleCLICommands(void){
  * value: Pointer to store the sampled float value.
  */
 Module_Status GetModuleParameter(uint8_t paramIndex, float *value) {
-    Module_Status status = BOS_OK;
+    Module_Status status = H2AR3_OK;
 
     switch (paramIndex) {
-        /* Sample Voltage */
-        case 1:
-
+        case 1: // Sample voltage
+            status = SampleVoltage(value);
             break;
-
-        /* Sample Current */
-        case 2:
-
+        case 2: // Sample current
+            status = SampleCurrent(value, CR8450_1000); // Default to CR8450_1000
             break;
-
-        /* Invalid parameter index */
         default:
-            status = BOS_ERR_WrongParam;
+            status = H2AR3_ERR_WRONGPARAMS;
             break;
     }
 
@@ -615,6 +678,12 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim) {
 				sample_index_V = 0; /* Reset index after 1000 samples */
 				initial_samples_collected_V = 1; /* Mark initial samples as collected */
 			}
+		}
+		if (is_sampling_current && is_sampling_volt) {
+
+			/* Calculate real power using RMS values */
+			ACC.power = ACC.cur * ACC.volt; /* Compute P = V_rms * I_rms (assuming unity power factor) */
+
 		}
 	}
 
@@ -754,6 +823,245 @@ static float CalculateVoltageRMS(float new_voltage) {
 }
 
 /***************************************************************************/
+/*
+ * @brief: Streams sensor data to a buffer.
+ * @param buffer: Pointer to the buffer where data will be stored.
+ * @param Numofsamples: Number of samples to take.
+ * @param timeout: Timeout period for the operation.
+ * @param function: Function pointer to the sampling function (e.g., SampleVoltageBuf, SampleCurrentBuf).
+ * @retval: Module status indicating success or error.
+ */
+static Module_Status StreamToBuf(float *buffer, uint32_t Numofsamples, uint32_t timeout, SampleToBuffer function) {
+    Module_Status status = H2AR3_OK;
+    uint16_t StreamIndex = 0;
+    uint32_t period = timeout / Numofsamples;
+
+    /* Check if the calculated period is valid */
+    if (period < MIN_PERIOD_MS)
+        return H2AR3_ERR_WRONGPARAMS;
+
+    stopStream = false;
+
+    /* Stream data to buffer */
+    while ((Numofsamples-- > 0) && (timeout < MAX_TIMEOUT_MS)) {
+        float sample;
+        function(&sample);
+        buffer[StreamIndex] = sample;
+        StreamIndex++;
+
+        /* Delay for the specified period */
+        vTaskDelay(pdMS_TO_TICKS(period));
+
+        /* Check if streaming should be stopped */
+        if (stopStream) {
+            status = H2AR3_ERR_TERMINATED;
+            break;
+        }
+    }
+
+    return status;
+}
+
+/***************************************************************************/
+/*
+ * @brief: Samples voltage data into a buffer.
+ * @param buffer: Pointer to the buffer where voltage data will be stored.
+ * @retval: None
+ */
+void SampleVoltageBuf(float *buffer) {
+    SampleVoltage(buffer);
+}
+
+/***************************************************************************/
+/*
+ * @brief: Samples current data into a buffer.
+ * @param buffer: Pointer to the buffer where current data will be stored.
+ * @retval: None
+ */
+void SampleCurrentBuf(float *buffer) {
+    SampleCurrent(buffer, CR8450_1000); // Default to CR8450_1000
+}
+
+/***************************************************************************/
+/*
+ * @brief: Streams sensor data to the CLI (Command Line Interface).
+ * @param Numofsamples: Number of samples to take.
+ * @param timeout: Timeout period for the operation.
+ * @param function: Function pointer to the sampling function (e.g., SampleVoltageToString, SampleCurrentToString).
+ * @retval: Module status indicating success or error.
+ */
+static Module_Status StreamToCLI(uint32_t Numofsamples, uint32_t timeout, SampleToString function) {
+    Module_Status status = H2AR3_OK;
+    int8_t *pcOutputString = NULL;
+    uint32_t period = timeout / Numofsamples;
+
+    /* Check if the calculated period is valid */
+    if (period < MIN_PERIOD_MS)
+        return H2AR3_ERR_WRONGPARAMS;
+
+    /* Check if CLI is enabled */
+    for (uint8_t chr = 0; chr < MSG_RX_BUF_SIZE; chr++) {
+        if (UARTRxBuf[pcPort - 1][chr] == '\r') {
+            UARTRxBuf[pcPort - 1][chr] = 0;
+        }
+    }
+
+    /* Check if streaming should be stopped */
+    if (1 == StopeCliStreamFlag) {
+        StopeCliStreamFlag = 0;
+        static char *pcOKMessage = (int8_t*)"Stop stream!\n\r";
+        writePxITMutex(pcPort, pcOKMessage, strlen(pcOKMessage), 10);
+        return status;
+    }
+
+    /* Adjust timeout period if necessary */
+    if (period > timeout)
+        timeout = period;
+
+    long numTimes = timeout / period;
+    stopStream = false;
+
+    /* Stream data to CLI */
+    while ((numTimes-- > 0) && (timeout < MAX_TIMEOUT_MS)) {
+        pcOutputString = FreeRTOS_CLIGetOutputBuffer();
+        function((char*)pcOutputString, 100);
+        writePxMutex(pcPort, (char*)pcOutputString, strlen((char*)pcOutputString), cmd500ms, HAL_MAX_DELAY);
+
+        if (PollingSleepCLISafe(period, Numofsamples) != H2AR3_OK)
+            break;
+    }
+
+    memset((char*)pcOutputString, 0, configCOMMAND_INT_MAX_OUTPUT_SIZE);
+    sprintf((char*)pcOutputString, "\r\n");
+
+    return status;
+}
+
+/***************************************************************************/
+/*
+ * @brief: Samples voltage data and converts it to a string.
+ * @param cstring: Pointer to the string where voltage data will be stored.
+ * @param maxLen: Maximum length of the string.
+ * @retval: None
+ */
+void SampleVoltageToString(char *cstring, size_t maxLen) {
+    float volt;
+    SampleVoltage(&volt);
+    snprintf(cstring, maxLen, "Voltage(V) | %.2f\r\n", volt);
+}
+
+/***************************************************************************/
+/*
+ * @brief: Samples current data and converts it to a string.
+ * @param cstring: Pointer to the string where current data will be stored.
+ * @param maxLen: Maximum length of the string.
+ * @retval: None
+ */
+void SampleCurrentToString(char *cstring, size_t maxLen) {
+    float curr;
+    SampleCurrent(&curr, CR8450_1000); // Default to CR8450_1000
+    snprintf(cstring, maxLen, "Current(A) | %.2f\r\n", curr);
+}
+
+/***************************************************************************/
+/*
+ * @brief: Callback function triggered by a timer to manage data streaming.
+ * @param xTimerStream: Handle of the timer that triggered the callback.
+ * @retval: None
+ */
+void StreamTimeCallback(TimerHandle_t xTimerStream) {
+    /* Increment sample counter */
+    ++SampleCount;
+
+    /* Stream mode to port: Send samples to port */
+    if (STREAM_MODE_TO_PORT == StreamMode) {
+        if ((SampleCount <= PortNumOfSamples) || (0 == PortNumOfSamples)) {
+            SampleToPort(PortModule, PortNumber, PortFunction);
+        } else {
+            SampleCount = 0;
+            xTimerStop(xTimerStream, 0);
+        }
+    }
+    /* Stream mode to terminal: Export to terminal */
+    else if (STREAM_MODE_TO_TERMINAL == StreamMode) {
+        if ((SampleCount <= TerminalNumOfSamples) || (0 == TerminalNumOfSamples)) {
+            SampleToTerminal(TerminalPort, TerminalFunction);
+        } else {
+            SampleCount = 0;
+            xTimerStop(xTimerStream, 0);
+        }
+    }
+}
+
+/***************************************************************************/
+/*
+ * @brief: Streams a single sensor data sample to the terminal.
+ * @param dstPort: Port number to stream data to.
+ * @param dataFunction: Type of data to sample (VOLT or CURR).
+ * @retval: Module status indicating success or error.
+ */
+Module_Status SampleToTerminal(uint8_t dstPort, All_Data dataFunction) {
+    Module_Status Status = H2AR3_OK;
+    int8_t *PcOutputString = NULL;
+    char CString[100] = {0};
+    float value = 0.0f;
+
+    switch (dataFunction) {
+        case VOLT:
+            PcOutputString = FreeRTOS_CLIGetOutputBuffer();
+            if (SampleVoltage(&value) != H2AR3_OK) {
+                return H2AR3_ERROR;
+            }
+            snprintf(CString, 50, "Voltage(V) | %.2f\r\n", value);
+            writePxMutex(dstPort, (char*)CString, strlen((char*)CString), cmd500ms, HAL_MAX_DELAY);
+            break;
+        case CURR:
+            PcOutputString = FreeRTOS_CLIGetOutputBuffer();
+            if (SampleCurrent(&value, CR8450_1000) != H2AR3_OK) {
+                return H2AR3_ERROR;
+            }
+            snprintf(CString, 50, "Current(A) | %.2f\r\n", value);
+            writePxMutex(dstPort, (char*)CString, strlen((char*)CString), cmd500ms, HAL_MAX_DELAY);
+            break;
+        default:
+            return H2AR3_ERR_WRONGPARAMS;
+    }
+
+    return Status;
+}
+
+/***************************************************************************/
+/*
+ * @brief: Polling and sleep function to safely manage CLI stream.
+ * @param period: The period to sleep in milliseconds.
+ * @param Numofsamples: The number of samples to take.
+ * @retval: Module status indicating success or error.
+ */
+static Module_Status PollingSleepCLISafe(uint32_t period, long Numofsamples) {
+    const unsigned DELTA_SLEEP_MS = 100;
+    long numDeltaDelay = period / DELTA_SLEEP_MS;
+    unsigned lastDelayMS = period % DELTA_SLEEP_MS;
+
+    while (numDeltaDelay-- > 0) {
+        vTaskDelay(pdMS_TO_TICKS(DELTA_SLEEP_MS));
+
+        for (uint8_t chr = 1; chr < MSG_RX_BUF_SIZE; chr++) {
+            if (UARTRxBuf[pcPort - 1][chr] == '\r') {
+                UARTRxBuf[pcPort - 1][chr] = 0;
+                StopeCliStreamFlag = 1;
+                return H2AR3_ERR_TERMINATED;
+            }
+        }
+
+        if (stopStream)
+            return H2AR3_ERR_TERMINATED;
+    }
+
+    vTaskDelay(pdMS_TO_TICKS(lastDelayMS));
+    return H2AR3_OK;
+}
+
+/***************************************************************************/
 /***************************** General Functions ***************************/
 /***************************************************************************/
 /*
@@ -835,10 +1143,310 @@ Module_Status SampleCurrent(float *curr, AC_Monitor_Status monitor_type) {
 	return status; /* Return success status */
 }
 
+/***************************************************************************/
+/*
+ * @brief: Calculates the power based on voltage and current RMS values.
+ * @retval: Calculated power (in watts), or -1.0f if error.
+ */
+Module_Status SamplePower(float *power) {
+	Module_Status status = H2AR3_OK; /* Initialize status to success */
+
+	if (!is_sampling_current && !is_sampling_volt) { /* Check if RMS values are valid */
+		/* Return error if RMS values are invalid or not yet calculated */
+		return H2AR3_ERROR; /* Indicate an error condition */
+	}
+
+	*power = ACC.power; /* Compute P = V_rms * I_rms (assuming unity power factor) */
+
+	return status; /* Return success status */
+}
+
+/***************************************************************************/
+/*
+ * @brief: Streams sensor data to a buffer based on the data type.
+ * @param buffer: Pointer to the buffer where data will be stored.
+ * @param function: Type of data to sample (VOLT or CURR).
+ * @param Numofsamples: Number of samples to take.
+ * @param timeout: Timeout period for the operation.
+ * @retval: Module status indicating success or error.
+ */
+Module_Status StreamToBuffer(float *buffer, All_Data function, uint32_t Numofsamples, uint32_t timeout) {
+    switch (function) {
+        case VOLT:
+            return StreamToBuf(buffer, Numofsamples, timeout, SampleVoltageBuf);
+        case CURR:
+            return StreamToBuf(buffer, Numofsamples, timeout, SampleCurrentBuf);
+        default:
+            return H2AR3_ERR_WRONGPARAMS;
+    }
+}
+
+/***************************************************************************/
+/*
+ * @brief: Samples data and exports it to a specified port.
+ * @param dstModule: The module number to export data to.
+ * @param dstPort: The port number to export data to.
+ * @param dataFunction: Type of data to sample (VOLT or CURR).
+ * @retval: Module status indicating success or error.
+ */
+Module_Status SampleToPort(uint8_t dstModule, uint8_t dstPort, All_Data dataFunction) {
+    Module_Status Status = H2AR3_OK;
+    static uint8_t Temp[4] = {0};
+    float value = 0.0f;
+
+    if ((dstPort == 0) && (dstModule == myID)) {
+        return H2AR3_ERR_WRONGPARAMS;
+    }
+
+    switch (dataFunction) {
+        case VOLT:
+            if (SampleVoltage(&value) != H2AR3_OK) {
+                return H2AR3_ERROR;
+            }
+            if (dstModule == myID || dstModule == 0) {
+                Temp[0] = (uint8_t)((*(uint32_t*)&value) >> 0);
+                Temp[1] = (uint8_t)((*(uint32_t*)&value) >> 8);
+                Temp[2] = (uint8_t)((*(uint32_t*)&value) >> 16);
+                Temp[3] = (uint8_t)((*(uint32_t*)&value) >> 24);
+                writePxITMutex(dstPort, (char*)&Temp[0], 4 * sizeof(uint8_t), 10);
+            } else {
+                MessageParams[1] = (H2AR3_OK == Status) ? BOS_OK : BOS_ERROR;
+                MessageParams[0] = FMT_FLOAT;
+                MessageParams[2] = 1;
+                MessageParams[3] = (uint8_t)((*(uint32_t*)&value) >> 0);
+                MessageParams[4] = (uint8_t)((*(uint32_t*)&value) >> 8);
+                MessageParams[5] = (uint8_t)((*(uint32_t*)&value) >> 16);
+                MessageParams[6] = (uint8_t)((*(uint32_t*)&value) >> 24);
+                SendMessageToModule(dstModule, CODE_READ_RESPONSE, (sizeof(float) * 1) + 3);
+            }
+            break;
+        case CURR:
+            if (SampleCurrent(&value, CR8450_1000) != H2AR3_OK) {
+                return H2AR3_ERROR;
+            }
+            if (dstModule == myID || dstModule == 0) {
+                Temp[0] = (uint8_t)((*(uint32_t*)&value) >> 0);
+                Temp[1] = (uint8_t)((*(uint32_t*)&value) >> 8);
+                Temp[2] = (uint8_t)((*(uint32_t*)&value) >> 16);
+                Temp[3] = (uint8_t)((*(uint32_t*)&value) >> 24);
+                writePxITMutex(dstPort, (char*)&Temp[0], 4 * sizeof(uint8_t), 10);
+            } else {
+                MessageParams[1] = (H2AR3_OK == Status) ? BOS_OK : BOS_ERROR;
+                MessageParams[0] = FMT_FLOAT;
+                MessageParams[2] = 1;
+                MessageParams[3] = (uint8_t)((*(uint32_t*)&value) >> 0);
+                MessageParams[4] = (uint8_t)((*(uint32_t*)&value) >> 8);
+                MessageParams[5] = (uint8_t)((*(uint32_t*)&value) >> 16);
+                MessageParams[6] = (uint8_t)((*(uint32_t*)&value) >> 24);
+                SendMessageToModule(dstModule, CODE_READ_RESPONSE, (sizeof(float) * 1) + 3);
+            }
+            break;
+        default:
+            return H2AR3_ERR_WRONGPARAMS;
+    }
+
+    memset(&Temp[0], 0, sizeof(Temp));
+    return Status;
+}
+
+/***************************************************************************/
+/*
+ * @brief: Streams data to a specified port and module with a given number of samples.
+ * @param dstModule: The target module to stream data to.
+ * @param dstPort: The port number on the module.
+ * @param dataFunction: Type of data to stream (VOLT or CURR).
+ * @param numOfSamples: Number of samples to stream.
+ * @param streamTimeout: Interval (in milliseconds) between successive data transmissions.
+ * @retval: Module status indicating success or error.
+ */
+Module_Status StreamtoPort(uint8_t dstModule, uint8_t dstPort, All_Data dataFunction, uint32_t numOfSamples, uint32_t streamTimeout) {
+    Module_Status Status = H2AR3_OK;
+    uint32_t SamplePeriod = 0u;
+
+    if ((NULL == xTimerStream) || (0 == streamTimeout) || (0 == numOfSamples))
+        return H2AR3_ERROR;
+
+    StreamMode = STREAM_MODE_TO_PORT;
+    PortModule = dstModule;
+    PortNumber = dstPort;
+    PortFunction = dataFunction;
+    PortNumOfSamples = numOfSamples;
+
+    SamplePeriod = streamTimeout / numOfSamples;
+
+    if (xTimerIsTimerActive(xTimerStream)) {
+        if (pdFAIL == xTimerStop(xTimerStream, 100))
+            return H2AR3_ERROR;
+    }
+
+    if (pdFAIL == xTimerStart(xTimerStream, 100))
+        return H2AR3_ERROR;
+
+    if (pdFAIL == xTimerChangePeriod(xTimerStream, SamplePeriod, 100))
+        return H2AR3_ERROR;
+
+    return Status;
+}
+
+/***************************************************************************/
+/*
+ * @brief: Streams data to a specified terminal port with a given number of samples.
+ * @param dstPort: The port number on the terminal.
+ * @param dataFunction: Type of data to stream (VOLT or CURR).
+ * @param numOfSamples: Number of samples to stream.
+ * @param streamTimeout: Interval (in milliseconds) between successive data transmissions.
+ * @retval: Module status indicating success or error.
+ */
+Module_Status StreamToTerminal(uint8_t dstPort, All_Data dataFunction, uint32_t numOfSamples, uint32_t streamTimeout) {
+    Module_Status Status = H2AR3_OK;
+    uint32_t SamplePeriod = 0u;
+
+    if ((NULL == xTimerStream) || (0 == streamTimeout) || (0 == numOfSamples))
+        return H2AR3_ERROR;
+
+    StreamMode = STREAM_MODE_TO_TERMINAL;
+    TerminalPort = dstPort;
+    TerminalFunction = dataFunction;
+    TerminalNumOfSamples = numOfSamples;
+
+    SamplePeriod = streamTimeout / numOfSamples;
+
+    if (xTimerIsTimerActive(xTimerStream)) {
+        if (pdFAIL == xTimerStop(xTimerStream, 100))
+            return H2AR3_ERROR;
+    }
+
+    if (pdFAIL == xTimerStart(xTimerStream, 100))
+        return H2AR3_ERROR;
+
+    if (pdFAIL == xTimerChangePeriod(xTimerStream, SamplePeriod, 100))
+        return H2AR3_ERROR;
+
+    return Status;
+}
 
 /***************************************************************************/
 /********************************* Commands ********************************/
 /***************************************************************************/
+static portBASE_TYPE SampleSensorCommand(int8_t *pcWriteBuffer, size_t xWriteBufferLen, const int8_t *pcCommandString) {
+    const char *const VoltCmdName = "volt";
+    const char *const CurrCmdName = "curr";
+
+    const char *pSensName = NULL;
+    portBASE_TYPE sensNameLen = 0;
+
+    // Make sure we return something
+    *pcWriteBuffer = '\0';
+
+    pSensName = (const char*)FreeRTOS_CLIGetParameter(pcCommandString, 1, &sensNameLen);
+
+    if (pSensName == NULL) {
+        snprintf((char*)pcWriteBuffer, xWriteBufferLen, "Invalid Arguments\r\n");
+        return pdFALSE;
+    }
+
+    do {
+        if (!strncmp(pSensName, VoltCmdName, strlen(VoltCmdName))) {
+            SampleToTerminal(pcPort, VOLT);
+        } else if (!strncmp(pSensName, CurrCmdName, strlen(CurrCmdName))) {
+            SampleToTerminal(pcPort, CURR);
+        } else {
+            snprintf((char*)pcWriteBuffer, xWriteBufferLen, "Invalid Arguments\r\n");
+        }
+
+        return pdFALSE;
+    } while (0);
+
+    snprintf((char*)pcWriteBuffer, xWriteBufferLen, "Error reading Sensor\r\n");
+    return pdFALSE;
+}
+
+/***************************************************************************/
+static bool StreamCommandParser(const int8_t *pcCommandString, const char **ppSensName, portBASE_TYPE *pSensNameLen,
+                               bool *pPortOrCLI, uint32_t *pPeriod, uint32_t *pTimeout, uint8_t *pPort, uint8_t *pModule) {
+    const char *pPeriodMSStr = NULL;
+    const char *pTimeoutMSStr = NULL;
+    portBASE_TYPE periodStrLen = 0;
+    portBASE_TYPE timeoutStrLen = 0;
+    const char *pPortStr = NULL;
+    const char *pModStr = NULL;
+    portBASE_TYPE portStrLen = 0;
+    portBASE_TYPE modStrLen = 0;
+
+    *ppSensName = (const char*)FreeRTOS_CLIGetParameter(pcCommandString, 1, pSensNameLen);
+    pPeriodMSStr = (const char*)FreeRTOS_CLIGetParameter(pcCommandString, 2, &periodStrLen);
+    pTimeoutMSStr = (const char*)FreeRTOS_CLIGetParameter(pcCommandString, 3, &timeoutStrLen);
+
+    // At least 3 Parameters are required!
+    if ((*ppSensName == NULL) || (pPeriodMSStr == NULL) || (pTimeoutMSStr == NULL))
+        return false;
+
+    // TODO: Check if Period and Timeout are integers or not!
+    *pPeriod = atoi(pPeriodMSStr);
+    *pTimeout = atoi(pTimeoutMSStr);
+    *pPortOrCLI = true;
+
+    pPortStr = (const char*)FreeRTOS_CLIGetParameter(pcCommandString, 4, &portStrLen);
+    pModStr = (const char*)FreeRTOS_CLIGetParameter(pcCommandString, 5, &modStrLen);
+
+    if ((pModStr == NULL) && (pPortStr == NULL))
+        return true;
+    if ((pModStr == NULL) || (pPortStr == NULL)) // If user has provided 4 Arguments.
+        return false;
+
+    *pPort = atoi(pPortStr);
+    *pModule = atoi(pModStr);
+    *pPortOrCLI = false;
+
+    return true;
+}
+
+/***************************************************************************/
+static portBASE_TYPE StreamSensorCommand(int8_t *pcWriteBuffer, size_t xWriteBufferLen, const int8_t *pcCommandString) {
+    const char *const VoltCmdName = "volt";
+    const char *const CurrCmdName = "curr";
+
+    uint32_t Numofsamples = 0;
+    uint32_t timeout = 0;
+    uint8_t port = 0;
+    uint8_t module = 0;
+    bool portOrCLI = true; // Port Mode => false and CLI Mode => true
+
+    const char *pSensName = NULL;
+    portBASE_TYPE sensNameLen = 0;
+
+    // Make sure we return something
+    *pcWriteBuffer = '\0';
+
+    if (!StreamCommandParser(pcCommandString, &pSensName, &sensNameLen, &portOrCLI, &Numofsamples, &timeout, &port, &module)) {
+        snprintf((char*)pcWriteBuffer, xWriteBufferLen, "Invalid Arguments\r\n");
+        return pdFALSE;
+    }
+
+    do {
+        if (!strncmp(pSensName, VoltCmdName, strlen(VoltCmdName))) {
+            if (portOrCLI) {
+                StreamToCLI(Numofsamples, timeout, SampleVoltageToString);
+            } else {
+                StreamtoPort(module, port, VOLT, Numofsamples, timeout);
+            }
+        } else if (!strncmp(pSensName, CurrCmdName, strlen(CurrCmdName))) {
+            if (portOrCLI) {
+                StreamToCLI(Numofsamples, timeout, SampleCurrentToString);
+            } else {
+                StreamtoPort(module, port, CURR, Numofsamples, timeout);
+            }
+        } else {
+            snprintf((char*)pcWriteBuffer, xWriteBufferLen, "Invalid Arguments\r\n");
+        }
+
+        snprintf((char*)pcWriteBuffer, xWriteBufferLen, "\r\n");
+        return pdFALSE;
+    } while (0);
+
+    snprintf((char*)pcWriteBuffer, xWriteBufferLen, "Error reading Sensor\r\n");
+    return pdFALSE;
+}
 
 /***************************************************************************/
 /***************** (C) COPYRIGHT HEXABITZ ***** END OF FILE ****************/
