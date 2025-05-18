@@ -195,7 +195,11 @@ Module_Status SampleCurrent(float *curr, AC_Monitor_Status monitor_type);
  * @retval: Calculated power (in watts), or -1.0f if error.
  */
 Module_Status SamplePower(float *power);
-
+/*
+ * @brief: Stops the timer and resets all sampling variables to their initial state.
+ * @retval: Module status indicating success or error.
+ */
+Module_Status StopSamplingAndReset(void);
 
 Module_Status SampletoPort(uint8_t module,uint8_t port,All_Data function);
 Module_Status StreamToTerminal(uint8_t port,All_Data function,uint32_t Numofsamples,uint32_t timeout);

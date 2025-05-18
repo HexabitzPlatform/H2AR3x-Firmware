@@ -1145,6 +1145,43 @@ Module_Status SampleCurrent(float *curr, AC_Monitor_Status monitor_type) {
 
 /***************************************************************************/
 /*
+ * @brief: Stops the timer and resets all sampling variables to their initial state.
+ * @retval: Module status indicating success or error.
+ */
+Module_Status StopSamplingAndReset(void) {
+    Module_Status status = H2AR3_OK; /* Initialize status to success */
+
+    /* Stop the timer if it is running */
+    if ((htim1.Instance->CR1 & TIM_CR1_CEN) != 0) { /* Check if timer is running */
+        HAL_TIM_Base_Stop_IT(&htim1); /* Stop timer with interrupt */
+    }
+
+    /* Reset voltage sampling variables */
+    voltage_sampling_started = 0; /* Reset voltage sampling started flag */
+    is_sampling_volt = 0; /* Disable voltage sampling flag */
+    sample_index_V = 0; /* Reset voltage sample index */
+    rms_sum_V = 0.0f; /* Clear sum of squared values for voltage */
+    initial_samples_collected_V = 0; /* Reset flag for initial voltage samples */
+    voltage_rms = 0.0f; /* Reset voltage RMS value */
+
+    /* Reset current sampling variables */
+    current_sampling_started = 0; /* Reset current sampling started flag */
+    is_sampling_current = 0; /* Disable current sampling flag */
+    sample_index_I = 0; /* Reset current sample index */
+    rms_sum_I = 0.0f; /* Clear sum of squared values for current */
+    initial_samples_collected_I = 0; /* Reset flag for initial current samples */
+    current_rms = 0.0f; /* Reset current RMS value */
+    current_te_by_r = 1.0f; /* Reset Te/R ratio for current */
+
+    /* Clear the RMS buffers using memset */
+    memset(rms_buffer_V, 0, SAMPLE_COUNT * sizeof(float)); /* Clear voltage RMS buffer */
+    memset(rms_buffer_I, 0, SAMPLE_COUNT * sizeof(float)); /* Clear current RMS buffer */
+
+    return status; /* Return success status */
+}
+
+/***************************************************************************/
+/*
  * @brief: Calculates the power based on voltage and current RMS values.
  * @retval: Calculated power (in watts), or -1.0f if error.
  */
