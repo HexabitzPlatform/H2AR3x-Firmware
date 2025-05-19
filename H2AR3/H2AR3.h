@@ -154,7 +154,11 @@ typedef struct {
     float volt;         /* Measured voltage in volts */
     float power;         /* Measured power */
 } AC;
-
+/* Data type for export (Instantaneous or RMS) */
+typedef enum {
+    INSTANTANEOUS = 0, // Instantaneous values
+    RMS_VALUE        // RMS values
+} ExportDataType;
 
 /* Export UART variables */
 extern UART_HandleTypeDef huart1;

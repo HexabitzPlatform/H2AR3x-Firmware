@@ -644,51 +644,51 @@ Module_Status GetModuleParameter(uint8_t paramIndex, float *value) {
 /***************************************************************************/
 /****************************** Local Functions ****************************/
 /***************************************************************************/
-
-/*
- * @brief: Timer ISR callback to read ADC channel and update sample.
- */
-void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim) {
-	uint8_t channel_index = 0; /* Index for ADC channel iteration */
-	float processed_value = 0.0f; /* Temporary value for calculated current or voltage */
-
-	if (htim->Instance == TIM1) { /* Check if the interrupt is from TIM1 */
-		/* Read ADC values for both channels */
-		for (channel_index = 0; channel_index < 2; ++channel_index) { /* Iterate over two ADC channels */
-			HAL_ADC_Start(&hadc1); /* Start ADC conversion */
-			HAL_ADC_PollForConversion(&hadc1, HAL_MAX_DELAY); /* Wait for conversion to complete */
-			adc_val[channel_index] = HAL_ADC_GetValue(&hadc1); /* Store ADC value */
-		}
-
-		/* Process current sampling */
-		if (is_sampling_current) { /* Check if current sampling is active */
-			processed_value = CalculateCurrentAmps(adc_val[0]); /* Calculate current from ADC value */
-			current_rms = CalculateCurrentRMS(processed_value); /* Update RMS for current */
-			if (++sample_index_I >= 1000) { /* Increment and check sample index */
-				sample_index_I = 0; /* Reset index after 1000 samples */
-				initial_samples_collected_I = 1; /* Mark initial samples as collected */
-			}
-		}
-
-		/* Process voltage sampling */
-		if (is_sampling_volt) { /* Check if voltage sampling is active */
-			processed_value = CalculateVoltageVolts(adc_val[1]); /* Calculate voltage from ADC value */
-			voltage_rms = CalculateVoltageRMS(processed_value); /* Update RMS for voltage */
-			if (++sample_index_V >= 1000) { /* Increment and check sample index */
-				sample_index_V = 0; /* Reset index after 1000 samples */
-				initial_samples_collected_V = 1; /* Mark initial samples as collected */
-			}
-		}
-		if (is_sampling_current && is_sampling_volt) {
-
-			/* Calculate real power using RMS values */
-			ACC.power = ACC.cur * ACC.volt; /* Compute P = V_rms * I_rms (assuming unity power factor) */
-
-		}
-	}
-
-	HAL_ADC_Stop(&hadc1); /* Stop ADC */
-}
+//
+///*
+// * @brief: Timer ISR callback to read ADC channel and update sample.
+// */
+//void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim) {
+//	uint8_t channel_index = 0; /* Index for ADC channel iteration */
+//	float processed_value = 0.0f; /* Temporary value for calculated current or voltage */
+//
+//	if (htim->Instance == TIM1) { /* Check if the interrupt is from TIM1 */
+//		/* Read ADC values for both channels */
+//		for (channel_index = 0; channel_index < 2; ++channel_index) { /* Iterate over two ADC channels */
+//			HAL_ADC_Start(&hadc1); /* Start ADC conversion */
+//			HAL_ADC_PollForConversion(&hadc1, HAL_MAX_DELAY); /* Wait for conversion to complete */
+//			adc_val[channel_index] = HAL_ADC_GetValue(&hadc1); /* Store ADC value */
+//		}
+//
+//		/* Process current sampling */
+//		if (is_sampling_current) { /* Check if current sampling is active */
+//			processed_value = CalculateCurrentAmps(adc_val[0]); /* Calculate current from ADC value */
+//			current_rms = CalculateCurrentRMS(processed_value); /* Update RMS for current */
+//			if (++sample_index_I >= 1000) { /* Increment and check sample index */
+//				sample_index_I = 0; /* Reset index after 1000 samples */
+//				initial_samples_collected_I = 1; /* Mark initial samples as collected */
+//			}
+//		}
+//
+//		/* Process voltage sampling */
+//		if (is_sampling_volt) { /* Check if voltage sampling is active */
+//			processed_value = CalculateVoltageVolts(adc_val[1]); /* Calculate voltage from ADC value */
+//			voltage_rms = CalculateVoltageRMS(processed_value); /* Update RMS for voltage */
+//			if (++sample_index_V >= 1000) { /* Increment and check sample index */
+//				sample_index_V = 0; /* Reset index after 1000 samples */
+//				initial_samples_collected_V = 1; /* Mark initial samples as collected */
+//			}
+//		}
+//		if (is_sampling_current && is_sampling_volt) {
+//
+//			/* Calculate real power using RMS values */
+//			ACC.power = ACC.cur * ACC.volt; /* Compute P = V_rms * I_rms (assuming unity power factor) */
+//
+//		}
+//	}
+//
+//	HAL_ADC_Stop(&hadc1); /* Stop ADC */
+//}
 
 /***************************************************************************/
 /*
@@ -1487,3 +1487,129 @@ static portBASE_TYPE StreamSensorCommand(int8_t *pcWriteBuffer, size_t xWriteBuf
 
 /***************************************************************************/
 /***************** (C) COPYRIGHT HEXABITZ ***** END OF FILE ****************/
+
+/* Global variables for export control */
+volatile uint8_t is_exporting = 0;        // Flag to control export process
+volatile uint32_t export_sample_count = 0;// Total number of samples to export
+volatile uint32_t exported_samples = 0;   // Counter for samples already exported
+volatile ExportDataType export_data_type = INSTANTANEOUS; // Type of data to export
+volatile uint8_t export_port = 0;         // UART port for export
+
+/*
+ * @brief: Initiates exporting of instantaneous or RMS values over UART synchronized with timer.
+ * @param port: UART port to use (e.g., P1, P2, etc.).
+ * @param timeout_ms: Duration in milliseconds to export the values.
+ * @param data_type: Type of data to export (INSTANTANEOUS or RMS_VALUE).
+ * @retval: Module status indicating success or error.
+ */
+Module_Status ExportValuesUART(uint8_t port, uint32_t timeout_ms, ExportDataType data_type) {
+    Module_Status status = H2AR3_OK; /* Initialize status to success */
+
+    /* Validate input parameters */
+    if (port == 0 || timeout_ms == 0) { /* Check if port or timeout is invalid */
+        return H2AR3_ERROR; /* Return error if invalid */
+    }
+
+    /* Get UART handle for the specified port */
+    UART_HandleTypeDef *huart = GetUart(port);
+    if (!huart) { /* Check if UART handle is valid */
+        return H2AR3_ERROR; /* Return error if UART port is invalid */
+    }
+
+    /* Calculate number of samples based on timeout and timer frequency */
+    export_sample_count = (uint32_t)(timeout_ms * (4000 / 1000.0)); /* Samples = timeout_ms * (freq / 1000) */  exported_samples = 0; /* Reset the exported samples counter */
+
+    /* Configure export settings */
+    is_exporting = 1; /* Enable export process */
+    export_port = port; /* Set the export port */
+    export_data_type = data_type; /* Set the data type to export */
+    is_sampling_current=1;
+    /* Ensure ADC and timer are running */
+    if ((htim1.Instance->CR1 & TIM_CR1_CEN) == 0) { /* Check if timer is not running */
+        HAL_TIM_Base_Start_IT(&htim1); /* Start timer with interrupt */
+    }
+
+    return status; /* Return success status */
+}
+
+/*
+ * @brief: Timer ISR callback to read ADC channel and update sample, with export functionality.
+ */
+void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim) {
+    uint8_t channel_index = 0; /* Index for ADC channel iteration */
+    float processed_value = 0.0f; /* Temporary value for calculated current or voltage */
+    char gu8_MSG[32]; /* Buffer for UART message */
+
+    if (htim->Instance == TIM1) { /* Check if the interrupt is from TIM1 */
+        /* Read ADC values for both channels */
+        for (channel_index = 0; channel_index < 2; ++channel_index) { /* Iterate over two ADC channels */
+            HAL_ADC_Start(&hadc1); /* Start ADC conversion */
+            HAL_ADC_PollForConversion(&hadc1, HAL_MAX_DELAY); /* Wait for conversion to complete */
+            adc_val[channel_index] = HAL_ADC_GetValue(&hadc1); /* Store ADC value */
+        }
+
+        /* Process current sampling */
+        if (is_sampling_current) { /* Check if current sampling is active */
+            processed_value = CalculateCurrentAmps(adc_val[0]); /* Calculate instantaneous current */
+            current_rms = CalculateCurrentRMS(processed_value); /* Update RMS for current */
+            if (++sample_index_I >= 1000) { /* Increment and check sample index */
+                sample_index_I = 0; /* Reset index after 1000 samples */
+                initial_samples_collected_I = 1; /* Mark initial samples as collected */
+            }
+        }
+
+        /* Process voltage sampling */
+        if (is_sampling_volt) { /* Check if voltage sampling is active */
+            processed_value = CalculateVoltageVolts(adc_val[1]); /* Calculate instantaneous voltage */
+            voltage_rms = CalculateVoltageRMS(processed_value); /* Update RMS for voltage */
+            if (++sample_index_V >= 1000) { /* Increment and check sample index */
+                sample_index_V = 0; /* Reset index after 1000 samples */
+                initial_samples_collected_V = 1; /* Mark initial samples as collected */
+            }
+        }
+
+        /* Export values if export is active */
+        if (is_exporting) { /* Check if export process is enabled */
+            UART_HandleTypeDef *huart = GetUart(export_port); /* Get UART handle for the export port */
+            if (!huart) { /* Check if UART handle is valid */
+                is_exporting = 0; /* Disable export on error */
+            } else {
+                /* Export voltage value */
+                if (is_sampling_volt) { /* Check if voltage sampling is active */
+                    if (export_data_type == INSTANTANEOUS) { /* Check if user wants instantaneous values */
+                        sprintf(gu8_MSG, "V_Inst: %.2f\n", processed_value); /* Format instantaneous voltage */
+                    } else { /* Export RMS value */
+                        sprintf(gu8_MSG, "V_RMS: %.2f\n", voltage_rms); /* Format RMS voltage */
+                    }
+                    HAL_UART_Transmit(huart, (uint8_t*)gu8_MSG, strlen(gu8_MSG), 100); /* Transmit over UART */
+                }
+
+                /* Export current value */
+                if (is_sampling_current) { /* Check if current sampling is active */
+                    if (export_data_type == INSTANTANEOUS) { /* Check if user wants instantaneous values */
+                        sprintf(gu8_MSG, "I_Inst: %.2f\n", processed_value); /* Format instantaneous current */
+                    } else { /* Export RMS value */
+                        sprintf(gu8_MSG, "I_RMS: %.2f\n", current_rms); /* Format RMS current */
+                    }
+                    HAL_UART_Transmit(huart, (uint8_t*)gu8_MSG, strlen(gu8_MSG), 100); /* Transmit over UART */
+                }
+
+                /* Increment the exported samples counter */
+                exported_samples++; /* Increment the counter for exported samples */
+
+                /* Check if the desired number of samples has been exported */
+                if (exported_samples >= export_sample_count) { /* Check if sample limit is reached */
+                    is_exporting = 0; /* Disable export process */
+                    StopSamplingAndReset(); /* Reset all variables and stop timer */
+                }
+            }
+        }
+
+        if (is_sampling_current && is_sampling_volt) {
+            /* Calculate real power using RMS values */
+            ACC.power = ACC.cur * ACC.volt; /* Compute P = V_rms * I_rms (assuming unity power factor) */
+        }
+    }
+
+    HAL_ADC_Stop(&hadc1); /* Stop ADC */
+}
