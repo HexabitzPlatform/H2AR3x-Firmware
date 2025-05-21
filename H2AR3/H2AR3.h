@@ -204,6 +204,14 @@ Module_Status SamplePower(float *power);
  * @retval: Module status indicating success or error.
  */
 Module_Status StopSamplingAndReset(void);
+/*
+ * @brief: Initiates exporting of instantaneous values over UART via timer interrupt.
+ * @param port: UART port to use (e.g., P1, P2, etc.).
+ * @param sample_type: Type of sample to export (VOLTAGE or CURRENT).
+ * @retval: Module status indicating success or error.
+ */
+Module_Status PlotToTerminal(uint8_t port, All_Data sample_type) ;
+
 
 Module_Status SampletoPort(uint8_t module,uint8_t port,All_Data function);
 Module_Status StreamToTerminal(uint8_t port,All_Data function,uint32_t Numofsamples,uint32_t timeout);
