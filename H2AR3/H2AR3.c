@@ -1338,9 +1338,10 @@ Module_Status StreamToBuffer(float *buffer, All_Data function, uint32_t Numofsam
  */
 Module_Status SampleToPort(uint8_t dstModule, uint8_t dstPort, All_Data dataFunction) {
     Module_Status Status = H2AR3_OK;
-    static uint8_t Temp[4] = {0};
+    static uint8_t Temp[4] = {0}; /* Buffer for data transmission */
     float value = 0.0f;
 
+    /* Check if the port and module ID are valid */
     if ((dstPort == 0) && (dstModule == myID)) {
         return H2AR3_ERR_WRONGPARAMS;
     }
@@ -1350,52 +1351,62 @@ Module_Status SampleToPort(uint8_t dstModule, uint8_t dstPort, All_Data dataFunc
             if (SampleVoltage(&value) != H2AR3_OK) {
                 return H2AR3_ERROR;
             }
-            if (dstModule == myID || dstModule == 0) {
-                Temp[0] = (uint8_t)((*(uint32_t*)&value) >> 0);
-                Temp[1] = (uint8_t)((*(uint32_t*)&value) >> 8);
-                Temp[2] = (uint8_t)((*(uint32_t*)&value) >> 16);
-                Temp[3] = (uint8_t)((*(uint32_t*)&value) >> 24);
+            if (dstModule == myID) {
+                /* LSB first */
+                Temp[0] = (uint8_t)(*(uint32_t*)&value);         /* Value byte 0 */
+                Temp[1] = (uint8_t)((*(uint32_t*)&value) >> 8);  /* Value byte 1 */
+                Temp[2] = (uint8_t)((*(uint32_t*)&value) >> 16); /* Value byte 2 */
+                Temp[3] = (uint8_t)((*(uint32_t*)&value) >> 24); /* Value byte 3 */
                 writePxITMutex(dstPort, (char*)&Temp[0], 4 * sizeof(uint8_t), 10);
             } else {
-                MessageParams[1] = (H2AR3_OK == Status) ? BOS_OK : BOS_ERROR;
-                MessageParams[0] = FMT_FLOAT;
-                MessageParams[2] = 1;
-                MessageParams[3] = (uint8_t)((*(uint32_t*)&value) >> 0);
-                MessageParams[4] = (uint8_t)((*(uint32_t*)&value) >> 8);
-                MessageParams[5] = (uint8_t)((*(uint32_t*)&value) >> 16);
-                MessageParams[6] = (uint8_t)((*(uint32_t*)&value) >> 24);
-                SendMessageToModule(dstModule, CODE_READ_RESPONSE, (sizeof(float) * 1) + 3);
+                /* LSB first */
+                MessageParams[0] = FMT_FLOAT;                                    /* Data format: float */
+                MessageParams[1] = (H2AR3_OK == Status) ? BOS_OK : BOS_ERROR;   /* Operation status */
+                MessageParams[2] = 1;                                           /* Number of elements (value) */
+                MessageParams[3] = (uint8_t)(CODE_H2AR3_SAMPLE_VOLT);           /* Command code LSB */
+                MessageParams[4] = (uint8_t)(CODE_H2AR3_SAMPLE_VOLT >> 8);      /* Command code MSB */
+                MessageParams[5] = (uint8_t)(*(uint32_t*)&value);               /* Value byte 0 */
+                MessageParams[6] = (uint8_t)((*(uint32_t*)&value) >> 8);        /* Value byte 1 */
+                MessageParams[7] = (uint8_t)((*(uint32_t*)&value) >> 16);       /* Value byte 2 */
+                MessageParams[8] = (uint8_t)((*(uint32_t*)&value) >> 24);       /* Value byte 3 */
+                SendMessageToModule(dstModule, CODE_READ_RESPONSE, (sizeof(float) * 1) + 5);
             }
             break;
+
         case CURR:
             if (SampleCurrent(&value, CR8450_1000) != H2AR3_OK) {
                 return H2AR3_ERROR;
             }
-            if (dstModule == myID || dstModule == 0) {
-                Temp[0] = (uint8_t)((*(uint32_t*)&value) >> 0);
-                Temp[1] = (uint8_t)((*(uint32_t*)&value) >> 8);
-                Temp[2] = (uint8_t)((*(uint32_t*)&value) >> 16);
-                Temp[3] = (uint8_t)((*(uint32_t*)&value) >> 24);
+            if (dstModule == myID) {
+                /* LSB first */
+                Temp[0] = (uint8_t)(*(uint32_t*)&value);         /* Value byte 0 */
+                Temp[1] = (uint8_t)((*(uint32_t*)&value) >> 8);  /* Value byte 1 */
+                Temp[2] = (uint8_t)((*(uint32_t*)&value) >> 16); /* Value byte 2 */
+                Temp[3] = (uint8_t)((*(uint32_t*)&value) >> 24); /* Value byte 3 */
                 writePxITMutex(dstPort, (char*)&Temp[0], 4 * sizeof(uint8_t), 10);
             } else {
-                MessageParams[1] = (H2AR3_OK == Status) ? BOS_OK : BOS_ERROR;
-                MessageParams[0] = FMT_FLOAT;
-                MessageParams[2] = 1;
-                MessageParams[3] = (uint8_t)((*(uint32_t*)&value) >> 0);
-                MessageParams[4] = (uint8_t)((*(uint32_t*)&value) >> 8);
-                MessageParams[5] = (uint8_t)((*(uint32_t*)&value) >> 16);
-                MessageParams[6] = (uint8_t)((*(uint32_t*)&value) >> 24);
-                SendMessageToModule(dstModule, CODE_READ_RESPONSE, (sizeof(float) * 1) + 3);
+                /* LSB first */
+                MessageParams[0] = FMT_FLOAT;                                    /* Data format: float */
+                MessageParams[1] = (H2AR3_OK == Status) ? BOS_OK : BOS_ERROR;   /* Operation status */
+                MessageParams[2] = 1;                                           /* Number of elements (value) */
+                MessageParams[3] = (uint8_t)(CODE_H2AR3_SAMPLE_CURR);           /* Command code LSB */
+                MessageParams[4] = (uint8_t)(CODE_H2AR3_SAMPLE_CURR >> 8);      /* Command code MSB */
+                MessageParams[5] = (uint8_t)(*(uint32_t*)&value);               /* Value byte 0 */
+                MessageParams[6] = (uint8_t)((*(uint32_t*)&value) >> 8);        /* Value byte 1 */
+                MessageParams[7] = (uint8_t)((*(uint32_t*)&value) >> 16);       /* Value byte 2 */
+                MessageParams[8] = (uint8_t)((*(uint32_t*)&value) >> 24);       /* Value byte 3 */
+                SendMessageToModule(dstModule, CODE_READ_RESPONSE, (sizeof(float) * 1) + 5);
             }
             break;
+
         default:
             return H2AR3_ERR_WRONGPARAMS;
     }
 
+    /* Clear the temp buffer */
     memset(&Temp[0], 0, sizeof(Temp));
     return Status;
 }
-
 /***************************************************************************/
 /*
  * @brief: Streams data to a specified port and module with a given number of samples.
