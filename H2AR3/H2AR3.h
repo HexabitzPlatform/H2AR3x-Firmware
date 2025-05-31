@@ -1,5 +1,5 @@
 /*
- BitzOS (BOS) V0.3.4 - Copyright (C) 2017-2024 Hexabitz
+ BitzOS (BOS) V0.4.0 - Copyright (C) 2017-2025 Hexabitz
  All rights reserved
  
  File Name     : H2AR3.h
@@ -10,14 +10,13 @@
  >>
  >>
  >>
-
  */
 
-/* Define to prevent recursive inclusion -------------------------------------*/
+/* Define to prevent recursive inclusion ***********************************/
 #ifndef H2AR3_H
 #define H2AR3_H
 
-/* Includes ------------------------------------------------------------------*/
+/* Includes ****************************************************************/
 #include "BOS.h"
 #include "H2AR3_MemoryMap.h"
 #include "H2AR3_uart.h"
@@ -26,39 +25,30 @@
 #include "H2AR3_inputs.h"
 #include "H2AR3_eeprom.h"
 #include "H2AR3_adc.h"
-/* Exported definitions -------------------------------------------------------*/
 
-#define	modulePN		_H2AR3
+/* Exported Macros *********************************************************/
+#define	MODULE_PN		_H2AR3
 
-/* Port-related definitions */
-#define	NumOfPorts			3
+/* Port-related Definitions */
+#define	NUM_OF_PORTS	3
+#define P_PROG 			P2		/* ST factory bootloader UART */
 
-#define P_PROG 				P2						/* ST factory bootloader UART */
 /* Define available ports */
 #define _P1
-#define _P2 
-#define _P3 
-//#define _P4
-//#define _P5
-//#define _P6
+#define _P2
+#define _P3
 
 /* Define available USARTs */
-#define _Usart1 1
-#define _Usart2 1
-//#define _Usart3 0
-//#define _Usart4 0
-//#define _Usart5 0
-#define _Usart6	1
+#define _USART1
+#define _USART2
+#define _USART6
 
 /* Port-UART mapping */
+#define UART_P1 &huart2
+#define UART_P2 &huart6
+#define UART_P3 &huart1
 
-#define P1uart &huart2
-#define P2uart &huart6
-#define P3uart &huart1
-//#define P4uart &huart1
-//#define P5uart &huart5
-//#define P6uart &huart3
-
+/* Module-specific Hardware Definitions ************************************/
 /* Port Definitions */
 #define	USART1_TX_PIN		GPIO_PIN_9
 #define	USART1_RX_PIN		GPIO_PIN_10
@@ -96,65 +86,79 @@
 #define	USART6_RX_PORT		GPIOA
 #define	USART6_AF			GPIO_AF3_USART6
 
-/* Module EEPROM Variables */
-#define NUM_MODULE_PARAMS					2
-// Module Addressing Space 500 - 599
-#define _EE_MODULE							500		
-/* Module special parameters */
-#define MIN_PERIOD_MS				    100
-#define UNSNGD_HALF_WORD_MAX_VAL        0xFFFF
-#define UNSNGD_HALF_WORD_MIN_VAL	    0x0000
-#define TWO_COMPL_VAL_MASK			    0x7FFF
-#define MIN_MEMS_PERIOD_MS				100
-#define MAX_MEMS_TIMEOUT_MS				0xFFFFFFFF
+/* ADC Pin Definition */
+#define VOLT_ADC_PIN        GPIO_PIN_12
+#define VOLT_ADC_GPIO_PORT  GPIOB
+#define VOLT_ADC_CHANNEL    ADC_CHANNEL_16
 
-#define SAMPLE_TO_PORT          1
-#define STREAM_TO_PORT          2
-#define STREAM_TO_Terminal      3
-#define DEFAULT                 4
-/* ADC special parameters */
-#define VBAIS                    1.5            // VBAIS = 1.5 from Schematics
-#define VREF                     3              // VREF  = 3  from Schematics
-#define ADC_RESOLUTION_12_BIT    4095           //  ADC Resolution
-#define VOLTAGE_OFFSET           0.09633899     // Calculation Offsite (Offsite= volt - VREF) in case no inpout voltag
-#define VOLTRATIO                533.33333      // Amplifier ratio ( 150 R / 4M ) * 50
-
-/* LPF special parameters */
-#define FILTER_DATA_TYPE         uint32_t
-#define AVG_FILTER_ORDER_A       3
-#define AVG_FILTER_ORDER_V       10
+#define AMP_ADC_PIN         GPIO_PIN_6
+#define AMP_ADC_GPIO_PORT   GPIOA
+#define AMP_ADC_CHANNEL     ADC_CHANNEL_6
 
 /* Indicator LED */
-#define _IND_LED_PORT			GPIOA
-#define _IND_LED_PIN			GPIO_PIN_15
+#define _IND_LED_PORT	    GPIOA
+#define _IND_LED_PIN		GPIO_PIN_15
 
-/* Module_Status Type Definition */
+/* Module-specific Macro Definitions ***************************************/
+/* Common ADC macros */
+#define VREF                3.0f        /* Reference voltage for ADC conversion (3V) */
+#define ADC_MAX             4095.0f     /* Maximum ADC value for 12-bit resolution */
+#define SAMPLE_COUNT        200         /* Number of samples to collect */
+
+/* Macros for current calculation */
+#define CURRENT_VBIAS       1.57728934f /* Bias voltage for current (Vbias) */
+#define CURRENT_GAIN        100.0f      /* Gain value for current (gain) */
+#define TE_CR8450_1000      1021.0f     /* Te value for CR8450-1000 */
+#define TE_CR8401_1000      1005.0f     /* Te value for CR8401-1000 */
+#define CURRENT_R           1.0f        /* R value for all cases */
+
+/* Macros for voltage calculation */
+#define VOLTAGE_VBIAS       1.57728934f /* Bias voltage for voltage (Vbias) */
+#define VOLTAGE_GAIN        50.0f       /* Gain value for voltage (gainv) */
+#define VOLTAGE_SUMR        4000150.0f  /* Sum of resistors (sumR) */
+#define VOLTAGE_RV          150.0f      /* Voltage divider resistor (Rv) */
+
+#define MIN_PERIOD_MS		     100
+#define MAX_TIMEOUT_MS		     0xFFFFFFFF
+#define NUM_MODULE_PARAMS		 2
+
+/* Macros definitions */
+#define STREAM_MODE_TO_PORT      1
+#define STREAM_MODE_TO_TERMINAL  2
+
+/* Module-specific Type Definition *****************************************/
+/* Module-status Type Definition */
 typedef enum {
 	H2AR3_OK = 0,
-	H2AR3_ERR_UnknownMessage,
-	H2AR3_ERR_WrongColor,
-	H2AR3_ERR_WrongIntensity,
-	H2AR3_ERR_WrongMode,
-	H2AR3_ERR_WrongParams,
+	H2AR3_ERR_WRONGPARAMS,
 	H2AR3_ERR_TERMINATED,
+	H2AR3_ERR_UnknownMessage,
 	H2AR3_ERROR = 255
 } Module_Status;
 
 /* AC monitor status type definitions */
 typedef enum {
-	VOLT=0,
-	AMP,
-}All_Data;
+	VOLT = 0,
+	CURR
+} All_Data;
 
-typedef struct
-{
-    uint16_t Filter_Order;
-    uint16_t Buffer_Index;
-    FILTER_DATA_TYPE Data_Buffer[512];
-    float* Filter_Coeffecients;
-}FIR_Filter_cfg;
+/* AC monitor status type definitions */
+typedef enum {
+    CR8450_1000 = 0, // CR8450-1000 transformer
+    CR8401_1000      // CR8401-1000 transformer
+} AC_Monitor_Status;
 
-
+/* Structure to hold AC current and voltage data */
+typedef struct {
+    float cur;          /* Measured current in amps */
+    float volt;         /* Measured voltage in volts */
+    float power;         /* Measured power */
+} AC;
+/* Data type for export (Instantaneous or RMS) */
+typedef enum {
+    INSTANTANEOUS = 0, // Instantaneous values
+    RMS_VALUE        // RMS values
+} ExportDataType;
 
 /* Export UART variables */
 extern UART_HandleTypeDef huart1;
@@ -172,27 +176,48 @@ extern void MX_USART4_UART_Init(void);
 extern void MX_USART5_UART_Init(void);
 extern void MX_USART6_UART_Init(void);
 extern void SystemClock_Config(void);
-extern void ExecuteMonitor(void);
 
-/* -----------------------------------------------------------------------
- |								  APIs							          |  																 	|
- /* -----------------------------------------------------------------------
+/***************************************************************************/
+/***************************** General Functions ***************************/
+/***************************************************************************/
+/*
+ * @brief: Initiates sampling of voltage using ADC channel 16.
+ * @param volt: Pointer to store the calculated voltage (in volts).
+ * @retval: Module status indicating success or error.
  */
 Module_Status SampleVoltage(float *volt);
-Module_Status SampleCurrent(float *curr);
+
+/*
+ * @brief: Initiates sampling of current using ADC channel 6.
+ * @param curr: Pointer to store the calculated current (in amps).
+ * @param monitor_type: Enum defining the AC monitor type (CR8450_1000 or CR8401_1000).
+ * @retval: Module status indicating success or error.
+ */
+Module_Status SampleCurrent(float *curr, AC_Monitor_Status monitor_type);
+/*
+ * @brief: Calculates the power based on voltage and current RMS values.
+ * @retval: Calculated power (in watts), or -1.0f if error.
+ */
+Module_Status SamplePower(float *power);
+/*
+ * @brief: Stops the timer and resets all sampling variables to their initial state.
+ * @retval: Module status indicating success or error.
+ */
+Module_Status StopSamplingAndReset(void);
+/*
+ * @brief: Initiates exporting of instantaneous values over UART via timer interrupt.
+ * @param port: UART port to use (e.g., P1, P2, etc.).
+ * @param sample_type: Type of sample to export (VOLTAGE or CURRENT).
+ * @retval: Module status indicating success or error.
+ */
+Module_Status PlotToTerminal(uint8_t port, All_Data sample_type) ;
+
+
 Module_Status SampletoPort(uint8_t module,uint8_t port,All_Data function);
 Module_Status StreamToTerminal(uint8_t port,All_Data function,uint32_t Numofsamples,uint32_t timeout);
 Module_Status StreamtoPort(uint8_t module,uint8_t port,All_Data function,uint32_t Numofsamples,uint32_t timeout);
-
-void SetupPortForRemoteBootloaderUpdate(uint8_t port);
-void remoteBootloaderUpdate(uint8_t src, uint8_t dst, uint8_t inport,
-		uint8_t outport);
-
-/* -----------------------------------------------------------------------
- |								Commands							      |															 	|
- /* -----------------------------------------------------------------------
- */
+Module_Status StreamToBuffer(float *buffer,All_Data function, uint32_t Numofsamples, uint32_t timeout);
 
 #endif /* H2AR3_H */
 
-/************************ (C) COPYRIGHT HEXABITZ *****END OF FILE****/
+/***************** (C) COPYRIGHT HEXABITZ ***** END OF FILE ****************/

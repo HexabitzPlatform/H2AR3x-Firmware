@@ -1,7 +1,0 @@
-..\..\..\H21R2x-Firmware\thirdparty\EEPROM_Emul\Porting\STM32G0\flash_interface.c:51:19:FI_WriteDoubleWord	1
-..\..\..\H21R2x-Firmware\thirdparty\EEPROM_Emul\Porting\STM32G0\flash_interface.c:64:11:FI_PageErase	8
-..\..\..\H21R2x-Firmware\thirdparty\EEPROM_Emul\Porting\STM32G0\flash_interface.c:95:11:FI_PageErase_IT	8
-..\..\..\H21R2x-Firmware\thirdparty\EEPROM_Emul\Porting\STM32G0\flash_interface.c:120:6:FI_CacheFlush	1
-..\..\..\H21R2x-Firmware\thirdparty\EEPROM_Emul\Porting\STM32G0\flash_interface.c:132:17:GetBankNumber	5
-..\..\..\H21R2x-Firmware\thirdparty\EEPROM_Emul\Porting\STM32G0\flash_interface.c:172:11:FI_DeleteCorruptedFlashAddress	11
-..\..\..\H21R2x-Firmware\thirdparty\EEPROM_Emul\Porting\STM32G0\flash_interface.c:235:11:FI_CheckBankConfig	1

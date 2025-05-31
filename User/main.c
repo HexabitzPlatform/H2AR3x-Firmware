@@ -8,8 +8,6 @@
 /* Includes ------------------------------------------------------------------*/
 #include "BOS.h"
 
-/* Private variables ---------------------------------------------------------*/
-
 /* Private function prototypes -----------------------------------------------*/
 
 /* Main function ------------------------------------------------------------*/
@@ -24,16 +22,16 @@ int main(void) {
 }
 
 /*-----------------------------------------------------------*/
-
+float v,i ;
 /* User Task */
 void UserTask(void *argument) {
-	AddButton(P1, MOMENTARY_NO, CLICKED);
+
 	// put your code here, to run repeatedly.
 	while (1) {
+		SampleVoltage(&v);
+		SampleCurrent(&i, CR8401_1000) ;
 
 	}
 }
-void buttonClickedCallback(uint8_t port) {
-	IND_blink(100);
-}
+
 /*-----------------------------------------------------------*/

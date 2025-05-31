@@ -1,4 +1,0 @@
-..\..\H2AR3\H2AR3_timers.c:30:6:TIM_USEC_Init	1
-..\..\H2AR3\H2AR3_timers.c:49:6:TIM_MSEC_Init	1
-..\..\H2AR3\H2AR3_timers.c:68:6:StartMicroDelay	3
-..\..\H2AR3\H2AR3_timers.c:86:6:StartMilliDelay	3
