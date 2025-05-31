@@ -1,37 +1,38 @@
 /*
- BitzOS (BOS) V0.3.4 - Copyright (C) 2017-2024 Hexabitz
+ BitzOS (BOS) V0.4.0 - Copyright (C) 2017-2025 Hexabitz
  All rights reserved
 
  File Name     : main.c
  Description   : Main program body.
  */
-/* Includes ------------------------------------------------------------------*/
+
+/* Includes ****************************************************************/
 #include "BOS.h"
 
-/* Private function prototypes -----------------------------------------------*/
+/* Private variables *******************************************************/
 
-/* Main function ------------------------------------------------------------*/
+/* Private Function Prototypes *********************************************/
 
-int main(void) {
+/* Main Function ***********************************************************/
+int main(void){
 
-	Module_Init();		//Initialize Module &  BitzOS
+	/* Initialize Module &  BitzOS */
+	Module_Init();
 
-	//Don't place your code here.
-	for (;;) {
+	/* Don't place your code here */
+	for(;;){
 	}
 }
 
-/*-----------------------------------------------------------*/
-float v,i ;
+/***************************************************************************/
 /* User Task */
-void UserTask(void *argument) {
+void UserTask(void *argument){
 
-	// put your code here, to run repeatedly.
-	while (1) {
-		SampleVoltage(&v);
-		SampleCurrent(&i, CR8401_1000) ;
+	/* put your code here, to run repeatedly. */
+	while(1){
 
 	}
 }
 
-/*-----------------------------------------------------------*/
+/***************************************************************************/
+/***************** (C) COPYRIGHT HEXABITZ ***** END OF FILE ****************/
