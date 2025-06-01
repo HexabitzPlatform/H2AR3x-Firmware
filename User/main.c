@@ -1,47 +1,38 @@
 /*
- BitzOS (BOS) V0.2.9 - Copyright (C) 2017-2023 Hexabitz
+ BitzOS (BOS) V0.4.0 - Copyright (C) 2017-2025 Hexabitz
  All rights reserved
 
  File Name     : main.c
  Description   : Main program body.
  */
-/* Includes ------------------------------------------------------------------*/
+
+/* Includes ****************************************************************/
 #include "BOS.h"
-volatile float V;
-volatile float I;
-/* Private variables ---------------------------------------------------------*/
-float timeout=6000;
-/* Private function prototypes -----------------------------------------------*/
 
-/* Main function ------------------------------------------------------------*/
+/* Private variables *******************************************************/
 
+/* Private Function Prototypes *********************************************/
+
+/* Main Function ***********************************************************/
 int main(void){
 
-	Module_Init();		//Initialize Module &  BitzOS
+	/* Initialize Module &  BitzOS */
+	Module_Init();
 
-	//Don't place your code here.
-	for(;;){}
-}
-
-/*-----------------------------------------------------------*/
-
-/* User Task */
-void UserTask(void *argument){
-	     V=7;
-	   //  BOSMessaging.trace=TRACE_NONE;
-
-		 AddBOSvar(FMT_FLOAT, (uint32_t)&V);
-	//	 AddBOSvar(FMT_FLOAT, (uint32_t)&I);
-		// WriteRemote(2, (uint32_t) &V, 1, FMT_FLOAT,0);
-	while(1){
-//	V=5;
-//	WriteRemote(2, (uint32_t) &V, 1, FMT_FLOAT,0);
-//    Delay_ms(1000);
-//    SendMessageToModule(2, CODE_H2AR3_SAMPLE_A, 0);
-//    V=10;
-//    WriteRemote(2, (uint32_t) &V, 1, FMT_FLOAT,0);
-//    Delay_ms(1000);
+	/* Don't place your code here */
+	for(;;){
 	}
 }
 
-/*-----------------------------------------------------------*/
+/***************************************************************************/
+/* User Task */
+void UserTask(void *argument){
+
+	/* put your code here, to run repeatedly. */
+	while(1){
+
+	}
+}
+
+/***************************************************************************/
+/***************** (C) COPYRIGHT HEXABITZ ***** END OF FILE ****************/

@@ -1,30 +1,33 @@
 /*
- BitzOS (BOS) V0.2.9 - Copyright (C) 2017-2023 Hexabitz
+ BitzOS (BOS) V0.4.0 - Copyright (C) 2017-2025 Hexabitz
  All rights reserved
 
  File Name     : H2AR3_gpio.h
- Description   : header file Contains Peripheral GPIO setup .
-*/
-/* Define to prevent recursive inclusion -------------------------------------*/
-#ifndef __H2AH3_gpio_H
-#define __H2AR3_gpio_H
+ Description   : Header file contains all the functions prototypes for
+ the GPIO .
+
+ */
+
+
+/* Define to prevent recursive inclusion ***********************************/
+#ifndef __gpio_H
+#define __gpio_H
 #ifdef __cplusplus
  extern "C" {
 #endif
 
-/* Includes ------------------------------------------------------------------*/
-#include "stm32f0xx_hal.h"
-
+/* Includes ****************************************************************/
+#include "stm32g0xx_hal.h"
 
 extern void GPIO_Init(void);
 extern void IND_LED_Init(void);
-extern void Relay_Init(void);
 
+extern uint8_t IsFactoryReset(void);
+extern BOS_Status GetPortGPIOs(uint8_t port,uint32_t *TX_Port,uint16_t *TX_Pin,uint32_t *RX_Port,uint16_t *RX_Pin);
 
 #ifdef __cplusplus
 }
 #endif
-#endif /*__H2AR3_gpio_H */
+#endif /*__gpio_H */
 
-
-/************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/
+ /***************** (C) COPYRIGHT HEXABITZ ***** END OF FILE ****************/
