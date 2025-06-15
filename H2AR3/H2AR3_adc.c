@@ -2,9 +2,11 @@
  BitzOS (BOS) V0.4.0 - Copyright (C) 2017-2025 Hexabitz
  All rights reserved
 
- File Name     : H2AR3_adc.c
- Description   : source file Contains Peripheral ADC setup .
- */
+ File Name  : H2AR3_adc.c
+ Description: Configures ADC1 for current and voltage measurements.
+ Peripherals: ADC1 (channels 6, 16), GPIO (PA6, PB12).
+ Features: Initializes ADC, selects/deselects current/voltage channels.
+*/
 
 /* Includes ****************************************************************/
 #include "H2AR3_adc.h"

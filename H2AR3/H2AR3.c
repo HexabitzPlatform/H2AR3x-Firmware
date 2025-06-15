@@ -4,12 +4,11 @@
 
  File Name     : H2AR3.c
  Description   : Source code for module H2AR3.
- 	 	 	 	 (Description_of_module)
-
-(Description of Special module peripheral configuration):
->>
->>
->>
+                 Implements functions for sampling AC voltage and current, calculating RMS values, and streaming data via UART.
+ (Description of Special module peripheral configuration):
+ >> Configures UART1-6 with specific GPIO pins for communication.
+ >> Initializes ADC1 with channels 6 and 16 for current and voltage measurements.
+ >> Uses TIM1 to trigger ADC sampling at 10 kHz for precise data acquisition.
  */
 
 /* Includes ****************************************************************/

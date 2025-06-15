@@ -2,9 +2,11 @@
  BitzOS (BOS) V0.4.0 - Copyright (C) 2017-2025 Hexabitz
  All rights reserved
 
- File Name     : H2AR3_adc.h
- Description   : Header file contains Peripheral ADC setup.
- */
+ File Name  : H2AR3_adc.h
+ Description: Header for ADC1 configuration.
+ Peripherals: ADC1, DMA.
+ Features: Declares ADC channel selection/deselection functions.
+*/
 
 /* Define to prevent recursive inclusion ***********************************/
 #ifndef H2AR3_ADC_H_

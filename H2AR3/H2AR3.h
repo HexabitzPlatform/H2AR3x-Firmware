@@ -1,15 +1,14 @@
 /*
  BitzOS (BOS) V0.4.0 - Copyright (C) 2017-2025 Hexabitz
  All rights reserved
- 
+
  File Name     : H2AR3.h
  Description   : Header file for module H2AR3.
- (Description_of_module)
-
+                 Defines module-specific macros, types, and function prototypes for AC voltage and current monitoring.
  (Description of Special module peripheral configuration):
- >>
- >>
- >>
+ >> Initializes UART1-6 for communication with specific pin configurations.
+ >> Configures ADC channels 6 and 16 for current and voltage sampling.
+ >> Sets up TIM1 for 10 kHz sampling rate to trigger ADC conversions.
  */
 
 /* Define to prevent recursive inclusion ***********************************/
