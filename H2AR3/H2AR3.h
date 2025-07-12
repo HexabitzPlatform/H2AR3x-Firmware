@@ -179,38 +179,11 @@ extern void SystemClock_Config(void);
 /***************************************************************************/
 /***************************** General Functions ***************************/
 /***************************************************************************/
-/*
- * @brief: Initiates sampling of voltage using ADC channel 16.
- * @param volt: Pointer to store the calculated voltage (in volts).
- * @retval: Module status indicating success or error.
- */
 Module_Status SampleVoltage(float *volt);
-
-/*
- * @brief: Initiates sampling of current using ADC channel 6.
- * @param curr: Pointer to store the calculated current (in amps).
- * @param monitor_type: Enum defining the AC monitor type (CR8450_1000 or CR8401_1000).
- * @retval: Module status indicating success or error.
- */
 Module_Status SampleCurrent(float *curr, AC_Monitor_Status monitor_type);
-/*
- * @brief: Calculates the power based on voltage and current RMS values.
- * @retval: Calculated power (in watts), or -1.0f if error.
- */
 Module_Status SamplePower(float *power);
-/*
- * @brief: Stops the timer and resets all sampling variables to their initial state.
- * @retval: Module status indicating success or error.
- */
 Module_Status StopSamplingAndReset(void);
-/*
- * @brief: Initiates exporting of instantaneous values over UART via timer interrupt.
- * @param port: UART port to use (e.g., P1, P2, etc.).
- * @param sample_type: Type of sample to export (VOLTAGE or CURRENT).
- * @retval: Module status indicating success or error.
- */
 Module_Status PlotToTerminal(uint8_t port, All_Data sample_type) ;
-
 
 Module_Status SampletoPort(uint8_t module,uint8_t port,All_Data function);
 Module_Status StreamToTerminal(uint8_t port,All_Data function,uint32_t Numofsamples,uint32_t timeout);
